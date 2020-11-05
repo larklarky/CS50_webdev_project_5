@@ -1,11 +1,27 @@
 from rest_framework import serializers
 from rest_framework import fields
+from rest_framework.validators import UniqueValidator
 from .models import User, Work, Chapter, Category, Warning, FandomCategory, Fandom, Relationship, Character, Bookmark, Like
 
 class UserSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = User
-    fields = ('id', 'username', 'password', 'email', 'first_name', 'last_name')
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())]
+        )
+    username = serializers.CharField(
+        validators=[UniqueValidator(queryset=User.objects.all())]
+        )
+    password = serializers.CharField(min_length=4)
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'email', 'first_name', 'last_name')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(validated_data['username'], validated_data['email'],
+            validated_data['password'])
+        return user
 
 class WorkSerializer(serializers.ModelSerializer):
     class Meta:
