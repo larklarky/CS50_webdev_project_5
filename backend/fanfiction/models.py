@@ -6,6 +6,9 @@ from django.db.models.deletion import CASCADE
 class User(AbstractUser):
     pass
 
+def __str__(self) -> str:
+        return f'{self.username}'
+
 
 class Work(models.Model):
     NOT_RATED = 'NOT_RATED'
@@ -31,6 +34,7 @@ class Work(models.Model):
     characters = models.ManyToManyField('Character')
     categories = models.ManyToManyField('Category')
     warnings = models.ManyToManyField('Warning')
+    fandoms = models.ManyToManyField('Fandom')
     rating = models.CharField(max_length=30, choices=RATING_CHOICES)
 
     comleted = models.BooleanField(default=False)
@@ -38,12 +42,18 @@ class Work(models.Model):
     date_created = models.DateTimeField(auto_now_add = True)
     date_modified = models.DateTimeField(auto_now = True)
 
+    def __str__(self) -> str:
+        return f'{self.title}'
+
 class Chapter(models.Model):
     title = models.CharField(max_length=400)
     text = models.TextField()
     work = models.ForeignKey('Work', on_delete=models.CASCADE, related_name='chapters')
     date_created = models.DateTimeField(auto_now_add = True)
     date_modified = models.DateTimeField(auto_now = True)
+
+    def __str__(self) -> str:
+        return f'{self.title}'
 
 
 class Category(models.Model):
@@ -87,19 +97,31 @@ class Warning(models.Model):
 class FandomCategory(models.Model):
     name = models.CharField(max_length=200, blank=False)
 
+    def __str__(self) -> str:
+        return f'{self.name}'
+
 
 class Fandom(models.Model):
     name = models.CharField(max_length=300, blank=False)
     category = models.ForeignKey('FandomCategory', on_delete=models.CASCADE, related_name='fandoms')
 
+    def __str__(self) -> str:
+        return f'{self.name}'
+
 
 class Relationship(models.Model):
     name = models.CharField(max_length=300, blank=False)
+
+    def __str__(self) -> str:
+        return f'{self.name}'
 
 
 class Character(models.Model):
     name = models.CharField(max_length=300, blank=False)
     fandom = models.ForeignKey('Fandom', on_delete=models.CASCADE, related_name='characters')
+
+    def __str__(self) -> str:
+        return f'{self.name}'
 
 
 class Bookmark(models.Model):

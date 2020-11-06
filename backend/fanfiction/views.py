@@ -1,10 +1,13 @@
+from django.http import response
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import views, status
+from rest_framework import request
 from .serializers import UserSerializer, WorkSerializer, ChapterSerializer, CategorySerializer, WarningSerializer, FandomCategorySerializer, FandomSerializer, RelationshipSerializer, CharacterSerializer, BookmarkSerializer, LikeSerializer
 from .models import User, Work, Chapter, Category, Warning, FandomCategory, Fandom, Relationship, Character, Bookmark, Like
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 
 
 # Create your views here.
@@ -17,6 +20,17 @@ class RegistrationView(views.APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutView(views.APIView):
+    def delete(self, request):
+        user = User.objects.filter(username=request.user).first()
+        token = Token.objects.filter(user = user).first()
+        if token:
+            token.delete()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response('error', status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class UserView(viewsets.ModelViewSet):
