@@ -29,21 +29,22 @@ class Work(models.Model):
     user = models.ForeignKey('User', related_name='works', on_delete=models.CASCADE)
     title = models.CharField(max_length = 500, blank = False)
     description = models.TextField(blank=False)
+    rating = models.CharField(max_length=30, choices=RATING_CHOICES)
+    comleted = models.BooleanField(default=False)
+    
+    date_created = models.DateTimeField(auto_now_add = True)
+    date_modified = models.DateTimeField(auto_now = True)
 
     relationships = models.ManyToManyField('Relationship')
     characters = models.ManyToManyField('Character')
     categories = models.ManyToManyField('Category')
     warnings = models.ManyToManyField('Warning')
     fandoms = models.ManyToManyField('Fandom')
-    rating = models.CharField(max_length=30, choices=RATING_CHOICES)
-
-    comleted = models.BooleanField(default=False)
     
-    date_created = models.DateTimeField(auto_now_add = True)
-    date_modified = models.DateTimeField(auto_now = True)
 
     def __str__(self) -> str:
         return f'{self.title}'
+
 
 class Chapter(models.Model):
     title = models.CharField(max_length=400)
