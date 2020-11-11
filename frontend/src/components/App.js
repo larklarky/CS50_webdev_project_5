@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import Login from './Login';
-import Registration from './Registration'
+import Registration from './Registration';
+import Home from './Home';
 import '../App.css';
 
 class App extends Component {
@@ -45,7 +46,5 @@ class App extends Component {
   }
 }
 
-function Home() {
-  return <h2>Home</h2>;
-}
+
 export default App;
