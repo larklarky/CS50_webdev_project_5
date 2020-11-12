@@ -1,13 +1,8 @@
-import {RECIEVED_WORKS} from '../constants';
+import { combineReducers } from 'redux'
+import works from './works'
+import fandomCategories from './fandom_categories'
 
-
-const works = (state = [], action) => {
-    let works = null
-    switch(action.type) {
-        case RECIEVED_WORKS:
-            works = [...action.works]
-            return works;
-    }
-}
-
-export default works;
+export default combineReducers({
+    works,
+    fandomCategories,
+})

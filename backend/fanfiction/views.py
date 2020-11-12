@@ -8,6 +8,7 @@ from .models import User, Work, Chapter, Category, Warning, FandomCategory, Fand
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 # Create your views here.
@@ -62,11 +63,14 @@ class FandomCategoryView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = FandomCategorySerializer
     queryset = FandomCategory.objects.all()
+    filter_backends = [DjangoFilterBackend]
 
 class FandomView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = FandomSerializer
     queryset = Fandom.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category', 'name']
 
 class RelationshipView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
