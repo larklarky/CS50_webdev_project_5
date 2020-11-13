@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-rou
 import Login from './Login';
 import Registration from './Registration';
 import Home from './Home';
-import FandomCategory from './FandomCategory'
+import FandomsByCategory from './FandomsByCategory'
 import '../App.css';
 
 class App extends Component {
@@ -31,7 +31,7 @@ class App extends Component {
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
-            <Route path="/fandom_categories/:categoryId" component={FandomCategory}>
+            <Route path="/fandom_categories/:categoryId" component={FandomsByCategory}>
             </Route>
             <Route path="/login">
               <Login />
