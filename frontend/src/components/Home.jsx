@@ -23,7 +23,7 @@ class Home extends Component {
                 <div className='fandom-categories-container'>
                     {fandomCategories.map(category => {
                         return (
-                        <div key={category.id}>
+                        <div className='fandom-category-item' key={category.id}>
                             <Link to={`/fandom_categories/${category.id}`}>{category.name}</Link>
                         </div>
 

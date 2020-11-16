@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9eae1;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.navbar-container {
+  display: flex;
+  flex-direction: row;
+  background-color: #7d4f50;
+}
+
+.navbar-light {
+  background-color: #7d4f50 !important;
+}
+
+.btn.btn-outline.my-2.my-sm-0{
+  color: white;
+  border: white solid 1px;
+}
+
+
+.navbar-light .navbar-brand {
+  color: #030200;
+}
+
+ul {
+  list-style-type: none;
+
+  li {
+    display: inline;
+    padding: 1rem;
+  }
+}
+
+
+
+a {
+  
+  text-decoration: none;
+}
+
+nav a {
+  color: white;
+  font-weight: 700;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #cc8b86;
+}
+
+.fandom-categories-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 44%;
+  
+} 
+
+.fandom-category-item {
+  margin: 0.7rem;
+  border: solid 1px #aa998f;
+  padding: 0.8rem 0.7rem 0.8rem 0.7rem;
+}
+
+.fandom-category-item a {
+  color: brown;
+  font-weight: 700;
+}
