@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Switch, Route, Link, useParams} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link, useParams, NavLink} from "react-router-dom";
 import Login from './Login';
 import Registration from './Registration';
 import Home from './Home';
 import FandomsByCategory from './FandomsByCategory'
 import "bootstrap/scss/bootstrap.scss"
 import '../App.scss';
+import WorksByFandom from './WorksByFandom';
 
 
 class App extends Component {
@@ -24,14 +25,14 @@ class App extends Component {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <Link to="/">Home</Link>
+              <li className="nav-item">
+                <NavLink to="/" activeClassName="selected">Home</NavLink>
               </li>
               <li className="nav-item">
-                <Link to="/login">Login</Link>
+                <NavLink to="/login" activeClassName="selected">Login</NavLink>
               </li>
               <li>
-                <Link to="/registration">Registration</Link>
+                <NavLink to="/registration" activeClassName="selected">Registration</NavLink>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0">
@@ -62,6 +63,8 @@ class App extends Component {
               renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/fandom_categories/:categoryId" component={FandomsByCategory}>
+            </Route>
+            <Route path="/fandoms/:fandomId/works" component={WorksByFandom}>
             </Route>
             <Route path="/login">
               <Login />

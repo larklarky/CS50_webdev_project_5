@@ -1,4 +1,4 @@
-import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY} from '../constants';
+import {RECIEVED_FANDOMS_BY_CATEGORY} from '../constants';
 
 
 const fandomsByCategory = (state = [], action) => {

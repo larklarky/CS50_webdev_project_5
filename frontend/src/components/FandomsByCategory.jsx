@@ -24,7 +24,7 @@ class FandomsByCategory extends Component {
                     {fandoms.map(fandom => {
                         return (
                         <div key={fandom.id}>
-                            <Link to={`/fandoms/${fandom.id}`}>{fandom.name}</Link>
+                            <Link to={`/fandoms/${fandom.id}/works`}>{fandom.name}</Link>
                         </div>
 
                         )

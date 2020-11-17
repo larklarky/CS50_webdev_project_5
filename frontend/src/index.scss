@@ -60,6 +60,14 @@ a:hover {
   color: #cc8b86;
 }
 
+.navbar-nav .selected {
+  background-color: #19323c;
+}
+
+.nav-item:has(.selected) {
+  background-color: #19323c;
+}
+
 .fandom-categories-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
