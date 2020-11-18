@@ -85,3 +85,36 @@ a:hover {
   color: brown;
   font-weight: 700;
 }
+
+.works-by-fandom-container {
+  margin-top: 2rem;
+}
+
+.work-container {
+  border: solid 1px #aa998f;
+  padding: 0.5rem;
+  margin: 1rem 20% 1rem 5%;
+}
+
+.work-title {
+  color: #7d4f50;
+  a {
+    color: #7d4f50;
+    text-decoration: underline;
+  }
+}
+
+.badge.relationship-and-character-tag {
+  border-radius: 94px;
+  background-color: #f1e2c8;
+  padding: 8px 10px;
+  margin-right: 5px;
+}
+
+.work-description {
+  border-bottom: dashed 0.5px #aa998f;
+  margin-bottom: 1rem;
+  padding-bottom: 0.7rem;
+  margin-top: 1rem;
+}
+

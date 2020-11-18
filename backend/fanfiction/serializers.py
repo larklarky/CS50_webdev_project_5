@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework import fields
+from rest_framework.fields import ChoiceField
 from rest_framework.serializers import Serializer
 from rest_framework.validators import UniqueValidator
 from .models import User, Work, Chapter, Category, Warning, FandomCategory, Fandom, Relationship, Character, Bookmark, Like
@@ -45,6 +46,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class WarningSerializer(serializers.ModelSerializer):
+    name = ChoiceField(choices= Warning.WARNINGS_CHOICES)
     class Meta:
         model = Warning
         fields = (
@@ -113,7 +115,7 @@ class WorkSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     warnings = WarningSerializer(many=True)
     fandoms = FandomSerializer(many=True)
-
+    user = UserSerializer()
     class Meta:
         ordering = ['-date_modified']
         model = Work
