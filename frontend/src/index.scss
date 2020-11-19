@@ -86,14 +86,42 @@ a:hover {
   font-weight: 700;
 }
 
+
+
+
+// works list
+
 .works-by-fandom-container {
   margin-top: 2rem;
 }
 
+.col.work-card {
+  background-color: #d8e7e8;
+  margin: 1rem 0 1rem 5%;
+  max-width: 13%;
+  border: 0.5px solid #e6dede;
+  border-right: none;
+}
+
+.svg-inline--fa {
+  // font-size: 4rem;
+  border-radius: 18px;
+  background-color: white;
+  padding: 12px;
+  margin-left: 77%;
+  margin-top: 10px;
+}
+
+.col-md.work-container {
+  padding-left: 25px;
+  padding-top: 16px;
+}
+
 .work-container {
-  border: solid 1px #aa998f;
+  border: solid 1px #e6dede;
+  border-left: none;
   padding: 0.5rem;
-  margin: 1rem 20% 1rem 5%;
+  margin: 1rem 20% 1rem 0;
 }
 
 .work-title {

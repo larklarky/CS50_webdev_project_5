@@ -75,6 +75,9 @@ class Category(models.Model):
 
     name = models.CharField(max_length=10, choices=CATEGORIES_CHOICES)
 
+    def __str__(self) -> str:
+        return f'{self.name}'
+
 class Warning(models.Model):
     NO_WARNINGS = 'NO_WARNINGS_APPLY'
     VIOLENCE = 'VIOLENCE'
@@ -93,6 +96,9 @@ class Warning(models.Model):
     ]
     
     name = models.CharField(max_length=50, choices=WARNINGS_CHOICES)
+
+    def __str__(self) -> str:
+        return f'{self.name}'
 
 
 class FandomCategory(models.Model):

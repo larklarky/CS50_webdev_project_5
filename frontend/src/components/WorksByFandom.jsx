@@ -3,6 +3,9 @@ import {getListOfWorksByFandom} from '../actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants'
+import { format, parse } from 'date-fns'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMarsDouble } from '@fortawesome/free-solid-svg-icons'
 
 class WorksByFandom extends Component {
     constructor(props) {
@@ -24,6 +27,21 @@ class WorksByFandom extends Component {
                     {works.map(work => {
                         return (
                             <div key={work.id} className='row'>
+                                <div className='col work-card'>
+                                    <div>
+                                        {work.categories.map(category =>{
+                                            return(CATEGORIES[category.name])
+                                        })}
+                                    </div>
+                                    <div>
+                                        {RATES[work.rating]}
+                                    </div>
+                                    <div>
+                                        {work.completed ? 'Finished' : 'In a proccess'}
+                                    </div>
+                                    {/* <div>{work.date_modified.substring(0, 10)}</div> */}
+                                    <div>{format(new Date(work.date_modified), 'yyyy-MM-dd')}</div>
+                                </div>
                                 <div className='col-md work-container'>
                                     <h4 className='work-title'>
                                         <Link to={`/works/${work.id}`}>{work.title}</Link> by {work.user.username}
@@ -48,7 +66,9 @@ class WorksByFandom extends Component {
                                             return(<span>{WARNINGS[warning.name]} &nbsp;</span>)
                                         })}
                                     </p>
+                                    
                                 </div>
+                                
                             </div>
                         
 

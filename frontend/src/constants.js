@@ -1,3 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMarsDouble, faVenusDouble, faVenusMars, faRandom, faGenderless, faBroom, faDragon, faFly, faBullseye, faCircle, faDotCircle } from '@fortawesome/free-solid-svg-icons'
+
+
 export const RECIEVED_WORKS = 'RECIEVED_WORKS';
 export const RECIEVED_CATEGORIES = 'RECIEVED_CATEGORIES';
 export const RECIEVED_FANDOMS_BY_CATEGORY = 'RECIEVED_FANDOMS_BY_CATEGORY';
@@ -14,12 +18,12 @@ export const WARNINGS = {
 }
 
 export const CATEGORIES = {
-    FF: 'F/F',
-    FM: 'F/M',
-    GEN: 'Gen',
-    MM: 'M/M',
-    MULTY: 'Multy',
-    OTHER: 'Other',
+    FF: <FontAwesomeIcon icon={faVenusDouble} color='#f7b2ad' size="4x" />,
+    FM: <FontAwesomeIcon icon={faVenusMars} color='#55a630' size="4x" />,
+    GEN: <FontAwesomeIcon icon={faDragon} color='#5a189a' size="4x" />,
+    MM: <FontAwesomeIcon icon={faMarsDouble} color='#3a86ff' size="4x" />,
+    MULTY: <FontAwesomeIcon icon={faRandom} color='#ffbe0b' size="4x" />,
+    OTHER: <FontAwesomeIcon icon={faBullseye} color='#ccdbfd' size="4x"/>,
 }
 
 export const RATES = {
