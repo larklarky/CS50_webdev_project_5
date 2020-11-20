@@ -112,6 +112,36 @@ a:hover {
   margin-top: 10px;
 }
 
+.work-rate {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.5rem 0;
+  width: 100%;
+  padding: 5px 0;
+  
+}
+
+.work-status-finished {
+  color: #55a630;
+  margin-top: 1.2rem;
+}
+
+.work-status-process {
+  color: #99170e;
+  margin-top: 1.2rem;
+}
+
+.work-date {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.work-rate, .work-status-finished, .work-status-process, .work-date {
+  text-align: right;
+}
+
+
+
 .col-md.work-container {
   padding-left: 25px;
   padding-top: 16px;
@@ -144,5 +174,87 @@ a:hover {
   margin-bottom: 1rem;
   padding-bottom: 0.7rem;
   margin-top: 1rem;
+}
+
+
+
+/* media */
+
+
+@media only screen and (max-width: 1024px) {
+
+}
+
+@media only screen and (max-width: 995px) {
+  .col.work-card {
+    max-width: 21%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .col.work-card {
+    max-width: 85%;
+    margin: 2rem 0rem 0rem 2rem;
+    border-bottom: none;
+    border-right:  0.5px solid #e6dede;
+  }
+
+  .col-md.work-container {
+    max-width: 85%;
+    margin: 0rem 0rem 0rem 2rem;
+    border-top: none;
+    border-left: 0.5px solid #e6dede;
+  }
+
+}
+
+@media only screen and (max-width: 625px) {
+  .col.work-card {
+    max-width: 85%;
+    margin: 2rem 0rem 0rem 2rem;
+    border-bottom: none;
+    border-right:  0.5px solid #e6dede;
+  }
+
+  .col-md.work-container {
+    max-width: 85%;
+    margin: 0rem 0rem 0rem 2rem;
+    border-top: none;
+    border-left: 0.5px solid #e6dede;
+  }
+
+}
+
+@media only screen and (max-width: 575px) {
+  .col.work-card {
+    max-width: 74%;
+    margin: 2rem 0rem 0rem 2rem;
+    border-bottom: none;
+    border-right:  0.5px solid #e6dede;
+  }
+
+  .col-md.work-container {
+    max-width: 74%;
+    margin: 0rem 0rem 0rem 2rem;
+    border-top: none;
+    border-left: 0.5px solid #e6dede;
+  }
+  
+}
+
+@media only screen and (max-width: 414px) {
+  .col.work-card, .col-md.work-container {
+    max-width: 80%;
+  }
+
+  .work-rate, .work-status-finished, .work-status-process, .work-date {
+    text-align: left;
+    margin: 0.3rem 0;
+  }
+
+  .svg-inline--fa {
+    margin-left: 0;
+  }
+
 }
 

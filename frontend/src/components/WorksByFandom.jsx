@@ -33,18 +33,18 @@ class WorksByFandom extends Component {
                                             return(CATEGORIES[category.name])
                                         })}
                                     </div>
-                                    <div>
+                                    <div className='work-rate' data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
                                         {RATES[work.rating]}
                                     </div>
-                                    <div>
-                                        {work.completed ? 'Finished' : 'In a proccess'}
+                                    <div className={work.completed ? 'work-status-finished' : 'work-status-process'}>
+                                        {work.completed ? 'Finished' : 'In a process'}
                                     </div>
                                     {/* <div>{work.date_modified.substring(0, 10)}</div> */}
-                                    <div>{format(new Date(work.date_modified), 'yyyy-MM-dd')}</div>
+                                    <div className='work-date'>{format(new Date(work.date_modified), 'yyyy-MM-dd')}</div>
                                 </div>
                                 <div className='col-md work-container'>
                                     <h4 className='work-title'>
-                                        <Link to={`/works/${work.id}`}>{work.title}</Link> by {work.user.username}
+                                        <Link to={`/works/${work.id}`}>{work.title}</Link> by <Link to={`/users/${work.user.id}`}>{work.user.username}</Link> 
                                     </h4>
 
                                     <h6>Fandoms: {work.fandoms.map(fandom => {
