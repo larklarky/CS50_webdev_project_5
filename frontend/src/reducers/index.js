@@ -3,10 +3,14 @@ import works from './works'
 import fandomCategories from './fandom_categories'
 import fandomsByCategory from './fandomsByCategory'
 import worksByFandom from './worksByFandoms'
+import worksByUser from './worksByUser'
+import user from './getUser'
 
 export default combineReducers({
     works,
     fandomCategories,
     fandomsByCategory,
     worksByFandom,
+    worksByUser,
+    user,
 })

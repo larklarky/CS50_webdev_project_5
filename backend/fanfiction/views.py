@@ -38,11 +38,15 @@ class UserView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    filter_backends = [DjangoFilterBackend]
 
 class WorkView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = WorkSerializer
     queryset = Work.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
+
 
 class ChapterView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
