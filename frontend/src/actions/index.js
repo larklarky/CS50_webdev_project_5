@@ -1,4 +1,5 @@
-import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, RECIEVED_WORKS_BY_USER} from '../constants';
+import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
+    RECIEVED_WORKS_BY_USER, GET_WORK} from '../constants';
 import works from '../reducers/works';
 
 export const getWorks = () => dispatch => {
@@ -66,5 +67,17 @@ export const getUser = (userId) => dispatch => {
         return response.json()
     })
     .then(response => dispatch({type: GET_USER, user: response}))
+}
+
+export const getWork = (workId) => dispatch => {
+    console.log('workid action', workId)
+    return fetch(
+        `http://127.0.0.1:8000/api/works/${workId}`,
+        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => dispatch({type: GET_WORK, work: response}))
 }
 

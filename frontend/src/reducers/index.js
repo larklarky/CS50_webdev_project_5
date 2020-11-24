@@ -5,6 +5,7 @@ import fandomsByCategory from './fandomsByCategory'
 import worksByFandom from './worksByFandoms'
 import worksByUser from './worksByUser'
 import user from './getUser'
+import work from './work'
 
 export default combineReducers({
     works,
@@ -13,4 +14,5 @@ export default combineReducers({
     worksByFandom,
     worksByUser,
     user,
+    work,
 })
