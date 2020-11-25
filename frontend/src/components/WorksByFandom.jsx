@@ -30,7 +30,7 @@ class WorksByFandom extends Component {
                                 <div className='col work-card'>
                                     <div>
                                         {work.categories.map(category =>{
-                                            return(CATEGORIES[category.name])
+                                            return(CATEGORIES[category.name].bigIcon)
                                         })}
                                     </div>
                                     <div className='work-rate' data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">

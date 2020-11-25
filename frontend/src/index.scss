@@ -101,16 +101,18 @@ a:hover {
   max-width: 13%;
   border: 0.5px solid #e6dede;
   border-right: none;
+
+  .svg-inline--fa {
+    // font-size: 4rem;
+    border-radius: 18px;
+    background-color: white;
+    padding: 12px;
+    margin-left: 77%;
+    margin-top: 10px;
+  }
 }
 
-.svg-inline--fa {
-  // font-size: 4rem;
-  border-radius: 18px;
-  background-color: white;
-  padding: 12px;
-  margin-left: 77%;
-  margin-top: 10px;
-}
+
 
 .work-rate {
   font-size: 0.9rem;
@@ -183,6 +185,39 @@ a:hover {
   margin: 2rem;
 }
 
+.gen{
+  background-color: #e8d7f9;
+  font-size: large;
+}
+
+.ff {
+  background-color: #ffe5e4;
+}
+
+.fm {
+  background-color: #e4ffd7;
+}
+
+.mm {
+  background-color: #dae8ff;
+}
+
+.multy {
+  background-color: #fff2d0;
+}
+
+.other {
+  background-color: #f1f5ff;
+}
+
+.svg-inline--fa {
+  
+  
+}
+
+.fa-2x {
+  font-size: 1.2rem;
+}
 
 
 

@@ -27,12 +27,29 @@ class Work extends Component {
         return (
             <div>
                 <div className='row work-information-card'>
-                    <h3>
-                        <Link to={`/works/${work.id}`}>{work.title}</Link> by <Link to={`/users/${work.user.id}`}>{work.user.username}</Link>
-                    </h3>
-                    <h5>Fandoms: {work.fandoms.map(fandom => {
-                            return (fandom.name)}).join(', ')}
-                    </h5>
+                    <div>
+                        <h3>
+                            <Link to={`/works/${work.id}`}>{work.title}</Link> by <Link to={`/users/${work.user.id}`}>{work.user.username}</Link>
+                        </h3>
+                        <h6>Fandoms: {work.fandoms.map(fandom => {
+                                return (fandom.name)}).join(', ')}
+                        </h6>
+                        <div className={'badge' + ' ' + 'category-badge' + " " + work.categories.map(category =>{
+                                return(CATEGORIES[category.name].class)})} >
+                            <span>{work.categories.map(category =>{
+                                return(CATEGORIES[category.name].smallIcon)})} &nbsp;
+                            </span>
+                            <span>{work.categories.map(category =>{
+                                return(CATEGORIES[category.name].text)})}
+                            </span>
+                        </div>
+                        
+                        <span>{RATES[work.rating]}</span>
+                        <span className={work.completed ? 'work-status-finished' : 'work-status-process'}>
+                            {work.completed ? 'Finished' : 'In a process'}
+                        </span>
+                    </div>
+                    
                 </div>
 
             </div>
