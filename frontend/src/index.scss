@@ -183,7 +183,26 @@ a:hover {
 
 .row.work-information-card {
   margin: 2rem;
+  .badge {
+    font-size: larger;
+    margin-right: 5px;
+  }
+  .work-description {
+    border-bottom: dashed 0.5px #aa998f;
+    margin-bottom: 1rem;
+    padding-bottom: 0.7rem;
+    margin-top: 2rem;
+  }
 }
+
+.row.work-content {
+  margin: 2rem;
+}
+
+.information-container {
+  width: 75%;
+}
+// categories
 
 .gen{
   background-color: #e8d7f9;
@@ -209,6 +228,44 @@ a:hover {
 .other {
   background-color: #f1f5ff;
 }
+
+
+
+// rates
+
+.not-rated {
+  background-color: #eddcd2;
+}
+
+.general-audiences {
+  background-color: #92ec00;
+}
+
+.teen-up {
+  background-color: #ffee21;
+}
+
+.mature {
+  background-color: #ffa175;
+}
+
+.explicit {
+  background-color: #f72011;
+}
+
+.badge.work-status-finished {
+  color: #55a630;
+  background-color: #f0efeb;
+  // margin-top: 1.2rem;
+}
+
+.badge.work-status-process {
+  color: #99170e;
+  background-color: #f0efeb;
+  font-size: large;
+  // margin-top: 1.2rem;
+}
+
 
 .svg-inline--fa {
   

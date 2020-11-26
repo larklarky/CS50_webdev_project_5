@@ -52,6 +52,8 @@ class ChapterView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ChapterSerializer
     queryset = Chapter.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['work']
 
 class CategoryView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)

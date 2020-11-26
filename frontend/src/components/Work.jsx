@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants'
 import { format, parse } from 'date-fns'
-import {getWork} from '../actions'
+import {getWork, getChapters} from '../actions'
 
 
 class Work extends Component {
@@ -14,11 +14,12 @@ class Work extends Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         this.props.getWork(params.workId)
+        this.props.getChapters(params.workId)
         console.log('work params', params.workId)
     }
 
     render() { 
-        const {work} = this.props
+        const {work, chapters} = this.props
         if (Object.keys(work).length === 0) {
             // console.log('if work', work)
             return (<div>Something went wrong</div>)
@@ -27,7 +28,7 @@ class Work extends Component {
         return (
             <div>
                 <div className='row work-information-card'>
-                    <div>
+                    <div className='information-container'>
                         <h3>
                             <Link to={`/works/${work.id}`}>{work.title}</Link> by <Link to={`/users/${work.user.id}`}>{work.user.username}</Link>
                         </h3>
@@ -44,12 +45,24 @@ class Work extends Component {
                             </span>
                         </div>
                         
-                        <span>{RATES[work.rating]}</span>
-                        <span className={work.completed ? 'work-status-finished' : 'work-status-process'}>
+                        <span className={'badge' + ' ' + RATES[work.rating].class}>{RATES[work.rating].text}</span>
+                        <span className={work.completed ? 'badge work-status-finished' : 'badge work-status-process'}>
                             {work.completed ? 'Finished' : 'In a process'}
                         </span>
+                        <div className='work-description'>
+                            <p>{work.description}</p>
+                            <p>Last update: {format(new Date(work.date_modified), 'yyyy-MM-dd')}</p>
+                        </div>
+                        
                     </div>
                     
+                </div>
+                <div className='row work-content'> 
+                    {chapters.map(chapter => {
+                        return(
+                        <div key={chapter.id}>{chapter.title}</div>
+                        )
+                    })}
                 </div>
 
             </div>
@@ -61,8 +74,9 @@ class Work extends Component {
 function mapStateToProps(state) {
     console.log('======= work wwwwww', state)
     return {
-        work: state.work
+        work: state.work,
+        chapters: state.chapters,
     }
 }
 
-export default connect(mapStateToProps, {getWork}) (Work);
+export default connect(mapStateToProps, {getWork, getChapters}) (Work);

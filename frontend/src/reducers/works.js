@@ -1,4 +1,4 @@
-import {RECIEVED_WORKS, RECIEVED_CATEGORIES} from '../constants';
+import {RECIEVED_WORKS} from '../constants';
 
 
 const works = (state = [], action) => {

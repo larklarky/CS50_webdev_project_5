@@ -9,6 +9,7 @@ export const RECIEVED_WORKS_BY_FANDOM = 'RECIEVED_WORKS_BY_FANDOM';
 export const RECIEVED_WORKS_BY_USER = 'RECIEVED_WORKS_BY_USER';
 export const GET_USER = 'GET_USER';
 export const GET_WORK = 'GET_WORK';
+export const RECIEVED_CHAPTERS = 'RECIEVED_CHAPTERS'
 
 
 export const WARNINGS = {
@@ -42,9 +43,9 @@ export const CATEGORIES = {
 }
 
 export const RATES = {
-    NOT_RATED: 'Not Rated',
-    GENERAL_AUDIENCES: 'General Audiences',
-    TEEN_AND_UP: 'Teen And Up Audiences',
-    MATURE: 'Mature',
-    EXPLICIT: 'Explicit',
+    NOT_RATED: {text: 'Not Rated', class: 'not-rated'},
+    GENERAL_AUDIENCES: {text: 'General Audiences', class: 'general-audiences'},
+    TEEN_AND_UP: {text: 'Teen And Up Audiences', class: 'teen-up'},
+    MATURE: {text: 'Mature', class: 'mature'},
+    EXPLICIT: {text: 'Explicit', class: 'explicit'},
 }

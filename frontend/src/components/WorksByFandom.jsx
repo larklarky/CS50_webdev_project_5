@@ -34,7 +34,7 @@ class WorksByFandom extends Component {
                                         })}
                                     </div>
                                     <div className='work-rate' data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
-                                        {RATES[work.rating]}
+                                        {RATES[work.rating].text}
                                     </div>
                                     <div className={work.completed ? 'work-status-finished' : 'work-status-process'}>
                                         {work.completed ? 'Finished' : 'In a process'}
