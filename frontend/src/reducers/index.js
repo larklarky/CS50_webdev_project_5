@@ -7,6 +7,7 @@ import worksByUser from './worksByUser'
 import user from './getUser'
 import work from './work'
 import chapters from './chapters'
+import chapter from './chapter'
 
 export default combineReducers({
     works,
@@ -17,4 +18,5 @@ export default combineReducers({
     user,
     work,
     chapters,
+    chapter,
 })

@@ -9,6 +9,7 @@ import '../App.scss';
 import WorksByFandom from './WorksByFandom';
 import Profile from './Profile';
 import Work from './Work'
+import Chapter from './Chapter'
 
 
 class App extends Component {
@@ -69,7 +70,9 @@ class App extends Component {
             <Route path="/fandoms/:fandomId/works" component={WorksByFandom}>
             </Route>
             <Route path="/users/:userId" component={Profile}></Route>
+            <Route path="/works/:workId/chapters/:chapterId" component={Chapter}></Route>
             <Route path="/works/:workId" component={Work}></Route>
+            
             <Route path="/login">
               <Login />
             </Route>

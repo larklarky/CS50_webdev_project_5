@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants'
 import { format, parse } from 'date-fns'
-import {getWork, getChapters} from '../actions'
+import {getWork, getChapter} from '../actions'
 
 
-class Work extends Component {
+class Chapter extends Component {
     constructor(props) {
         super(props);
     }
@@ -14,12 +14,13 @@ class Work extends Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         this.props.getWork(params.workId)
-        this.props.getChapters(params.workId)
+        this.props.getChapter(params.chapterId)
         console.log('work params', params.workId)
+        console.log('chaper params', params.chapterId)
     }
 
     render() { 
-        const {work, chapters} = this.props
+        const {work, chapter} = this.props
         if (Object.keys(work).length === 0) {
             // console.log('if work', work)
             return (<div>Something went wrong</div>)
@@ -63,14 +64,8 @@ class Work extends Component {
                 </div>
                 <div className='row work-content'> 
                     <div>
-                        {chapters.map(chapter => {
-                            return(
-                                <div key={chapter.id}>
-                                    <h4><Link to={`/works/${work.id}/chapters/${chapter.id}`}>{chapter.title}</Link></h4>
-                                </div>
-                            
-                            )
-                        })}
+                    <h5>{chapter.title}</h5>
+                    <p>{chapter.text}</p>
                     </div>
                 </div>
 
@@ -84,8 +79,8 @@ function mapStateToProps(state) {
     console.log('======= work wwwwww', state)
     return {
         work: state.work,
-        chapters: state.chapters,
+        chapter: state.chapter,
     }
 }
 
-export default connect(mapStateToProps, {getWork, getChapters}) (Work);
+export default connect(mapStateToProps, {getWork, getChapter}) (Chapter);
