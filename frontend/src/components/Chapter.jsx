@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants'
 import { format, parse } from 'date-fns'
-import {getWork, getChapter} from '../actions'
+import {getWork, getChapter, getChapters} from '../actions'
 
 
 class Chapter extends Component {
@@ -15,17 +15,32 @@ class Chapter extends Component {
         const { match: { params } } = this.props;
         this.props.getWork(params.workId)
         this.props.getChapter(params.chapterId)
+        this.props.getChapters(params.workId)
         console.log('work params', params.workId)
         console.log('chaper params', params.chapterId)
     }
 
     render() { 
-        const {work, chapter} = this.props
+        const {work, chapter, chapters} = this.props
         if (Object.keys(work).length === 0) {
             // console.log('if work', work)
             return (<div>Something went wrong</div>)
         } 
         console.log('render work1111', work)
+
+        let chapterIndex = 0;
+        let nextChapter = chapterIndex + 1
+        let previousChapter = chapterIndex - 1
+        console.log('previousChapter', previousChapter)
+        let nextLink = ' ';
+        let previousLink = ' ';
+
+        for(let i = 0; i < chapters.length; i++) {
+            if (chapters[i].id === chapter.id) {
+                chapterIndex = i;
+            }
+        }
+        
         return (
             <div>
                 <div className='row work-information-card'>
@@ -65,8 +80,13 @@ class Chapter extends Component {
                 <div className='row work-content'> 
                     <div>
                     <h5>{chapter.title}</h5>
-                    <p>{chapter.text}</p>
+                    <p className="chapter-text">{chapter.text}</p>
                     </div>
+                </div>
+                <div>
+                    
+                    {/* <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[previousChapter].id}`}>Previous chapter</Link></button> */}
+                    <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[nextChapter].id}`}>Next chapter</Link></button>
                 </div>
 
             </div>
@@ -76,11 +96,12 @@ class Chapter extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= work wwwwww', state)
+    console.log('======= chapter wwwwww', state)
     return {
         work: state.work,
         chapter: state.chapter,
+        chapters: state.chapters,
     }
 }
 
-export default connect(mapStateToProps, {getWork, getChapter}) (Chapter);
+export default connect(mapStateToProps, {getWork, getChapter, getChapters}) (Chapter);
