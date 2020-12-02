@@ -14,31 +14,40 @@ class Chapter extends Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         this.props.getWork(params.workId)
-        this.props.getChapter(params.chapterId)
+        // this.props.getChapter(params.chapterId)
         this.props.getChapters(params.workId)
         console.log('work params', params.workId)
-        console.log('chaper params', params.chapterId)
+        console.log('chaper id params', params.chapterId)
     }
 
     render() { 
         const {work, chapter, chapters} = this.props
         if (Object.keys(work).length === 0) {
-            // console.log('if work', work)
             return (<div>Something went wrong</div>)
         } 
-        console.log('render work1111', work)
+        if (Object.keys(chapters).length === 0) {
+            return (<div>Something went wrong</div>)
+        } 
+        
 
         let chapterIndex = 0;
+        for(let i = 0; i < chapters.length; i++) {
+            if (chapters[i].id == this.props.match.params.chapterId) {
+                chapterIndex = i;
+            }
+        }
+
+        let listLength = chapters.length - 1
         let nextChapter = chapterIndex + 1
         let previousChapter = chapterIndex - 1
-        console.log('previousChapter', previousChapter)
         let nextLink = ' ';
         let previousLink = ' ';
 
-        for(let i = 0; i < chapters.length; i++) {
-            if (chapters[i].id === chapter.id) {
-                chapterIndex = i;
-            }
+        if (chapterIndex < listLength) {
+            nextLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[nextChapter].id}`}>Next chapter</Link></button>
+        }
+        if (chapterIndex > 0) {
+            previousLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[previousChapter].id}`}>Previous chapter</Link></button>
         }
         
         return (
@@ -79,14 +88,13 @@ class Chapter extends Component {
                 </div>
                 <div className='row work-content'> 
                     <div>
-                    <h5>{chapter.title}</h5>
-                    <p className="chapter-text">{chapter.text}</p>
+                    <h5>{chapters[chapterIndex].title}</h5>
+                    <p className="chapter-text">{chapters[chapterIndex].text}</p>
                     </div>
                 </div>
                 <div>
-                    
-                    {/* <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[previousChapter].id}`}>Previous chapter</Link></button> */}
-                    <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[nextChapter].id}`}>Next chapter</Link></button>
+                    {previousLink}
+                    {nextLink}
                 </div>
 
             </div>
