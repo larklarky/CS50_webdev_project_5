@@ -29,7 +29,7 @@ class WorksByFandom extends Component {
                             <div key={work.id} className='row'>
                                 <div className='col work-card'>
                                     <div>
-                                        {work.categories.map(category =>{
+                                        {work.categories.map(category => {
                                             return(CATEGORIES[category.name].bigIcon)
                                         })}
                                     </div>
