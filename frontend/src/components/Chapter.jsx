@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {WARNINGS, CATEGORIES, RATES} from '../constants';
-import { format, parse } from 'date-fns';
 import {getWork, getChapter, getChapters} from '../actions';
 import Loader from './Loader';
 import WorkDescription from './WorkDescription';
