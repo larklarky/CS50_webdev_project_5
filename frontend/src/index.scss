@@ -297,6 +297,14 @@ a:hover {
   
 }
 
+.user-info-container {
+  display: flex;
+  padding: 1rem;
+  margin: 2rem;
+  box-shadow: 4px 4px 10px rgba(122, 122, 122, 0.2);
+
+}
+
 .user-pic {
   border: #7d4f50 3px solid;
   width: 85px;
@@ -305,6 +313,14 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 2rem;
+}
+
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
 }
 
 .user-img {
