@@ -9,8 +9,9 @@ export const RECIEVED_WORKS_BY_FANDOM = 'RECIEVED_WORKS_BY_FANDOM';
 export const RECIEVED_WORKS_BY_USER = 'RECIEVED_WORKS_BY_USER';
 export const GET_USER = 'GET_USER';
 export const GET_WORK = 'GET_WORK';
-export const RECIEVED_CHAPTERS = 'RECIEVED_CHAPTERS'
-export const GET_CHAPTER = 'GET_CHAPTER'
+export const RECIEVED_CHAPTERS = 'RECIEVED_CHAPTERS';
+export const GET_CHAPTER = 'GET_CHAPTER';
+export const GET_TOKEN = 'GET_TOKEN';
 
 
 export const WARNINGS = {

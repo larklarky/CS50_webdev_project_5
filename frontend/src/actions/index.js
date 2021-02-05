@@ -1,11 +1,11 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN} from '../constants';
 import works from '../reducers/works';
 
 export const getWorks = () => dispatch => {
     return fetch(
         'http://127.0.0.1:8000/api/works/',
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'} }
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`} }
     )
     .then((response)=>{
         return response.json()
@@ -16,7 +16,7 @@ export const getWorks = () => dispatch => {
 export const getFandomCategories = () => dispatch => {
     return fetch(
         'http://127.0.0.1:8000/api/fandom_categories/',
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
     )
     .then((response) => {
         return response.json()
@@ -27,7 +27,7 @@ export const getFandomCategories = () => dispatch => {
 export const getListOfFandomsByCategory = (categoryId) => dispatch => {
     return fetch(
         `http://127.0.0.1:8000/api/fandoms/?category=${categoryId}`,
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
 
     )
     .then((response)=>{
@@ -39,7 +39,7 @@ export const getListOfFandomsByCategory = (categoryId) => dispatch => {
 export const getListOfWorksByFandom = (fandomId) => dispatch => {
     return fetch(
         `http://127.0.0.1:8000/api/works/?fandom=${fandomId}`,
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
     )
     .then((response) =>{
         return response.json()
@@ -50,7 +50,7 @@ export const getListOfWorksByFandom = (fandomId) => dispatch => {
 export const getWorksByUser = (userId) => dispatch => {
     return fetch(
         `http://127.0.0.1:8000/api/works/?user=${userId}`,
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
     )
     .then((response) =>{
         return response.json()
@@ -61,7 +61,7 @@ export const getWorksByUser = (userId) => dispatch => {
 export const getUser = (userId) => dispatch => {
     return fetch(
         `http://127.0.0.1:8000/api/users/${userId}`,
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
     )
     .then ((response) => {
         return response.json()
@@ -73,7 +73,7 @@ export const getWork = (workId) => dispatch => {
     console.log('workid action', workId)
     return fetch(
         `http://127.0.0.1:8000/api/works/${workId}`,
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
     )
     .then((response) => {
         return response.json()
@@ -84,7 +84,7 @@ export const getWork = (workId) => dispatch => {
 export const getChapters = (workId) => dispatch => {
     return fetch(
         `http://127.0.0.1:8000/api/chapters/?work=${workId}`,
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
     )
     .then((response) => {
         return response.json()
@@ -95,11 +95,28 @@ export const getChapters = (workId) => dispatch => {
 export const getChapter = (chapterId) => dispatch => {
     return fetch(
         `http://127.0.0.1:8000/api/chapters/${chapterId}`,
-        {headers: {'Authorization': 'Token ba1de3e3decd80bdba20c39b9dcd6117d7e8d66c'}}
+        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
     )
     .then((response) => {
         return response.json()
     })
     .then(response => dispatch({type: GET_CHAPTER, chapter: response}))
+}
+
+export const getToken = (username, password) => dispatch => {
+    return fetch(
+        `http://127.0.0.1:8000/api/token/`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify({username: username, password: password})
+        } 
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => dispatch({type: GET_TOKEN, token: response}))
 }
 

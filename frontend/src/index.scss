@@ -331,6 +331,51 @@ a:hover {
 }
 
 
+// Authorization
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.authorization-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 65vh;
+  min-width: 35%;
+  background-color: lavender;
+  box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.2);
+  border-radius: 5px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 8rem 0rem;
+}
+
+.form-group input {
+  border-radius: 5px;
+  width: 80%;
+  border: none;
+  padding: 10px;
+  margin-bottom: 2rem;
+}
+
+.form-group button {
+  border: none;
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  background-color: #7d4f50;
+}
+
+
 
 /* media */
 

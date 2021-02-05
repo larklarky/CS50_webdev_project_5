@@ -8,6 +8,7 @@ import user from './getUser'
 import work from './work'
 import chapters from './chapters'
 import chapter from './chapter'
+import token from './token'
 
 export default combineReducers({
     works,
@@ -19,4 +20,5 @@ export default combineReducers({
     work,
     chapters,
     chapter,
+    token,
 })
