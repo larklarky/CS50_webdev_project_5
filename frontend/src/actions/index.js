@@ -103,6 +103,7 @@ export const getChapter = (chapterId) => dispatch => {
     .then(response => dispatch({type: GET_CHAPTER, chapter: response}))
 }
 
+
 export const getToken = (username, password) => dispatch => {
     return fetch(
         `http://127.0.0.1:8000/api/token/`,

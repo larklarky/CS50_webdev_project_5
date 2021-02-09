@@ -358,13 +358,48 @@ a:hover {
   margin: 8rem 0rem;
 }
 
-.form-group input {
+.form-group input[type=text], .form-group input[type=password] {
+  border-radius: 5px;
+  width: 80%;
+  border: none;
+  padding: 10px;
+  margin-bottom: 1rem;
+}
+
+
+.password-switch-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.password-input {
   border-radius: 5px;
   width: 80%;
   border: none;
   padding: 10px;
   margin-bottom: 2rem;
+
 }
+
+.password-toggle {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  justify-content: flex-start;
+  align-items: baseline;
+  margin-bottom: 2rem;
+
+}
+
+.password, .text {
+  width: fit-content;
+  margin-right: 0.7rem;
+}
+
+
 
 .form-group button {
   border: none;

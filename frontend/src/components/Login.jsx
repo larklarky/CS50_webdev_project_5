@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {getToken} from '../actions'
 import token from '../reducers/token';
+import PasswordShowHide from './PasswordShowHide';
 
 class Login extends Component {
     constructor(props) {
@@ -32,11 +33,17 @@ class Login extends Component {
                             value={this.state.username}
                             onChange={(e) => this.setState({username: e.target.value})}
                         />
-                        <input 
+                        {/* <input 
                             type='password' 
                             placeholder='Password'
                             value={this.state.password}
                             onChange={(e) => this.setState({password: e.target.value})}
+                        /> */}
+                        <PasswordShowHide
+                            placeholder ='Password'
+                            className='password-input'
+                            value={this.state.password}
+                            onChange = {(e) => this.setState({password: e.target.value})}
                         />
                         <button onClick={(e) => this.handleLogin(e)}>Log In</button>
                     </form>

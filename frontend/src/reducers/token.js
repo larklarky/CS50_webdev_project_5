@@ -6,6 +6,7 @@ const token = (state = {}, action) => {
         case GET_TOKEN:
             token = {...action.token}
             localStorage.setItem('token', token.token)
+            window.location.href = '/'
             return token;
         default:
             return state;
