@@ -26,6 +26,7 @@ class Login extends Component {
         return(
             <div className='main'>
                 <div className='authorization-container'>
+                    <h1 className="login-header">Login form</h1>
                     <form className='form-group'>
                         <input 
                             type='text' 
@@ -33,19 +34,18 @@ class Login extends Component {
                             value={this.state.username}
                             onChange={(e) => this.setState({username: e.target.value})}
                         />
-                        {/* <input 
-                            type='password' 
-                            placeholder='Password'
-                            value={this.state.password}
-                            onChange={(e) => this.setState({password: e.target.value})}
-                        /> */}
                         <PasswordShowHide
                             placeholder ='Password'
                             className='password-input'
                             value={this.state.password}
                             onChange = {(e) => this.setState({password: e.target.value})}
                         />
-                        <button onClick={(e) => this.handleLogin(e)}>Log In</button>
+                        <button 
+                            disabled={this.state.password.length == 0 || this.state.username.length == 0 ? true : false} 
+                            onClick={(e) => this.handleLogin(e)}
+                        >
+                            Log In
+                        </button>
                     </form>
                 </div>
             </div>

@@ -9,6 +9,7 @@ import work from './work'
 import chapters from './chapters'
 import chapter from './chapter'
 import token from './token'
+import registration from './registration'
 
 export default combineReducers({
     works,
@@ -21,4 +22,5 @@ export default combineReducers({
     chapters,
     chapter,
     token,
+    registration,
 })

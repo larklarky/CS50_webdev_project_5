@@ -1,5 +1,5 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN, REGISTRATION} from '../constants';
 import works from '../reducers/works';
 
 export const getWorks = () => dispatch => {
@@ -119,5 +119,22 @@ export const getToken = (username, password) => dispatch => {
         return response.json()
     })
     .then(response => dispatch({type: GET_TOKEN, token: response}))
+}
+
+export const SignUp = (username, email, password) => dispatch => {
+    return fetch(
+        `http://127.0.0.1:8000/api/registration/`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username: username, password: password, email: email})
+        }
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => dispatch({type: REGISTRATION, newUser: response}))
 }
 

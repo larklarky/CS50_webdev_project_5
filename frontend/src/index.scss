@@ -13,6 +13,21 @@ code {
     monospace;
 }
 
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  width: 80%;
+  padding: 3px;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
 
 .navbar-container {
   display: flex;
@@ -350,12 +365,18 @@ a:hover {
   border-radius: 5px;
 }
 
+.login-header {
+  align-self: center;
+  margin-top: 3rem;
+  color: #7d4f50;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 8rem 0rem;
+  margin: 4rem 0rem;
 }
 
 .form-group input[type=text], .form-group input[type=password] {
@@ -409,6 +430,11 @@ a:hover {
   color: white;
   background-color: #7d4f50;
 }
+
+.form-group button:disabled {
+  background-color: #7d4f5080;
+}
+
 
 
 
