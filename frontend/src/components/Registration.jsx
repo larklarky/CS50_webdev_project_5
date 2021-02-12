@@ -21,8 +21,10 @@ class Registration extends Component {
         const {username, email, password, confirmPassword} = this.state;
         if (password !== confirmPassword) {
             this.setState({passwordMissmatched: true})
+            this.setState({password: '', confirmPassword: ''})
         } else {
             this.props.SignUp(username, email, password)
+
         }
         
     }
@@ -59,20 +61,20 @@ class Registration extends Component {
                             type='password'
                             className='password-input'
                             value={this.state.password}
-                            onChange = {(e) => this.setState({password: e.target.value})}
+                            onChange = {(e) => this.setState({password: e.target.value, passwordMissmatched: false})}
                         />
                         <input
                             placeholder='Confirm Password'
                             type='password'
                             className='password-input'
                             value={this.state.confirmPassword}
-                            onChange = {(e) => this.setState({confirmPassword: e.target.value})}
+                            onChange = {(e) => this.setState({confirmPassword: e.target.value, passwordMissmatched: false})}
                         />
                         <button 
-                            disabled={this.state.password.length == 0 
-                                || this.state.confirmPassword.length == 0
-                                || this.state.username.length == 0
-                                || this.state.email.length == 0
+                            disabled={this.state.password.length === 0 
+                                || this.state.confirmPassword.length === 0
+                                || this.state.username.length === 0
+                                || this.state.email.length === 0
                                 ? true : false} 
                             onClick={(e) => this.handleSignUp(e)}
                         >
