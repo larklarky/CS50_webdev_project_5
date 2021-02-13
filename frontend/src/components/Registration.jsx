@@ -12,7 +12,7 @@ class Registration extends Component {
             email: '',
             password: '',
             confirmPassword: '',
-            passwordMissmatched: false, 
+            passwordMismatched: false, 
         }
     }
 
@@ -20,7 +20,7 @@ class Registration extends Component {
         e.preventDefault()
         const {username, email, password, confirmPassword} = this.state;
         if (password !== confirmPassword) {
-            this.setState({passwordMissmatched: true})
+            this.setState({passwordMismatched: true})
             this.setState({password: '', confirmPassword: ''})
         } else {
             this.props.SignUp(username, email, password)
@@ -30,10 +30,10 @@ class Registration extends Component {
     }
 
     render() {
-        const {passwordMissmatched} = this.state;
+        const {passwordMismatched} = this.state;
         let error;
         
-        if(passwordMissmatched){
+        if(passwordMismatched){
             error = <div className='error-message'>Your passwords should match</div>
         }
         
@@ -59,16 +59,16 @@ class Registration extends Component {
                         <input
                             placeholder='Password'
                             type='password'
-                            className='password-input'
+                            className={this.state.passwordMismatched ? 'password-input-red' : 'password-input'}
                             value={this.state.password}
-                            onChange = {(e) => this.setState({password: e.target.value, passwordMissmatched: false})}
+                            onChange = {(e) => this.setState({password: e.target.value, passwordMismatched: false})}
                         />
                         <input
                             placeholder='Confirm Password'
                             type='password'
-                            className='password-input'
+                            className={this.state.passwordMismatched ? 'password-input-red' : 'password-input'}
                             value={this.state.confirmPassword}
-                            onChange = {(e) => this.setState({confirmPassword: e.target.value, passwordMissmatched: false})}
+                            onChange = {(e) => this.setState({confirmPassword: e.target.value, passwordMismatched: false})}
                         />
                         <button 
                             disabled={this.state.password.length === 0 

@@ -396,13 +396,17 @@ a:hover {
   align-items: center;
 }
 
-.password-input {
+.password-input, .password-input-red {
   border-radius: 5px;
   width: 80%;
   border: none;
   padding: 10px;
   margin-bottom: 2rem;
 
+}
+
+.password-input-red {
+  background-color: rgba(255, 168, 168, 0.68);
 }
 
 .password-toggle {
@@ -442,12 +446,21 @@ a:hover {
 
 
 @media only screen and (max-width: 1024px) {
+  .authorization-container {
+    min-height: 45vh;
+    min-width: 55%;
+  }
 
 }
 
 @media only screen and (max-width: 995px) {
   .col.work-card {
     max-width: 21%;
+  }
+
+  .authorization-container {
+    min-height: 52vh;
+    min-width: 56%;
   }
 }
 
@@ -464,6 +477,11 @@ a:hover {
     margin: 0rem 0rem 0rem 2rem;
     border-top: none;
     border-left: 0.5px solid #e6dede;
+  }
+
+  .authorization-container {
+    min-height: 52vh;
+    min-width: 56%;
   }
 
 }
@@ -516,6 +534,32 @@ a:hover {
     margin-left: 0;
   }
 
+  .authorization-container {
+    min-height: 70vh;
+    min-width: 80%;
+  }
+
+}
+
+@media only screen and (max-width: 375px) {
+  .authorization-container {
+    min-height: 70vh;
+    min-width: 80%;
+  }
+
+  .form-group {
+    margin: 2rem 0rem;
+  }
+
+  .login-header {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .login-header {
+    font-size: 1.5rem;
+  }
 }
 
 
