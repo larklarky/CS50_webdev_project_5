@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Montserrat',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -9,7 +11,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', 'Montserrat',
     monospace;
 }
 
@@ -32,11 +34,12 @@ code {
 .navbar-container {
   display: flex;
   flex-direction: row;
-  background-color: #7d4f50;
+  // background-color: #7d4f50;
+  background-color: #005C6E;
 }
 
 .navbar-light {
-  background-color: #7d4f50 !important;
+  background-color: #005C6E !important;
 }
 
 .btn.btn-outline.my-2.my-sm-0{
@@ -83,22 +86,53 @@ a:hover {
   background-color: #19323c;
 }
 
-.fandom-categories-container {
+// .fandom-categories-container {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   width: 44%;
+  
+// } 
+
+.main-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  width: 44%;
-  
-} 
-
-.fandom-category-item {
-  margin: 0.7rem;
-  border: solid 1px #aa998f;
-  padding: 0.8rem 0.7rem 0.8rem 0.7rem;
+  width: 100%;
 }
 
+.fandom-categories-container {
+  display: flex;
+  flex-direction: column;
+  border-right: rgba(94, 94, 94, 0.2) 2px solid;
+  width: 60%;
+  margin-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+.fandom-category-header {
+  color: #F0616E;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+}
+
+.fandom-category-item {
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+}
+
+// .fandom-category-item {
+//   margin: 0.7rem;
+//   border: solid 1px #aa998f;
+//   padding: 0.8rem 0.7rem 0.8rem 0.7rem;
+// }
+
 .fandom-category-item a {
-  color: brown;
+  color: #005C6E;
   font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.new-block {
+  display: inline;
 }
 
 

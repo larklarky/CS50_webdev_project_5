@@ -18,20 +18,19 @@ class Home extends Component {
         console.log(this.props.fandomCategories)
         const {fandomCategories} = this.props
         return(
-            <div>
-                <div>Home</div>
+            <div className='main-grid'>
                 <div className='fandom-categories-container'>
+                    <h2 className='fandom-category-header'>Categories</h2>
                     {fandomCategories.map(category => {
                         return (
-                        <div className='fandom-category-item' key={category.id}>
-                            <Link to={`/fandom_categories/${category.id}`}>{category.name}</Link>
-                        </div>
-
+                            <div className='fandom-category-item' key={category.id}>
+                                <Link to={`/fandom_categories/${category.id}`}>{category.name}</Link>
+                            </div>
                         )
                     })}
 
                 </div>
-                
+                <div className='new-block'>new block</div>
             </div>
             
         )
