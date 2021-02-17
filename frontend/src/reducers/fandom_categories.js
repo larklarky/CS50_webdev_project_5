@@ -5,7 +5,7 @@ const fandomCategories = (state = [], action) => {
     let categories = null
     switch(action.type) {
         case RECIEVED_CATEGORIES:
-            categories = [...action.fandom_categories]
+            categories = [...action.fandom_categories.results]
             return categories;
         default:
             return state;

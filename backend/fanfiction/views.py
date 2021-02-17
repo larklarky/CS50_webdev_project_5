@@ -9,9 +9,21 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 
 
 # Create your views here.
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 100
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 class RegistrationView(views.APIView):
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
@@ -46,6 +58,7 @@ class WorkView(viewsets.ModelViewSet):
     queryset = Work.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user']
+    pagination_class = StandardResultsSetPagination
 
 
 class ChapterView(viewsets.ModelViewSet):

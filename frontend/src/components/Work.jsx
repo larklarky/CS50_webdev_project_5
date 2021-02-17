@@ -31,7 +31,7 @@ class Work extends Component {
                 
                 <div className='row work-content'> 
                     <div>
-                        {chapters.map(chapter => {
+                        {chapters.results.map(chapter => {
                             return(
                                 <div key={chapter.id}>
                                     <h4><Link to={`/works/${work.id}/chapters/${chapter.id}`}>{chapter.title}</Link></h4>

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {getWorks, getFandomCategories} from '../actions';
+import works from '../reducers/works';
+import ListOfWorks from './ListOfWorks';
+import Loader from './Loader';
 
 class Home extends Component {
     constructor(props) {
@@ -16,7 +19,10 @@ class Home extends Component {
 
     render() {
         console.log(this.props.fandomCategories)
-        const {fandomCategories} = this.props
+        const {fandomCategories, works} = this.props
+        if (Object.keys(works).length === 0 || Object.keys(fandomCategories).length === 0) {
+            return <Loader/>
+        } 
         return(
             <div className='main-grid'>
                 <div className='fandom-categories-container'>
@@ -30,7 +36,11 @@ class Home extends Component {
                     })}
 
                 </div>
-                <div className='new-block'>new block</div>
+                <div className='recent-works-container'>
+                    <h2 className='fandom-category-header'>Recent works</h2>
+                    <ListOfWorks works={works.results} name='date'/>
+                </div>
+                
             </div>
             
         )

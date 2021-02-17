@@ -22,7 +22,7 @@ class Profile extends Component {
     render() { 
         console.log('>>>> this.props', this.props.works)
         const {user, works} = this.props;
-        if (Object.keys(user).length === 0 || works.length === 0) {
+        if (Object.keys(user).length === 0 || Object.keys(works).length === 0) {
             return <Loader/>
         };
 
@@ -37,7 +37,7 @@ class Profile extends Component {
                     
                 </div>
                 
-                <ListOfWorks works={works} name='user'/>
+                <ListOfWorks works={works.results} name='user'/>
             </div>
         )
     }

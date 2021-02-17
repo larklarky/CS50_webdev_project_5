@@ -28,23 +28,23 @@ class Chapter extends Component {
         
 
         let chapterIndex = 0;
-        for(let i = 0; i < chapters.length; i++) {
-            if (chapters[i].id == this.props.match.params.chapterId) {
+        for(let i = 0; i < chapters.results.length; i++) {
+            if (chapters.results[i].id == this.props.match.params.chapterId) {
                 chapterIndex = i;
             }
         }
 
-        let listLength = chapters.length - 1
+        let listLength = chapters.results.length - 1
         let nextChapter = chapterIndex + 1
         let previousChapter = chapterIndex - 1
         let nextLink = ' ';
         let previousLink = ' ';
 
         if (chapterIndex < listLength) {
-            nextLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[nextChapter].id}`}>Next chapter</Link></button>
+            nextLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters.results[nextChapter].id}`}>Next chapter</Link></button>
         }
         if (chapterIndex > 0) {
-            previousLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters[previousChapter].id}`}>Previous chapter</Link></button>
+            previousLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters.results[previousChapter].id}`}>Previous chapter</Link></button>
         }
         
         return (
@@ -53,8 +53,8 @@ class Chapter extends Component {
                 
                 <div className='row work-content'> 
                     <div>
-                    <h5>{chapters[chapterIndex].title}</h5>
-                    <p className="chapter-text">{chapters[chapterIndex].text}</p>
+                        <h5>{chapters.results[chapterIndex].title}</h5>
+                        <p className="chapter-text">{chapters.results[chapterIndex].text}</p>
                     </div>
                 </div>
                 <div>

@@ -7,6 +7,7 @@ import { format, parse } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMarsDouble } from '@fortawesome/free-solid-svg-icons'
 import ListOfWorks from './ListOfWorks';
+import Loader from './Loader';
 
 class WorksByFandom extends Component {
     constructor(props) {
@@ -22,9 +23,13 @@ class WorksByFandom extends Component {
     render() {
         console.log('works', this.props.works)
         const {works} = this.props
+        if (Object.keys(works).length === 0) {
+            return <Loader/>
+        } 
+
         return(
             <div>
-                <ListOfWorks works={works} name='fandom'/>
+                <ListOfWorks works={works.results} name='fandom'/>
             </div>
         )
     }

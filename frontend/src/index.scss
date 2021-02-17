@@ -95,7 +95,7 @@ a:hover {
 
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 5fr;
   width: 100%;
 }
 
@@ -103,7 +103,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   border-right: rgba(94, 94, 94, 0.2) 2px solid;
-  width: 60%;
+  width: 90%;
   margin-top: 3rem;
   padding-bottom: 2rem;
 }
@@ -131,8 +131,16 @@ a:hover {
   font-size: 1.2rem;
 }
 
-.new-block {
-  display: inline;
+.recent-works-container {
+  margin-top: 3rem;
+}
+
+.works-by-date-container .work-container {
+  margin: 1rem 5% 1rem 0;
+}
+
+.works-by-date-container .col-md.work-container {
+  padding-left: 2.4rem;
 }
 
 
