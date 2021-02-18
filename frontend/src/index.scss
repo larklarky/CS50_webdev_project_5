@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
 
+$main-color:  #005C6E;
+$secondary-color: #F0616E;
+$tag-color: #F1F1E6;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -35,16 +39,17 @@ code {
   display: flex;
   flex-direction: row;
   // background-color: #7d4f50;
-  background-color: #005C6E;
+  background-color: $main-color;
 }
 
 .navbar-light {
-  background-color: #005C6E !important;
+  background-color: $main-color !important;
 }
 
 .btn.btn-outline.my-2.my-sm-0{
   color: white;
-  border: white solid 1px;
+  // border: white solid 1px;
+  background-color: $secondary-color;
 }
 
 
@@ -96,13 +101,13 @@ a:hover {
 .main-grid {
   display: grid;
   grid-template-columns: 2fr 5fr;
-  width: 100%;
+  width: 98%;
 }
 
 .fandom-categories-container {
   display: flex;
   flex-direction: column;
-  border-right: rgba(94, 94, 94, 0.2) 2px solid;
+  // border-right: rgba(94, 94, 94, 0.2) 2px solid;
   width: 90%;
   margin-top: 3rem;
   padding-bottom: 2rem;
@@ -126,7 +131,7 @@ a:hover {
 // }
 
 .fandom-category-item a {
-  color: #005C6E;
+  color: $main-color;
   font-weight: 700;
   font-size: 1.2rem;
 }
@@ -153,11 +158,15 @@ a:hover {
 }
 
 .col.work-card {
-  background-color: #d8e7e8;
+  // background-color: #d8e7e8;
+  // background-image: linear-gradient(to top, #eafdff, #f0fdff, #f7fdff, #fcfeff, #ffffff);
+  background-image: linear-gradient(to bottom, #eafdff, #f0fdff, #f7fdff, #fcfeff, #ffffff);
   margin: 1rem 0 1rem 5%;
   max-width: 13%;
   border: 0.5px solid #e6dede;
   border-right: none;
+  border-bottom-left-radius: 13px;
+  border-top-left-radius: 13px;
 
   .svg-inline--fa {
     // font-size: 4rem;
@@ -186,7 +195,7 @@ a:hover {
 }
 
 .work-status-process {
-  color: #99170e;
+  color: #F0616E;
   margin-top: 1.2rem;
 }
 
@@ -211,19 +220,21 @@ a:hover {
   border-left: none;
   padding: 0.5rem;
   margin: 1rem 20% 1rem 0;
+  border-bottom-right-radius: 13px;
+  border-top-right-radius: 13px;
 }
 
 .work-title {
-  color: #7d4f50;
+  color: $main-color;
   a {
-    color: #7d4f50;
+    color: $main-color;
     text-decoration: underline;
   }
 }
 
 .badge.relationship-and-character-tag {
   border-radius: 94px;
-  background-color: #f1e2c8;
+  background-color: $tag-color;
   padding: 8px 10px;
   margin-right: 5px;
 }
@@ -233,6 +244,11 @@ a:hover {
   margin-bottom: 1rem;
   padding-bottom: 0.7rem;
   margin-top: 1rem;
+
+}
+
+.work-container p {
+  font-weight: 500;
 }
 
 
@@ -249,6 +265,7 @@ a:hover {
     margin-bottom: 1rem;
     padding-bottom: 0.7rem;
     margin-top: 2rem;
+      
   }
 
   h6 {
@@ -353,6 +370,9 @@ a:hover {
   margin-left: 15%;
   
 }
+
+
+// Profile
 
 .user-info-container {
   display: flex;
@@ -512,6 +532,8 @@ a:hover {
     margin: 2rem 0rem 0rem 2rem;
     border-bottom: none;
     border-right:  0.5px solid #e6dede;
+    border-top-right-radius: 13px;
+    border-bottom-left-radius: 0;
   }
 
   .col-md.work-container {
@@ -519,7 +541,22 @@ a:hover {
     margin: 0rem 0rem 0rem 2rem;
     border-top: none;
     border-left: 0.5px solid #e6dede;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 13px;
   }
+
+  .badge.relationship-and-character-tag {
+    margin-bottom: 5px;
+  }
+  
+  .col.work-card .svg-inline--fa {
+    margin-left: 0;
+  }
+
+  .work-rate, .work-status-finished, .work-status-process, .work-date {
+    text-align: left;
+  }
+  
 
   .authorization-container {
     min-height: 52vh;
@@ -546,11 +583,17 @@ a:hover {
 }
 
 @media only screen and (max-width: 575px) {
+  .main-grid {
+    width: 95%;
+    grid-template-columns: 1fr;
+  }
   .col.work-card {
     max-width: 74%;
     margin: 2rem 0rem 0rem 2rem;
     border-bottom: none;
     border-right:  0.5px solid #e6dede;
+    border-top-right-radius: 13px;
+    border-bottom-left-radius: 0;
   }
 
   .col-md.work-container {
@@ -558,6 +601,8 @@ a:hover {
     margin: 0rem 0rem 0rem 2rem;
     border-top: none;
     border-left: 0.5px solid #e6dede;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 13px;
   }
   
 }
@@ -602,6 +647,19 @@ a:hover {
   .login-header {
     font-size: 1.5rem;
   }
+
+  .works-by-date-container .col-md.work-container {
+    padding-left: 1rem;
+}
+
+  .fandom-category-header {
+    margin-left: 1rem;
+  }
+
+  .recent-works-container {
+    margin-top: 1rem;
+  }
+
 }
 
 
