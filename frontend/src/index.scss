@@ -3,6 +3,8 @@
 $main-color:  #005C6E;
 $secondary-color: #F0616E;
 $tag-color: #F1F1E6;
+$gradient-color: #EAFDFF;
+$selected-color: #F99136;
 
 body {
   margin: 0;
@@ -119,7 +121,7 @@ a:hover {
   margin-left: 2rem;
 }
 
-.fandom-category-item {
+.fandom-category-item, .fandoms-by-category-container, .fandom-category-item-selected {
   margin-bottom: 1rem;
   margin-left: 2rem;
 }
@@ -136,7 +138,19 @@ a:hover {
   font-size: 1.2rem;
 }
 
-.recent-works-container {
+.fandom-category-item-selected a {
+  color: $selected-color;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.fandom-by-category-item a {
+  color: $main-color;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.recent-works-container, .fandoms-list-container {
   margin-top: 3rem;
 }
 
