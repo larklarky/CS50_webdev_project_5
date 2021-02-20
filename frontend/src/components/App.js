@@ -21,7 +21,8 @@ class App extends Component {
       <Router>
         <div>
         <nav className="navbar navbar-expand-lg navbar-light">
-          <a className="navbar-brand" href="#">Navbar</a>
+          <div className="navbar-brand"><NavLink exact to="/"><img className='navbar-img' src='/quill-drawing-a-line.svg' /></NavLink></div>
+          {/* <a className="navbar-brand" href="#">Navbar</a> */}
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -29,7 +30,7 @@ class App extends Component {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <NavLink to="/" activeClassName="selected">Home</NavLink>
+                <NavLink exact to="/" activeClassName="selected">Home</NavLink>
               </li>
               <li className="nav-item">
                 <NavLink to="/login" activeClassName="selected">Login</NavLink>
@@ -79,7 +80,7 @@ class App extends Component {
             <Route path="/registration">
               <Registration />
             </Route>
-            <Route path="/">
+            <Route exact path="/">
               <Home />
             </Route>
             
@@ -87,7 +88,11 @@ class App extends Component {
 
             <div class="footer-basic">
               <footer>
-                  <div class="social"><a href="#"><i class="icon ion-social-instagram fa fa-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat fa fa-snapchat-ghost"></i></a><a href="#"><i class="icon ion-social-twitter fa fa-twitter"></i></a><a href="#"><i class="icon ion-social-facebook fa fa-facebook"></i></a></div>
+                  <div class="social">
+                    <a href="#"><i class="icon ion-social-instagram fa fa-instagram"></i></a>
+                    <a href="#"><i class="icon ion-social-snapchat fa fa-snapchat-ghost"></i></a>
+                    <a href="#"><i class="icon ion-social-twitter fa fa-twitter"></i></a>
+                    <a href="#"><i class="icon ion-social-facebook fa fa-facebook"></i></a></div>
                   <ul class="list-inline">
                       <li class="list-inline-item"><a href="#">Home</a></li>
                       <li class="list-inline-item"><a href="#">About</a></li>

@@ -56,7 +56,21 @@ code {
 
 
 .navbar-light .navbar-brand {
-  color: #030200;
+  display: flex;
+  color: #ffffff;
+  height: 65px;
+  width: 65px;
+  border-radius: 50%;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-img {
+  color: $main-color;
+  width: 45px;
+  height: 45px;
+
 }
 
 ul {
@@ -80,17 +94,23 @@ nav a {
   font-weight: 700;
 }
 
+nav a:hover {
+  text-decoration: none;
+  color:$secondary-color;
+}
+
+
 a:hover {
   text-decoration: none;
   color: #cc8b86;
 }
 
 .navbar-nav .selected {
-  background-color: #19323c;
+  color: $secondary-color;
 }
 
 .nav-item:has(.selected) {
-  background-color: #19323c;
+  color: $secondary-color;
 }
 
 // .fandom-categories-container {
@@ -106,6 +126,7 @@ a:hover {
   padding:40px 0;
   background-color:$main-color;
   color:#ffffff;
+  margin-top: 3rem;
 }
 
 .footer-basic ul {
@@ -172,6 +193,7 @@ a:hover {
   display: grid;
   grid-template-columns: 2fr 5fr;
   width: 98%;
+  margin-bottom: 2rem;
 }
 
 .fandom-categories-container {
@@ -465,7 +487,7 @@ a:hover {
 }
 
 .user-pic {
-  border: #7d4f50 3px solid;
+  border: $main-color 3px solid;
   width: 85px;
   height: 85px;
   border-radius: 50%;
@@ -485,8 +507,6 @@ a:hover {
 .user-img {
   width: 55px;
   height: 55px;
-  color: #7d4f50;
-  
 }
 
 
