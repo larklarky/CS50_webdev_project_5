@@ -13,6 +13,7 @@ export const RECIEVED_CHAPTERS = 'RECIEVED_CHAPTERS';
 export const GET_CHAPTER = 'GET_CHAPTER';
 export const GET_TOKEN = 'GET_TOKEN';
 export const REGISTRATION  = 'REGISTRATION';
+export const ERROR_MESSAGE = 'ERROR_MESSAGE';
 
 
 export const WARNINGS = {

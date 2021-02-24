@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {getToken} from '../actions'
-import token from '../reducers/token';
 import PasswordShowHide from './PasswordShowHide';
+
 
 class Login extends Component {
     constructor(props) {
@@ -22,12 +22,18 @@ class Login extends Component {
 
 
     render() {
-        
+        const {errorMessage} = this.props;
+        let error;
+        console.log('error length', this.props)
+        if(Object.keys(errorMessage).length !== 0) {
+            error = <div className='error-message'>{errorMessage.non_field_errors[0]}</div>
+        }
         return(
             <div className='main'>
                 <div className='authorization-container'>
                     <h1 className="login-header">Login form</h1>
                     <form className='form-group'>
+                        {error}
                         <input 
                             type='text' 
                             placeholder='Username'
@@ -41,7 +47,7 @@ class Login extends Component {
                             onChange = {(e) => this.setState({password: e.target.value})}
                         />
                         <button 
-                            disabled={this.state.password.length == 0 || this.state.username.length == 0 ? true : false} 
+                            disabled={this.state.password.length === 0 || this.state.username.length === 0 ? true : false} 
                             onClick={(e) => this.handleLogin(e)}
                         >
                             Log In
@@ -57,7 +63,8 @@ class Login extends Component {
 function mapStateToProps(state) {
     console.log('======= token', state)
     return {
-        token: token,
+        token: state.token,
+        errorMessage: state.errorMessage,
     }
 }
 

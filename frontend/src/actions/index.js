@@ -1,6 +1,6 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN, REGISTRATION} from '../constants';
-import works from '../reducers/works';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN, REGISTRATION, ERROR_MESSAGE} from '../constants';
+
 
 export const getWorks = () => dispatch => {
     return fetch(
@@ -116,9 +116,19 @@ export const getToken = (username, password) => dispatch => {
         } 
     )
     .then((response) => {
-        return response.json()
+        response.json().then(result => {
+            console.log('response', response)
+            console.log('result', result)
+            if (response.status == 200) {
+                // dispatch({type: GET_TOKEN, token: result})
+
+            } else {
+                console.log('jjjjjjjjjjjj')
+                dispatch({type: ERROR_MESSAGE, errorMessage: result})
+            }
+        })
     })
-    .then(response => dispatch({type: GET_TOKEN, token: response}))
+    // .then(response => dispatch({type: GET_TOKEN, token: response}))
 }
 
 export const SignUp = (username, email, password) => dispatch => {
@@ -133,8 +143,15 @@ export const SignUp = (username, email, password) => dispatch => {
         }
     )
     .then((response) => {
-        return response.json()
+        response.json().then(result => {
+            if (response.status === 200) {
+                dispatch({type: REGISTRATION, newUser: result})
+            } else {
+                dispatch({type: ERROR_MESSAGE, errorMessage: result})
+            }
+        })
+            
     })
-    .then(response => dispatch({type: REGISTRATION, newUser: response}))
+    // .then(response => dispatch({type: REGISTRATION, newUser: response}))
 }
 

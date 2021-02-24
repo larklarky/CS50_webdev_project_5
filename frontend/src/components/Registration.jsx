@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PasswordShowHide from './PasswordShowHide';
 import {SignUp} from '../actions';
 import registration from '../reducers/registration';
+import errorMessage from '../reducers/errorMessage';
 
 class Registration extends Component {
     constructor(props) {
@@ -91,7 +92,7 @@ class Registration extends Component {
 function mapStateToProps(state) {
     console.log('======= token', state)
     return {
-        
+        error: state.errorMessage,
     }
 }
 
