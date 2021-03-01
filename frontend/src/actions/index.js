@@ -120,7 +120,7 @@ export const getToken = (username, password) => dispatch => {
             console.log('response', response)
             console.log('result', result)
             if (response.status == 200) {
-                // dispatch({type: GET_TOKEN, token: result})
+                dispatch({type: GET_TOKEN, token: result})
 
             } else {
                 console.log('jjjjjjjjjjjj')
@@ -128,7 +128,6 @@ export const getToken = (username, password) => dispatch => {
             }
         })
     })
-    // .then(response => dispatch({type: GET_TOKEN, token: response}))
 }
 
 export const SignUp = (username, email, password) => dispatch => {
@@ -144,7 +143,7 @@ export const SignUp = (username, email, password) => dispatch => {
     )
     .then((response) => {
         response.json().then(result => {
-            if (response.status === 200) {
+            if (response.status === 201) {
                 dispatch({type: REGISTRATION, newUser: result})
             } else {
                 dispatch({type: ERROR_MESSAGE, errorMessage: result})
@@ -152,6 +151,5 @@ export const SignUp = (username, email, password) => dispatch => {
         })
             
     })
-    // .then(response => dispatch({type: REGISTRATION, newUser: response}))
 }
 
