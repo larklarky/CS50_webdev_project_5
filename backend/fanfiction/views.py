@@ -5,7 +5,7 @@ from rest_framework import views, status
 from rest_framework import request
 from .serializers import UserSerializer, WorkSerializer, ChapterSerializer, CategorySerializer, WarningSerializer, FandomCategorySerializer, FandomSerializer, RelationshipSerializer, CharacterSerializer, BookmarkSerializer, LikeSerializer
 from .models import User, Work, Chapter, Category, Warning, FandomCategory, Fandom, Relationship, Character, Bookmark, Like
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django_filters.rest_framework import DjangoFilterBackend
@@ -47,13 +47,13 @@ class LogoutView(views.APIView):
 
 
 class UserView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = UserSerializer
     queryset = User.objects.all()
     filter_backends = [DjangoFilterBackend]
 
 class WorkView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = WorkSerializer
     queryset = Work.objects.all()
     filter_backends = [DjangoFilterBackend]
@@ -62,42 +62,42 @@ class WorkView(viewsets.ModelViewSet):
 
 
 class ChapterView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = ChapterSerializer
     queryset = Chapter.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['work']
 
 class CategoryView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 class WarningView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = WarningSerializer
     queryset = Warning.objects.all()
 
 class FandomCategoryView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = FandomCategorySerializer
     queryset = FandomCategory.objects.all()
     filter_backends = [DjangoFilterBackend]
 
 class FandomView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = FandomSerializer
     queryset = Fandom.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['category', 'name']
 
 class RelationshipView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = RelationshipSerializer
     queryset = Relationship.objects.all()
 
 class CharacterView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CharacterSerializer
     queryset = Character.objects.all()
 

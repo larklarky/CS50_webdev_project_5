@@ -10,6 +10,7 @@ import WorksByFandom from './WorksByFandom';
 import Profile from './Profile';
 import Work from './Work'
 import Chapter from './Chapter'
+import token from '../reducers/token';
 
 
 class App extends Component {
@@ -17,6 +18,14 @@ class App extends Component {
       super(props);
   }
   render() {
+    let navItem;
+    let navItem2;
+    if (localStorage.getItem('token') === null) {
+      navItem = <NavLink to="/login" activeClassName="selected">Login</NavLink>
+      navItem2 = <NavLink to="/registration" activeClassName="selected">Registration</NavLink>
+    } else {
+      navItem = <NavLink to="/logout" activeClassName="selected">Logout</NavLink>
+    }
     return (
       <Router>
         <div>
@@ -33,10 +42,12 @@ class App extends Component {
                 <NavLink exact to="/" activeClassName="selected">Home</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/login" activeClassName="selected">Login</NavLink>
+                {navItem}
+                {/* <NavLink to="/login" activeClassName="selected">Login</NavLink> */}
               </li>
-              <li>
-                <NavLink to="/registration" activeClassName="selected">Registration</NavLink>
+              <li className='nav-item'>
+                {navItem2}
+                {/* <NavLink to="/registration" activeClassName="selected">Registration</NavLink> */}
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0">

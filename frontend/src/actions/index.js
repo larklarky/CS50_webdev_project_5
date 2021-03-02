@@ -1,11 +1,19 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN, REGISTRATION, ERROR_MESSAGE} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN, REGISTRATION, ERROR_MESSAGE, LOGOUT} from '../constants';
+
+
 
 
 export const getWorks = () => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+
     return fetch(
         'http://127.0.0.1:8000/api/works/',
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`} }
+        {headers: headers},
     )
     .then((response)=>{
         return response.json()
@@ -14,9 +22,15 @@ export const getWorks = () => dispatch => {
 }
 
 export const getFandomCategories = () => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+
     return fetch(
         'http://127.0.0.1:8000/api/fandom_categories/',
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
     )
     .then((response) => {
         return response.json()
@@ -25,9 +39,15 @@ export const getFandomCategories = () => dispatch => {
 }
 
 export const getListOfFandomsByCategory = (categoryId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+
     return fetch(
         `http://127.0.0.1:8000/api/fandoms/?category=${categoryId}`,
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
 
     )
     .then((response)=>{
@@ -37,9 +57,15 @@ export const getListOfFandomsByCategory = (categoryId) => dispatch => {
 }
 
 export const getListOfWorksByFandom = (fandomId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    
     return fetch(
         `http://127.0.0.1:8000/api/works/?fandom=${fandomId}`,
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
     )
     .then((response) =>{
         return response.json()
@@ -48,9 +74,15 @@ export const getListOfWorksByFandom = (fandomId) => dispatch => {
 }
 
 export const getWorksByUser = (userId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    
     return fetch(
         `http://127.0.0.1:8000/api/works/?user=${userId}`,
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
     )
     .then((response) =>{
         return response.json()
@@ -59,9 +91,15 @@ export const getWorksByUser = (userId) => dispatch => {
 }
 
 export const getUser = (userId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    
     return fetch(
         `http://127.0.0.1:8000/api/users/${userId}`,
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
     )
     .then ((response) => {
         return response.json()
@@ -70,10 +108,15 @@ export const getUser = (userId) => dispatch => {
 }
 
 export const getWork = (workId) => dispatch => {
-    console.log('workid action', workId)
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    
     return fetch(
         `http://127.0.0.1:8000/api/works/${workId}`,
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
     )
     .then((response) => {
         return response.json()
@@ -82,9 +125,15 @@ export const getWork = (workId) => dispatch => {
 }
 
 export const getChapters = (workId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    
     return fetch(
         `http://127.0.0.1:8000/api/chapters/?work=${workId}`,
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
     )
     .then((response) => {
         return response.json()
@@ -93,9 +142,15 @@ export const getChapters = (workId) => dispatch => {
 } 
 
 export const getChapter = (chapterId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    
     return fetch(
         `http://127.0.0.1:8000/api/chapters/${chapterId}`,
-        {headers: {'Authorization': `Token ${localStorage.getItem('token')}`}}
+        {headers: headers}
     )
     .then((response) => {
         return response.json()
@@ -151,5 +206,21 @@ export const SignUp = (username, email, password) => dispatch => {
         })
             
     })
+}
+
+export const logout = () => dispatch => {
+    return fetch(
+        `http://127.0.0.1:8000/api/logout/`,
+        {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(result => dispatch({type: LOGOUT, logout: result}))
 }
 
