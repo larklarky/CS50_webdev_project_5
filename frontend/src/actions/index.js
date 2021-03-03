@@ -62,7 +62,7 @@ export const getListOfWorksByFandom = (fandomId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    
+
     return fetch(
         `http://127.0.0.1:8000/api/works/?fandom=${fandomId}`,
         {headers: headers}
@@ -79,7 +79,7 @@ export const getWorksByUser = (userId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    
+
     return fetch(
         `http://127.0.0.1:8000/api/works/?user=${userId}`,
         {headers: headers}
@@ -96,7 +96,7 @@ export const getUser = (userId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    
+
     return fetch(
         `http://127.0.0.1:8000/api/users/${userId}`,
         {headers: headers}
@@ -113,7 +113,7 @@ export const getWork = (workId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    
+
     return fetch(
         `http://127.0.0.1:8000/api/works/${workId}`,
         {headers: headers}
@@ -130,7 +130,7 @@ export const getChapters = (workId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    
+
     return fetch(
         `http://127.0.0.1:8000/api/chapters/?work=${workId}`,
         {headers: headers}
@@ -147,7 +147,7 @@ export const getChapter = (chapterId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    
+
     return fetch(
         `http://127.0.0.1:8000/api/chapters/${chapterId}`,
         {headers: headers}
@@ -209,18 +209,27 @@ export const SignUp = (username, email, password) => dispatch => {
 }
 
 export const logout = () => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    } else {
+        window.location.href = '/'
+    }
     return fetch(
         `http://127.0.0.1:8000/api/logout/`,
         {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: headers 
         }
     )
     .then((response) => {
-        return response.json()
+            if(response.status === 204) {
+                console.log('log out')
+                localStorage.removeItem('token')
+                window.location.href = '/'
+            }
     })
-    .then(result => dispatch({type: LOGOUT, logout: result}))
+    
 }
 

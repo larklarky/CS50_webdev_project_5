@@ -10,13 +10,19 @@ import WorksByFandom from './WorksByFandom';
 import Profile from './Profile';
 import Work from './Work'
 import Chapter from './Chapter'
-import token from '../reducers/token';
+import {logout} from '../actions'
+import { connect } from 'react-redux';
 
 
 class App extends Component {
   constructor(props) {
       super(props);
   }
+
+  handleLogout() {
+    this.props.logout()
+  }
+
   render() {
     let navItem;
     let navItem2;
@@ -24,7 +30,7 @@ class App extends Component {
       navItem = <NavLink to="/login" activeClassName="selected">Login</NavLink>
       navItem2 = <NavLink to="/registration" activeClassName="selected">Registration</NavLink>
     } else {
-      navItem = <NavLink to="/logout" activeClassName="selected">Logout</NavLink>
+      navItem = <NavLink to="#" activeClassName="selected" onClick={() => this.handleLogout()}>Logout</NavLink>
     }
     return (
       <Router>
@@ -120,4 +126,12 @@ class App extends Component {
 }
 
 
-export default App;
+
+function mapStateToProps(state) {
+  console.log('=======', state)
+  return {
+      logout: state.logout
+  }
+}
+
+export default connect(mapStateToProps, {logout}) (App);

@@ -11,7 +11,7 @@ import chapter from './chapter'
 import token from './token'
 import registration from './registration'
 import errorMessage from './errorMessage'
-import logout from './logout'
+
 
 export default combineReducers({
     works,
@@ -26,5 +26,4 @@ export default combineReducers({
     token,
     registration,
     errorMessage,
-    logout,
 })
