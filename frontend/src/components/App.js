@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Switch, Route, Link, useParams, NavLink} from "react-router-dom";
+import {HashRouter as Router, Switch, Route, Link, useParams, NavLink, } from "react-router-dom";
+import history from '../history';
 import Login from './Login';
 import Registration from './Registration';
 import Home from './Home';
@@ -19,21 +20,24 @@ class App extends Component {
       super(props);
   }
 
+  
   handleLogout() {
     this.props.logout()
   }
 
   render() {
+    const {currentUser} = this.props;
     let navItem;
     let navItem2;
     if (localStorage.getItem('token') === null) {
       navItem = <NavLink to="/login" activeClassName="selected">Login</NavLink>
       navItem2 = <NavLink to="/registration" activeClassName="selected">Registration</NavLink>
     } else {
-      navItem = <NavLink to="#" activeClassName="selected" onClick={() => this.handleLogout()}>Logout</NavLink>
+      navItem = <NavLink to={`users/${currentUser.id}`} activeClassName='selected'>My Profile</NavLink>
+      navItem2 = <NavLink to="#" activeClassName="selected" onClick={() => this.handleLogout()}>Logout</NavLink>
     }
     return (
-      <Router>
+      <Router history={history}>
         <div>
         <nav className="navbar navbar-expand-lg navbar-light">
           <div className="navbar-brand"><NavLink exact to="/"><img className='navbar-img' src='/quill-drawing-a-line.svg' /></NavLink></div>
@@ -128,9 +132,10 @@ class App extends Component {
 
 
 function mapStateToProps(state) {
-  console.log('=======', state)
+  console.log('======= app', state)
   return {
-      logout: state.logout
+      logout: state.logout,
+      currentUser: state.currentUser,
   }
 }
 

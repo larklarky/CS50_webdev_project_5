@@ -49,10 +49,11 @@ class Home extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('=======', state)
+    console.log('=======ghghghg', state)
     return {
         works: state.works,
-        fandomCategories: state.fandomCategories
+        fandomCategories: state.fandomCategories,
+        currentUser: state.currentUser,
     }
 }
 

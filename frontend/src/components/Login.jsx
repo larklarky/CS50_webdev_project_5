@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import {getToken} from '../actions'
 import PasswordShowHide from './PasswordShowHide';
 
+import history from '../history'
+
 
 class Login extends Component {
     constructor(props) {
@@ -19,6 +21,16 @@ class Login extends Component {
         this.props.getToken(username, password)
     }
 
+
+    // componentDidUpdate(prevProps) {
+    //     if (this.props.currentUser && !prevProps.currentUser) {
+    //         if (Object.keys(this.props.currentUser).length !== 0) {
+    //             console.log('11111111')
+    //             history.push('/')
+    //         }
+    //     }
+        
+    // }
 
 
     render() {
@@ -61,10 +73,11 @@ class Login extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= token', state)
+    console.log('======= current user - -- - - - - -', state)
     return {
-        token: state.token,
+        // token: state.token,
         errorMessage: state.errorMessage,
+        currentUser: state.currentUser,
     }
 }
 

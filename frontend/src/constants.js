@@ -11,10 +11,10 @@ export const GET_USER = 'GET_USER';
 export const GET_WORK = 'GET_WORK';
 export const RECIEVED_CHAPTERS = 'RECIEVED_CHAPTERS';
 export const GET_CHAPTER = 'GET_CHAPTER';
-export const GET_TOKEN = 'GET_TOKEN';
+export const CURRENT_USER = 'CURRENT_USER';
 export const REGISTRATION  = 'REGISTRATION';
 export const ERROR_MESSAGE = 'ERROR_MESSAGE';
-export const LOGOUT = 'LOGOUT';
+
 
 
 export const WARNINGS = {

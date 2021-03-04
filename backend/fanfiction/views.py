@@ -45,12 +45,19 @@ class LogoutView(views.APIView):
         return Response('error', status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class UserView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = UserSerializer
     queryset = User.objects.all()
     filter_backends = [DjangoFilterBackend]
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+
+        if pk == "current":
+            return self.request.user
+
+        return super(UserView, self).get_object()
 
 class WorkView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)

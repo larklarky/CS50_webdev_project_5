@@ -1,5 +1,6 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, GET_TOKEN, REGISTRATION, ERROR_MESSAGE, LOGOUT} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER} from '../constants';
+import history from '../history';
 
 
 
@@ -158,6 +159,24 @@ export const getChapter = (chapterId) => dispatch => {
     .then(response => dispatch({type: GET_CHAPTER, chapter: response}))
 }
 
+export const getCurrentUser = dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+
+    return fetch(
+        `http://127.0.0.1:8000/api/users/current/`,
+        {headers: headers}
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => {
+        dispatch({type: CURRENT_USER, currentUser: response})
+    })
+}
 
 export const getToken = (username, password) => dispatch => {
     return fetch(
@@ -172,13 +191,10 @@ export const getToken = (username, password) => dispatch => {
     )
     .then((response) => {
         response.json().then(result => {
-            console.log('response', response)
-            console.log('result', result)
-            if (response.status == 200) {
-                dispatch({type: GET_TOKEN, token: result})
-
+            if (response.status === 200) {
+                localStorage.setItem('token', result.token)
+                getCurrentUser(dispatch)
             } else {
-                console.log('jjjjjjjjjjjj')
                 dispatch({type: ERROR_MESSAGE, errorMessage: result})
             }
         })

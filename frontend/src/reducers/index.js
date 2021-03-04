@@ -8,9 +8,9 @@ import user from './getUser'
 import work from './work'
 import chapters from './chapters'
 import chapter from './chapter'
-import token from './token'
 import registration from './registration'
 import errorMessage from './errorMessage'
+import currentUser from './currentUser'
 
 
 export default combineReducers({
@@ -23,7 +23,7 @@ export default combineReducers({
     work,
     chapters,
     chapter,
-    token,
     registration,
     errorMessage,
+    currentUser,
 })
