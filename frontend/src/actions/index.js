@@ -159,7 +159,7 @@ export const getChapter = (chapterId) => dispatch => {
     .then(response => dispatch({type: GET_CHAPTER, chapter: response}))
 }
 
-export const getCurrentUser = dispatch => {
+export const getCurrentUser = () => dispatch => {
     const token = localStorage.getItem('token')
     let headers = {}
     if(token !== null) {
@@ -174,6 +174,7 @@ export const getCurrentUser = dispatch => {
         return response.json()
     })
     .then(response => {
+        localStorage.setItem('currentUser', response.currentUser)
         dispatch({type: CURRENT_USER, currentUser: response})
     })
 }
@@ -193,7 +194,7 @@ export const getToken = (username, password) => dispatch => {
         response.json().then(result => {
             if (response.status === 200) {
                 localStorage.setItem('token', result.token)
-                getCurrentUser(dispatch)
+                window.location.href = '/'
             } else {
                 dispatch({type: ERROR_MESSAGE, errorMessage: result})
             }
@@ -241,7 +242,6 @@ export const logout = () => dispatch => {
     )
     .then((response) => {
             if(response.status === 204) {
-                console.log('log out')
                 localStorage.removeItem('token')
                 window.location.href = '/'
             }

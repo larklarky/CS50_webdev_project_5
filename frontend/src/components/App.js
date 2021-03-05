@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {HashRouter as Router, Switch, Route, Link, useParams, NavLink, } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link, useParams, NavLink, } from "react-router-dom";
 import history from '../history';
 import Login from './Login';
 import Registration from './Registration';
@@ -11,7 +11,7 @@ import WorksByFandom from './WorksByFandom';
 import Profile from './Profile';
 import Work from './Work'
 import Chapter from './Chapter'
-import {logout} from '../actions'
+import {logout, getCurrentUser} from '../actions'
 import { connect } from 'react-redux';
 
 
@@ -25,6 +25,10 @@ class App extends Component {
     this.props.logout()
   }
 
+  componentDidMount() {
+    this.props.getCurrentUser()
+  }
+
   render() {
     const {currentUser} = this.props;
     let navItem;
@@ -33,8 +37,8 @@ class App extends Component {
       navItem = <NavLink to="/login" activeClassName="selected">Login</NavLink>
       navItem2 = <NavLink to="/registration" activeClassName="selected">Registration</NavLink>
     } else {
-      navItem = <NavLink to={`users/${currentUser.id}`} activeClassName='selected'>My Profile</NavLink>
-      navItem2 = <NavLink to="#" activeClassName="selected" onClick={() => this.handleLogout()}>Logout</NavLink>
+      navItem = <NavLink to={`/users/${currentUser.id}`} activeClassName='selected'>My Profile</NavLink>
+      navItem2 = <NavLink to="#" onClick={() => this.handleLogout()}>Logout</NavLink>
     }
     return (
       <Router history={history}>
@@ -139,4 +143,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, {logout}) (App);
+export default connect(mapStateToProps, {logout, getCurrentUser}) (App);
