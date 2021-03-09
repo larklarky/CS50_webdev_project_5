@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {getWorks, getFandomCategories} from '../actions';
-import works from '../reducers/works';
 import ListOfWorks from './ListOfWorks';
 import Loader from './Loader';
 

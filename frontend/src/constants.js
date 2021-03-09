@@ -18,33 +18,33 @@ export const ERROR_MESSAGE = 'ERROR_MESSAGE';
 
 
 export const WARNINGS = {
-    CHOOSE_NOT_TO_USE_WARNINGS: 'Choose Not To Use Warnings',
-    VIOLENCE: 'Graphic Depictions Of Violence',
-    MAIN_CHARACTER_DEATH: 'Major Character Death',
-    NO_WARNINGS_APPLY: 'No Warnings Apply',
-    RAPE_NONCON: 'Rape/Non-Con',
-    UNDERAGE: 'Underage',
+    CHOOSE_NOT_TO_USE_WARNINGS: {text: 'Choose Not To Use Warnings', id: 2}, 
+    VIOLENCE: {text: 'Graphic Depictions Of Violence', id: 3}, 
+    MAIN_CHARACTER_DEATH: {text: 'Major Character Death', id: 3}, 
+    NO_WARNINGS_APPLY: {text: 'No Warnings Apply', id: 1}, 
+    RAPE_NONCON: {text: 'Rape/Non-Con', id: 5}, 
+    UNDERAGE: {text: 'Underage', id: 6}, 
 }
 
 export const CATEGORIES = {
     FF: {bigIcon: <FontAwesomeIcon icon={faVenusDouble} color='#f7b2ad' size="4x" />,
         smallIcon: <FontAwesomeIcon icon={faVenusDouble} color='#f7b2ad' size="2x"/>,
-        text: 'F/F', class: 'ff'},
+        text: 'F/F', class: 'ff', id: 2},
     FM: {bigIcon: <FontAwesomeIcon icon={faVenusMars} color='#55a630' size="4x" />, 
         smallIcon: <FontAwesomeIcon icon={faVenusMars} color='#55a630' size="2x" />,
-        text: 'F/M', class: 'fm'},
+        text: 'F/M', class: 'fm', id: 3},
     GEN: {bigIcon: <FontAwesomeIcon icon={faDragon} color='#5a189a' size="4x" />,
         smallIcon: <FontAwesomeIcon icon={faDragon} color='#5a189a' size="2x" />,
-        text: 'Gen', class: 'gen'},
+        text: 'Gen', class: 'gen', id: 1},
     MM: {bigIcon: <FontAwesomeIcon icon={faMarsDouble} color='#3a86ff' size="4x" />,
         smallIcon: <FontAwesomeIcon icon={faMarsDouble} color='#3a86ff' size="2x" />,
-        text: 'M/M', class: 'mm'},
+        text: 'M/M', class: 'mm', id: 4},
     MULTY: {bigIcon: <FontAwesomeIcon icon={faRandom} color='#ffbe0b' size="4x" />,
         smallIcon: <FontAwesomeIcon icon={faRandom} color='#ffbe0b' size="2x" />,
-        text: 'Multy', class: 'multy'},
+        text: 'Multy', class: 'multy', id: 5},
     OTHER: {bigIcon: <FontAwesomeIcon icon={faBullseye} color='#ccdbfd' size="4x"/>,
         smallIcon: <FontAwesomeIcon icon={faBullseye} color='#ccdbfd' size="2x"/>,
-        text: 'Other', class: 'other'},
+        text: 'Other', class: 'other', id: 6},
 }
 
 export const RATES = {

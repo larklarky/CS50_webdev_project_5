@@ -29,7 +29,7 @@ class Chapter extends Component {
 
         let chapterIndex = 0;
         for(let i = 0; i < chapters.results.length; i++) {
-            if (chapters.results[i].id == this.props.match.params.chapterId) {
+            if (chapters.results[i].id === this.props.match.params.chapterId) {
                 chapterIndex = i;
             }
         }
