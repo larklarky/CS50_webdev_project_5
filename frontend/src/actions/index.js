@@ -16,7 +16,7 @@ export const getWorks = () => dispatch => {
         'http://127.0.0.1:8000/api/works/',
         {headers: headers},
     )
-    .then((response)=>{
+    .then((response) => {
         return response.json()
     })
     .then(response => dispatch({type: RECIEVED_WORKS, works: response}))

@@ -46,7 +46,7 @@ const ListOfWorks = ({works, name}) => {
 
                                 <p>Warnings: &nbsp; 
                                     {work.warnings.map(warning =>{
-                                        return(<span>{WARNINGS[warning.name]} &nbsp;</span>)
+                                        return(<span>{WARNINGS[warning.name].text} &nbsp;</span>)
                                     })}
                                 </p>
                                 

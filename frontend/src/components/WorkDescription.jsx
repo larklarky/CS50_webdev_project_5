@@ -29,7 +29,7 @@ const WorkDescription = ({work}) => {
                         return (fandom.name)}).join(', ')}
                 </h6>
                 <span>Warnings: {work.warnings.map(warning => {
-                    return (WARNINGS[warning.name])
+                    return (WARNINGS[warning.name].text)
                 })} </span>
                 <div className='work-description'>
                     <p>{work.description}</p>
