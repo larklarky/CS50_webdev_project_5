@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 
 
@@ -95,8 +96,9 @@ class FandomView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = FandomSerializer
     queryset = Fandom.objects.all()
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['category', 'name']
+    search_fields = ['name']
 
 class RelationshipView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)

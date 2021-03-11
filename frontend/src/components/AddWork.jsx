@@ -6,6 +6,8 @@ import {WARNINGS, CATEGORIES, RATES} from '../constants';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import AsyncSelect from 'react-select/async';
+// import FandomOptions from './FandomOptions';
+import FandomOptions from './FandomOptions'
 
 
 
@@ -32,11 +34,12 @@ class AddWork extends Component {
     };
 
     
-
     render() {
+        
         const rates = Object.keys(RATES)
         const warnings = Object.keys(WARNINGS)
         const categories = Object.keys(CATEGORIES)
+
 
         const animatedComponents = makeAnimated()
 
@@ -78,12 +81,11 @@ class AddWork extends Component {
             return {value: CATEGORIES[category].id, label: CATEGORIES[category].text}
         })
 
-        const CategoriesComponent = () => (
-            <Select options={categoriesOptions} />
-        )
+        const CategoriesComponent = () => {
+            return <Select options={categoriesOptions} />
+        }
 
-        
-          
+      
         
         console.log('ratee options', rateOptions)
 
@@ -121,8 +123,7 @@ class AddWork extends Component {
                             <h5>Category</h5>
                             {CategoriesComponent()}
                         </div>
-
-                        
+                        <FandomOptions/>
                         
 
 
