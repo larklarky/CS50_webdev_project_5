@@ -7,7 +7,9 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import AsyncSelect from 'react-select/async';
 // import FandomOptions from './FandomOptions';
-import FandomOptions from './FandomOptions'
+import FandomOptions from './FandomOptions';
+import CharactersOptions from './CharactersOptions';
+import RelationshipOptions from './RelationshipOptions';
 
 
 
@@ -32,6 +34,10 @@ class AddWork extends Component {
         console.log('newValue', newValue)
         this.setState({ inputValue:  newValue});
     };
+
+    // handleCreateWork(e) {
+
+    // }
 
     
     render() {
@@ -85,6 +91,8 @@ class AddWork extends Component {
             return <Select options={categoriesOptions} />
         }
 
+        
+
       
         
         console.log('ratee options', rateOptions)
@@ -110,24 +118,42 @@ class AddWork extends Component {
                                 onChange={(e) => this.setState({description: e.target.value})}
                             />
                         </div>
-                        <div className='warning-list'>
+                        <div className='options-list'>
                             <h5>Warnings</h5>
                             {WarningComponent()}
                         </div>
-                        <div className='rating-list'>
+                        <div className='options-list'>
                             <h5>Rating</h5>
                             {RateComponent()}
                         </div>
 
-                        <div className='category-list'>
+                        <div className='options-list'>
                             <h5>Category</h5>
                             {CategoriesComponent()}
                         </div>
-                        <FandomOptions/>
+                        <div className='options-list'>
+                            <h5>Fandom</h5>
+                            <FandomOptions/>
+                        </div>
                         
-
-
-                        
+                        <div className='options-list'>
+                            <h5>Characters</h5>
+                            <CharactersOptions/>
+                        </div>
+                        <div className='options-list'>
+                            <h5>Relationships</h5>
+                            <RelationshipOptions/>
+                        </div>
+                        <div className='is-completed'>
+                            <label for='isCompleted'>Completed</label>
+                            <input type='checkbox' id='isCompleted'/>
+                        </div>
+                        <button 
+                            // disabled={this.state.password.length === 0 || this.state.username.length === 0 ? true : false} 
+                            onClick={(e) => this.handleCreateWork(e)}
+                        >
+                            Create work
+                        </button>
                     </form>
                 </div>
             </div>

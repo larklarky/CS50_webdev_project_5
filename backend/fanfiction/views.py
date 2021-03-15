@@ -103,12 +103,16 @@ class FandomView(viewsets.ModelViewSet):
 class RelationshipView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = RelationshipSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     queryset = Relationship.objects.all()
+    search_fields = ['name']
 
 class CharacterView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CharacterSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     queryset = Character.objects.all()
+    search_fields = ['name']
 
 class BookmarkView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)

@@ -4,17 +4,17 @@ import makeAnimated from 'react-select/animated';
 import AsyncSelect from 'react-select/async';
 
 
-class FandomOptions extends Component {
+class CharactersOptions extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            fandoms: '',
+            characters: '',
         }
     }
 
-    handleInputChangeFandom = (newValue) => {
+    handleInputChangeCharacter = (newValue) => {
         const inputValue = newValue.replace(/\W/g, '');
-        this.setState({ fandoms: inputValue });
+        this.setState({ characters: inputValue });
     };
 
     getOptions = (inputValue) => {
@@ -25,7 +25,7 @@ class FandomOptions extends Component {
         }
 
         return fetch(
-            `http://127.0.0.1:8000/api/fandoms?search=${inputValue}`
+            `http://127.0.0.1:8000/api/characters?search=${inputValue}`
         )
         .then((response) => {
             return response.json()
@@ -39,8 +39,8 @@ class FandomOptions extends Component {
     makeOptions(response) {
         let options = [];
         if (response.results) {
-            options = response.results.map(fandom => {
-                return { value: fandom.id, label: fandom.name }
+            options = response.results.map(character => {
+                return { value: character.id, label: character.name }
             })
         }
         return options;
@@ -54,10 +54,10 @@ class FandomOptions extends Component {
                 cacheOptions
                 defaultOptions
                 loadOptions={this.getOptions}
-                onInputChange={this.handleInputChangeFandom}
+                onInputChange={this.handleInputChangeCharacter}
             />
         )
     }
 }
 
-export default FandomOptions;
+export default CharactersOptions;
