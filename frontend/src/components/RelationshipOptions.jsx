@@ -55,6 +55,7 @@ class RelationshipOptions extends Component {
                 defaultOptions
                 loadOptions={this.getOptions}
                 onInputChange={this.handleInputChangeRelationship}
+                onChange={this.props.onChange}
             />
         )
     }

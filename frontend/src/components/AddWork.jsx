@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {getWorks, getFandomCategories} from '../actions';
+import {createWork} from '../actions';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -10,6 +10,7 @@ import AsyncSelect from 'react-select/async';
 import FandomOptions from './FandomOptions';
 import CharactersOptions from './CharactersOptions';
 import RelationshipOptions from './RelationshipOptions';
+ 
 
 
 
@@ -26,18 +27,15 @@ class AddWork extends Component {
             categories: '',
             warnings: '',
             fandoms: '',
-            inputValue: '',
         }
     }
 
-    handleInputChange = (newValue) => {
-        console.log('newValue', newValue)
-        this.setState({ inputValue:  newValue});
-    };
+    
 
-    // handleCreateWork(e) {
-
-    // }
+    handleCreateWork(e) {
+        e.preventDefault()
+        const {title, description, rating, completed, relationships, characters, categories, warnings, fandoms} = this.state;
+    }
 
     
     render() {
@@ -49,19 +47,23 @@ class AddWork extends Component {
 
         const animatedComponents = makeAnimated()
 
-        const options = [
-            { value: 'chocolate', label: 'Chocolate' },
-            { value: 'strawberry', label: 'Strawberry' },
-            { value: 'vanilla', label: 'Vanilla' }
-        ]
         
         const rateOptions = Object.keys(RATES).map(rate => {
             return {value: rate, label: RATES[rate].text}
         })
 
-        const RateComponent = () => (
-            <Select options={rateOptions} />
-        )
+        const RateComponent = () => {
+            return (
+                <Select 
+                    options={rateOptions} 
+                    onChange={(newValue) => {
+                        console.log('newValue', newValue)
+                        this.setState({ rating:  newValue})
+                    }}
+                />
+            ) 
+        }
+            
 
 
         const warningOptions = Object.keys(WARNINGS).map(warning => {
@@ -78,7 +80,10 @@ class AddWork extends Component {
                 isMulti
                 options={warningOptions}
                 defaultOptions
-                onChange={this.handleInputChange}
+                onChange={(newValue) => {
+                    console.log('newValue', newValue)
+                    this.setState({ warnings:  newValue})
+                }}
               />
             );
         }
@@ -88,7 +93,15 @@ class AddWork extends Component {
         })
 
         const CategoriesComponent = () => {
-            return <Select options={categoriesOptions} />
+            return (
+                <Select 
+                    options={categoriesOptions} 
+                    onChange={(newValue) => {
+                        console.log('newValue', newValue)
+                        this.setState({ categories:  newValue})
+                    }}
+                />
+            )
         }
 
         
@@ -96,6 +109,9 @@ class AddWork extends Component {
       
         
         console.log('ratee options', rateOptions)
+        console.log('state warning', this.state.warnings)
+        console.log('state fandoms', this.state.fandoms)
+        console.log('state completed', this.state.completed)
 
         return(
             <div>
@@ -133,23 +149,42 @@ class AddWork extends Component {
                         </div>
                         <div className='options-list'>
                             <h5>Fandom</h5>
-                            <FandomOptions/>
+                            <FandomOptions
+                                onChange={(newValue) => {
+                                    this.setState({ fandoms:  newValue})
+                                }}
+                            />
                         </div>
                         
                         <div className='options-list'>
                             <h5>Characters</h5>
-                            <CharactersOptions/>
+                            <CharactersOptions
+                                onChange={(newValue) => {
+                                    this.setState({ characters:  newValue})
+                                }}
+                            />
                         </div>
                         <div className='options-list'>
                             <h5>Relationships</h5>
-                            <RelationshipOptions/>
+                            <RelationshipOptions
+                                onChange={(newValue) => {
+                                    this.setState({ relationships:  newValue})
+                                }}
+                            />
                         </div>
                         <div className='is-completed'>
                             <label for='isCompleted'>Completed</label>
-                            <input type='checkbox' id='isCompleted'/>
+                            <input type='checkbox' id='isCompleted' onClick={() => this.setState({completed: !this.state.completed})}/>
                         </div>
                         <button 
-                            // disabled={this.state.password.length === 0 || this.state.username.length === 0 ? true : false} 
+                            disabled={this.state.title.length === 0
+                                    || this.state.description.length === 0
+                                    || this.state.rating.length === 0
+                                    || this.state.warnings.length === 0
+                                    || this.state.relationships.length === 0
+                                    || this.state.characters.length === 0
+                                    || this.state.categories.length === 0
+                                    || this.state.fandoms.length === 0 ? true : false} 
                             onClick={(e) => this.handleCreateWork(e)}
                         >
                             Create work
@@ -164,10 +199,8 @@ class AddWork extends Component {
 function mapStateToProps(state) {
     console.log('=======ghghghg', state)
     return {
-        works: state.works,
-        fandomCategories: state.fandomCategories,
-        currentUser: state.currentUser,
+        newWork: state.newWork,
     }
 }
 
-export default connect(mapStateToProps, {getWorks, getFandomCategories}) (AddWork);
+export default connect(mapStateToProps, {createWork}) (AddWork);

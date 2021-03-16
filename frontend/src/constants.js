@@ -14,6 +14,7 @@ export const GET_CHAPTER = 'GET_CHAPTER';
 export const CURRENT_USER = 'CURRENT_USER';
 export const REGISTRATION  = 'REGISTRATION';
 export const ERROR_MESSAGE = 'ERROR_MESSAGE';
+export const CREATE_WORK = 'CREATE_WORK';
 
 
 

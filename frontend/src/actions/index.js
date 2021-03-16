@@ -1,5 +1,5 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, CREATE_WORK} from '../constants';
 import history from '../history';
 
 
@@ -247,5 +247,40 @@ export const logout = () => dispatch => {
             }
     })
     
+}
+
+// This action is not complete. Data format for creation work????
+export const createWork = (title, description, rating, completed, relationships, characters, categories, warnings, fandoms) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    return fetch(
+        `http://127.0.0.1:8000/api/works/`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: userId, 
+                title: title, 
+                description: description,
+                rating: rating,
+                completed: completed,
+                relationships: relationships,
+                characters: characters,
+                categories: categories,
+                warnings: warnings,
+                fandoms: fandoms,
+            })
+        }
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => {dispatch({type: CREATE_WORK, newWork: response})})
+
 }
 

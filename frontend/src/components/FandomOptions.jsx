@@ -55,6 +55,7 @@ class FandomOptions extends Component {
                 defaultOptions
                 loadOptions={this.getOptions}
                 onInputChange={this.handleInputChangeFandom}
+                onChange={this.props.onChange}
             />
         )
     }

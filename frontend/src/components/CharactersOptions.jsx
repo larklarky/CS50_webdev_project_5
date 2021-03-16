@@ -55,6 +55,7 @@ class CharactersOptions extends Component {
                 defaultOptions
                 loadOptions={this.getOptions}
                 onInputChange={this.handleInputChangeCharacter}
+                onChange={this.props.onChange}
             />
         )
     }
