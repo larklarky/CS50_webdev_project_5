@@ -25,7 +25,7 @@ class CharactersOptions extends Component {
         }
 
         return fetch(
-            `http://127.0.0.1:8000/api/characters?search=${inputValue}`
+            `http://127.0.0.1:8000/api/characters/?search=${inputValue}`
         )
         .then((response) => {
             return response.json()
@@ -40,6 +40,7 @@ class CharactersOptions extends Component {
         let options = [];
         if (response.results) {
             options = response.results.map(character => {
+                console.log('character data', character)
                 return { value: character.id, label: character.name }
             })
         }

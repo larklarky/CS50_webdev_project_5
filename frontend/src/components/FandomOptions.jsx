@@ -25,7 +25,7 @@ class FandomOptions extends Component {
         }
 
         return fetch(
-            `http://127.0.0.1:8000/api/fandoms?search=${inputValue}`
+            `http://127.0.0.1:8000/api/fandoms/?search=${inputValue}`
         )
         .then((response) => {
             return response.json()
@@ -40,7 +40,8 @@ class FandomOptions extends Component {
         let options = [];
         if (response.results) {
             options = response.results.map(fandom => {
-                return { value: fandom.id, label: fandom.name }
+                console.log('fandom data', fandom)
+                return { value: fandom.category, label: fandom.name }
             })
         }
         return options;

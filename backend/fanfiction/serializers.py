@@ -14,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=User.objects.all())]
         )
     password = serializers.CharField(min_length=4, write_only=True)
+    
 
     class Meta:
         model = User
@@ -115,7 +116,8 @@ class WorkSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     warnings = WarningSerializer(many=True)
     fandoms = FandomSerializer(many=True)
-    user = UserSerializer()
+    user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+   
     class Meta:
         ordering = ['-date_modified']
         model = Work
@@ -147,6 +149,7 @@ class WorkSerializer(serializers.ModelSerializer):
         warnings_data = validated_data.pop('warnings')
         fandoms_data = validated_data.pop('fandoms')
         user = self.context['request'].user
+        
 
         work = Work.objects.create(user=user, **validated_data)
 

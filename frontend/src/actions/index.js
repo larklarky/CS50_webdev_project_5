@@ -263,8 +263,7 @@ export const createWork = (title, description, rating, completed, relationships,
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                user: userId, 
+            body: JSON.stringify({ 
                 title: title, 
                 description: description,
                 rating: rating,
