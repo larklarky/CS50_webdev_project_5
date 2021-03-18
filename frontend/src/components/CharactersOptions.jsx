@@ -9,6 +9,7 @@ class CharactersOptions extends Component {
         super(props)
         this.state = {
             characters: '',
+            listOfCharacters: {},
         }
     }
 
@@ -31,9 +32,24 @@ class CharactersOptions extends Component {
             return response.json()
         })
         .then( response => {
+            let list = response.results;
+            let newList = this.createNewObject(list)
+            this.setState(state =>{
+                return {listOfCharacters: {...state.listOfCharacters, ...newList}}
+            })
             return this.makeOptions(response)
         })
     }
+
+    createNewObject(characters) {
+        let objectNew = characters.reduce((result, item) => {
+            let key = item.id;
+            result[key] = item;
+            return result;
+          }, {});
+        return objectNew;
+    }
+    
 
 
     makeOptions(response) {
@@ -47,7 +63,20 @@ class CharactersOptions extends Component {
         return options;
     }
 
+    handleOnChange(characters) {
+        console.log('characters', characters)
+        
+        let {listOfCharacters} = this.state;
+        let charactersList = []
+
+        for(let character of characters) {
+            charactersList.push(listOfCharacters[character.value])  
+        }
+        return this.props.onChange(charactersList);
+    }
+
     render() {
+        console.log('state listOfCharacters', this.state.listOfCharacters)
 
         return(
             <AsyncSelect
@@ -56,7 +85,7 @@ class CharactersOptions extends Component {
                 defaultOptions
                 loadOptions={this.getOptions}
                 onInputChange={this.handleInputChangeCharacter}
-                onChange={this.props.onChange}
+                onChange={(value) => this.handleOnChange(value)}
             />
         )
     }
