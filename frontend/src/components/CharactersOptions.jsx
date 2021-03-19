@@ -56,7 +56,6 @@ class CharactersOptions extends Component {
         let options = [];
         if (response.results) {
             options = response.results.map(character => {
-                console.log('character data', character)
                 return { value: character.id, label: character.name }
             })
         }
@@ -64,8 +63,6 @@ class CharactersOptions extends Component {
     }
 
     handleOnChange(characters) {
-        console.log('characters', characters)
-        
         let {listOfCharacters} = this.state;
         let charactersList = []
 
@@ -76,7 +73,6 @@ class CharactersOptions extends Component {
     }
 
     render() {
-        console.log('state listOfCharacters', this.state.listOfCharacters)
 
         return(
             <AsyncSelect

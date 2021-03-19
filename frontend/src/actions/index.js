@@ -250,19 +250,30 @@ export const logout = () => dispatch => {
 }
 
 // This action is not complete. Data format for creation work????
-export const createWork = (title, description, rating, completed, relationships, characters, categories, warnings, fandoms) => dispatch => {
+export const createWork = (title, description, completed, warnings, relationships, rating, category, characters, fandoms) => dispatch => {
     const token = localStorage.getItem('token')
-    let headers = {}
+    let headers = {'Content-Type': 'application/json'}
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
+
+    console.log({ 
+        title: title, 
+        description: description,
+        rating: rating,
+        completed: completed,
+        relationships: relationships,
+        characters: characters,
+        categories: category,
+        warnings: warnings,
+        fandoms: fandoms,
+    })    
+    // return
     return fetch(
         `http://127.0.0.1:8000/api/works/`,
         {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify({ 
                 title: title, 
                 description: description,
@@ -270,7 +281,7 @@ export const createWork = (title, description, rating, completed, relationships,
                 completed: completed,
                 relationships: relationships,
                 characters: characters,
-                categories: categories,
+                categories: category,
                 warnings: warnings,
                 fandoms: fandoms,
             })

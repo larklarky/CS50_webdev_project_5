@@ -9,6 +9,7 @@ class FandomOptions extends Component {
         super(props)
         this.state = {
             fandoms: '',
+            listOfFandoms: {},
         }
     }
 
@@ -31,8 +32,22 @@ class FandomOptions extends Component {
             return response.json()
         })
         .then( response => {
+            let list = response.results;
+            let newList = this.createNewObject(list)
+            this.setState(state =>{
+                return {listOfFandoms: {...state.listOfFandoms, ...newList}}
+            })
             return this.makeOptions(response)
         })
+    }
+
+    createNewObject(fandoms) {
+        let objectNew = fandoms.reduce((result, item) => {
+            let key = item.id;
+            result[key] = item;
+            return result;
+          }, {});
+        return objectNew;
     }
 
 
@@ -41,10 +56,20 @@ class FandomOptions extends Component {
         if (response.results) {
             options = response.results.map(fandom => {
                 console.log('fandom data', fandom)
-                return { value: fandom.category, label: fandom.name }
+                return { value: fandom.id, label: fandom.name }
             })
         }
         return options;
+    }
+
+    handleOnChange(fandoms) {
+        let {listOfFandoms} = this.state;
+        let fandomsList = []
+
+        for(let fandom of fandoms) {
+            fandomsList.push(listOfFandoms[fandom.value])  
+        }
+        return this.props.onChange(fandomsList);
     }
 
     render() {
@@ -56,7 +81,7 @@ class FandomOptions extends Component {
                 defaultOptions
                 loadOptions={this.getOptions}
                 onInputChange={this.handleInputChangeFandom}
-                onChange={this.props.onChange}
+                onChange={(value) => this.handleOnChange(value)}
             />
         )
     }

@@ -34,11 +34,19 @@ class AddWork extends Component {
 
     handleCreateWork(e) {
         e.preventDefault()
-        const {title, description, rating, completed, relationships, characters, categories, warnings, fandoms} = this.state;
-        // let characters = characters.map(character => {
-        //     return {name: character.label, fandom: character.value}
-        // })
+        const {title, description, completed, characters, fandoms, rating, categories} = this.state;
+        let warnings = this.state.warnings.map(warning => {
+            return {name: warning.value}
+        }) 
+        let relationships = this.state.relationships.map(relationship => {
+            return {name: relationship.label}
+        })
+        
+        let category = [{name: categories.value}]
+        this.props.createWork(title, description, completed, warnings, relationships, rating.value, category, characters, fandoms)
     }
+
+   
 
     
     render() {
@@ -46,6 +54,8 @@ class AddWork extends Component {
         const rates = Object.keys(RATES)
         const warnings = Object.keys(WARNINGS)
         const categories = Object.keys(CATEGORIES)
+
+        
 
 
         const animatedComponents = makeAnimated()
@@ -112,11 +122,13 @@ class AddWork extends Component {
 
       
         
-        console.log('ratee options', rateOptions)
+        console.log('state rate', this.state.rating)
         console.log('state warning', this.state.warnings)
         console.log('state fandoms', this.state.fandoms)
         console.log('state completed', this.state.completed)
         console.log('state characters', this.state.characters)
+        console.log('state relationships', this.state.relationships)
+        console.log('state categoties', this.state.categories)
 
         return(
             <div>
