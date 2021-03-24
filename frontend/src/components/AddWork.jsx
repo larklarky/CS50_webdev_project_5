@@ -132,7 +132,7 @@ class AddWork extends Component {
 
         return(
             <div>
-                <h3>Add Work</h3>
+                <h3 className='add-work-title'>Add Work</h3>
                 <div className='add-work-container'>
                     <form className='add-work-form-group'>
                         <div className='form-field'>
@@ -190,7 +190,7 @@ class AddWork extends Component {
                             />
                         </div>
                         <div className='is-completed'>
-                            <label for='isCompleted'>Completed</label>
+                            <label for='isCompleted'><h5>Completed</h5></label>
                             <input type='checkbox' id='isCompleted' onClick={() => this.setState({completed: !this.state.completed})}/>
                         </div>
                         <button 
