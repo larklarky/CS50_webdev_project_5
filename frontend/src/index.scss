@@ -609,23 +609,28 @@ a:hover {
 
 /* add work */
 
-.add-work-title {
+.add-work-title, .add-chapter-title {
   margin-top: 3rem;
   color: $secondary-color;
 }
 
-.add-work-container, .add-work-title {
+.add-work-container, .add-work-title, .add-chapter-container, .add-chapter-title {
   margin-left: 6rem;
 }
 
-.add-work-form-group {
+.add-work-form-group, .add-chapter-form-group {
   display: flex;
   flex-direction: column;
   margin-top: 3rem;
+  margin-bottom: 8rem;
 }
 
 .form-field {
   margin-bottom: 2rem;
+}
+
+.add-chapter-form-group .form-field {
+  width: 70%;
 }
 
 .form-field input {
@@ -663,7 +668,7 @@ a:hover {
   color: $main-color;
 }
 
-.add-work-form-group button {
+.add-work-form-group button, .add-chapter-form-group button {
   border: none;
   width: 40%;
   padding: 10px;
@@ -673,7 +678,11 @@ a:hover {
   background-color: $secondary-color;
 }
 
-.add-work-form-group button:disabled {
+.add-chapter-form-group button {
+  width: 25%;
+}
+
+.add-work-form-group button:disabled, .add-chapter-form-group button:disabled {
   background-color: #7d4f5080;
 }
 

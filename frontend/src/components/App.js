@@ -12,7 +12,8 @@ import Profile from './Profile';
 import Work from './Work';
 import Chapter from './Chapter';
 import AddWork from './AddWork';
-import {logout, getCurrentUser} from '../actions'
+import AddChapter from './AddChapter';
+import {logout, getCurrentUser} from '../actions';
 import { connect } from 'react-redux';
 
 
@@ -98,6 +99,7 @@ class App extends Component {
             <Route path="/fandoms/:fandomId/works" component={WorksByFandom}>
             </Route>
             <Route path="/users/:userId" component={Profile}></Route>
+            <Route path="/works/add/:workId/chapter" component={AddChapter}></Route>
             <Route path="/works/add" component={AddWork}></Route>
             <Route path="/works/:workId/chapters/:chapterId" component={Chapter}></Route>
             <Route path="/works/:workId" component={Work}></Route>

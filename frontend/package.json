@@ -20,7 +20,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-select": "^4.2.1",
+    "react-simplemde-v1": "^2.0.1",
     "reactstrap": "^8.7.1",
+    "simplemde": "^1.11.2",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
