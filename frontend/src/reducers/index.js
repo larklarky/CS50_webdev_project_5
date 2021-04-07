@@ -12,6 +12,7 @@ import registration from './registration'
 import errorMessage from './errorMessage'
 import currentUser from './currentUser'
 import createWork from './createWork'
+import createChapter from './createChapter'
 
 
 export default combineReducers({
@@ -28,4 +29,5 @@ export default combineReducers({
     errorMessage,
     currentUser,
     createWork,
+    createChapter,
 })

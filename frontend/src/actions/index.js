@@ -1,5 +1,5 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, CREATE_WORK} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, CREATE_WORK, CREATE_CHAPTER} from '../constants';
 import history from '../history';
 
 
@@ -159,6 +159,32 @@ export const getChapter = (chapterId) => dispatch => {
     .then(response => dispatch({type: GET_CHAPTER, chapter: response}))
 }
 
+export const createChapter = (title, text, workId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    console.log('json string', JSON.stringify({title: title, text: text, work: workId,}))
+
+    return fetch(
+        `http://127.0.0.1:8000/api/chapters/`,
+        {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                title: title,
+                text: text,
+                work: workId,
+            })
+        }
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => {dispatch({type: CREATE_CHAPTER, newChapter: response})})
+}
+
 export const getCurrentUser = () => dispatch => {
     const token = localStorage.getItem('token')
     let headers = {}
@@ -249,7 +275,7 @@ export const logout = () => dispatch => {
     
 }
 
-// This action is not complete. Data format for creation work????
+
 export const createWork = (title, description, completed, warnings, relationships, rating, category, characters, fandoms) => dispatch => {
     const token = localStorage.getItem('token')
     let headers = {'Content-Type': 'application/json'}
@@ -257,18 +283,6 @@ export const createWork = (title, description, completed, warnings, relationship
         headers['Authorization'] = `Token ${token}`
     }
 
-    console.log({ 
-        title: title, 
-        description: description,
-        rating: rating,
-        completed: completed,
-        relationships: relationships,
-        characters: characters,
-        categories: category,
-        warnings: warnings,
-        fandoms: fandoms,
-    })    
-    // return
     return fetch(
         `http://127.0.0.1:8000/api/works/`,
         {

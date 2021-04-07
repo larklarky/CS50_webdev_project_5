@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {createWork} from '../actions';
+import {createChapter} from '../actions';
 import ISimpleMDE from 'react-simplemde-v1';
 import 'simplemde/dist/simplemde.min.css';
 
@@ -14,19 +14,19 @@ class AddChapter extends Component {
         this.state = {
             title: '',
             text: '',
-            work: '',
+            workId: '',
         }
     }
 
     componentDidMount() {
         const { match: { params } } = this.props;
-        this.setState({work: params.workId});
+        this.setState({workId: params.workId});
     }
 
     handleCreateChapter(e) {
         e.preventDefault()
-        const {title, text} = this.state;
-        // this.props.createChapter(title, text)
+        const {title, text, workId} = this.state;
+        this.props.createChapter(title, text, workId)
     }
 
 
@@ -45,6 +45,8 @@ class AddChapter extends Component {
                 setText(value)
             }
         };
+
+        console.log('chapter text', this.state.text)
 
         return(
             <div>
@@ -72,7 +74,7 @@ class AddChapter extends Component {
                                     || this.state.text.length === 0 ? true : false} 
                             onClick={(e) => this.handleCreateChapter(e)}
                         >
-                            Create work
+                            Create chapter
                         </button>
                     </form>
                 </div>
@@ -88,4 +90,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {}) (AddChapter);
+export default connect(mapStateToProps, {createChapter}) (AddChapter);

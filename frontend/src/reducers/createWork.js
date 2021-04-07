@@ -5,6 +5,7 @@ const createWork = (state = {}, action) => {
     switch(action.type) {
         case CREATE_WORK:
             newWork = {...action.newWork}
+            window.location.href = `/works/add/${newWork.id}/chapter`;
             return newWork;
         default:
             return state;

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import {getWork, getChapter, getChapters} from '../actions';
 import Loader from './Loader';
 import WorkDescription from './WorkDescription';
-
+import ReactMarkdown from 'react-markdown';
 
 class Chapter extends Component {
     constructor(props) {
@@ -54,7 +54,7 @@ class Chapter extends Component {
                 <div className='row work-content'> 
                     <div>
                         <h5>{chapters.results[chapterIndex].title}</h5>
-                        <p className="chapter-text">{chapters.results[chapterIndex].text}</p>
+                        <p className="chapter-text"><ReactMarkdown>{chapters.results[chapterIndex].text}</ReactMarkdown></p>
                     </div>
                 </div>
                 <div>

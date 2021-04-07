@@ -51,13 +51,6 @@ class AddWork extends Component {
     
     render() {
         
-        const rates = Object.keys(RATES)
-        const warnings = Object.keys(WARNINGS)
-        const categories = Object.keys(CATEGORIES)
-
-        
-
-
         const animatedComponents = makeAnimated()
 
         
@@ -70,7 +63,6 @@ class AddWork extends Component {
                 <Select 
                     options={rateOptions} 
                     onChange={(newValue) => {
-                        console.log('newValue', newValue)
                         this.setState({ rating:  newValue})
                     }}
                 />
@@ -94,7 +86,6 @@ class AddWork extends Component {
                 options={warningOptions}
                 defaultOptions
                 onChange={(newValue) => {
-                    console.log('newValue', newValue)
                     this.setState({ warnings:  newValue})
                 }}
               />
@@ -102,7 +93,6 @@ class AddWork extends Component {
         }
 
         const categoriesOptions = Object.keys(CATEGORIES).map(category => {
-            console.log('category data', category)
             return {value: category, label: CATEGORIES[category].text}
         })
 
@@ -111,24 +101,12 @@ class AddWork extends Component {
                 <Select 
                     options={categoriesOptions} 
                     onChange={(newValue) => {
-                        console.log('newValue', newValue)
                         this.setState({ categories:  newValue})
                     }}
                 />
             )
         }
 
-        
-
-      
-        
-        console.log('state rate', this.state.rating)
-        console.log('state warning', this.state.warnings)
-        console.log('state fandoms', this.state.fandoms)
-        console.log('state completed', this.state.completed)
-        console.log('state characters', this.state.characters)
-        console.log('state relationships', this.state.relationships)
-        console.log('state categoties', this.state.categories)
 
         return(
             <div>
