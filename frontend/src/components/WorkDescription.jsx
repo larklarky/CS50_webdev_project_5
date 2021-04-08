@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
 
 const WorkDescription = ({work}) => {
+    const currentUser = localStorage.getItem('currentUser');
+    console.log(currentUser == work.user.id);
+    let EditButton;
+
+    if (currentUser == work.user.id) {
+        EditButton = <button>Edit Work</button>
+    } 
+    
     return(
         <div className='row work-information-card'>
             <div className='information-container'>
@@ -35,7 +43,7 @@ const WorkDescription = ({work}) => {
                     <p>{work.description}</p>
                     <p>Last update: {format(new Date(work.date_modified), 'yyyy-MM-dd')}</p>
                 </div>
-                
+                {EditButton}
             </div>
             
         </div>
