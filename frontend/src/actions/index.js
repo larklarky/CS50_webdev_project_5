@@ -65,7 +65,7 @@ export const getListOfWorksByFandom = (fandomId) => dispatch => {
     }
 
     return fetch(
-        `http://127.0.0.1:8000/api/works/?fandom=${fandomId}`,
+        `http://127.0.0.1:8000/api/works/?fandoms=${fandomId}`,
         {headers: headers}
     )
     .then((response) =>{
@@ -200,7 +200,6 @@ export const getCurrentUser = () => dispatch => {
         return response.json()
     })
     .then(response => {
-        localStorage.setItem('currentUser', response.currentUser)
         dispatch({type: CURRENT_USER, currentUser: response})
     })
 }

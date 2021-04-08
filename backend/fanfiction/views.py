@@ -65,7 +65,7 @@ class WorkView(viewsets.ModelViewSet):
     serializer_class = WorkSerializer
     queryset = Work.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['user']
+    filterset_fields = ['user', 'fandoms']
     pagination_class = StandardResultsSetPagination
 
 
