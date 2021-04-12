@@ -29,7 +29,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.getCurrentUser()
+    if(localStorage.getItem('token') !== null) {
+      this.props.getCurrentUser()
+    }
+    
   }
 
   render() {
