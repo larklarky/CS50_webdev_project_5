@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import {getWork, getChapters} from '../actions';
 import Loader from './Loader';
 import WorkDescription from './WorkDescription';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 class Work extends Component {
@@ -25,6 +27,14 @@ class Work extends Component {
         } 
         console.log('render work1111', work)
 
+        const currentUser = localStorage.getItem('currentUser');
+        var addNewChapter;
+        if(currentUser == work.user.id) {
+            addNewChapter = <button className='add-new-chapter'>
+                <Link to={`/works/add/${work.id}/chapter`}><FontAwesomeIcon icon={faPlus} color='#005C6E' size="1x" />Add new chapter</Link>
+                </button>
+        }
+
         return (
             <div>
                 <WorkDescription work={work}/>
@@ -39,6 +49,7 @@ class Work extends Component {
                             
                             )
                         })}
+                        {addNewChapter}
                     </div>
                 </div>
 

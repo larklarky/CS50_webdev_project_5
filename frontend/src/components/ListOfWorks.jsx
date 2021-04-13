@@ -20,7 +20,7 @@ const ListOfWorks = ({works, name}) => {
                                     {RATES[work.rating].text}
                                 </div>
                                 <div className={work.completed ? 'work-status-finished' : 'work-status-process'}>
-                                    {work.completed ? 'Finished' : 'In a process'}
+                                    {work.completed ? 'Finished' : 'In process'}
                                 </div>
                                 {/* <div>{work.date_modified.substring(0, 10)}</div> */}
                                 <div className='work-date'>{format(new Date(work.date_modified), 'yyyy-MM-dd')}</div>

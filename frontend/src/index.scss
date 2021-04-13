@@ -384,6 +384,11 @@ a:hover {
 .information-container {
   width: 75%;
 }
+
+.work-title-container {
+  display: flex;
+  justify-content: space-between;
+}
 // categories
 
 .gen{
@@ -668,7 +673,7 @@ a:hover {
   color: $main-color;
 }
 
-.add-work-form-group button, .add-chapter-form-group button, .add-new-work {
+.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work {
   border: none;
   width: 40%;
   padding: 10px;
@@ -682,17 +687,65 @@ a:hover {
   width: 25%;
 }
 
-.add-new-work {
+.edit-work {
+  width: fit-content;
+  margin-top: 0;
+  background-color: white;
+  color: $main-color;
+}
+
+.edit-work:hover {
+  color: $selected-color;
+
+  .svg-inline--fa.fa-w-16 {
+    color: $selected-color;
+  }
+}
+
+.svg-inline--fa.fa-w-16, .svg-inline--fa.fa-w-14 {
+  margin-right: 4px;
+}
+
+.add-new-chapter {
+  background-color: white;
+  color: $main-color;
+  padding: 4px 8px 4px 0px;
+}
+
+.add-new-work, .add-new-chapter {
   width: 100%;
   margin-top: 1rem;
 }
+
+.edit-work {
+  padding: 4px 8px;
+}
+
 
 .add-new-work:hover{
   background-color: $selected-color;
 }
 
+.add-new-chapter a {
+  color: $main-color;
+}
+
 .add-new-work a {
   color: white;
+}
+
+.add-new-chapter:hover {
+  color: $selected-color;
+  background-color: white;
+
+   a .svg-inline--fa.fa-w-14 {
+     color: $selected-color;
+   }
+}
+
+.add-new-chapter a:hover {
+  text-decoration: none;
+  color: $selected-color;
 }
 
 .add-new-work a:hover {
