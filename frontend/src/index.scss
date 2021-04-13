@@ -668,7 +668,7 @@ a:hover {
   color: $main-color;
 }
 
-.add-work-form-group button, .add-chapter-form-group button {
+.add-work-form-group button, .add-chapter-form-group button, .add-new-work {
   border: none;
   width: 40%;
   padding: 10px;
@@ -681,6 +681,25 @@ a:hover {
 .add-chapter-form-group button {
   width: 25%;
 }
+
+.add-new-work {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.add-new-work:hover{
+  background-color: $selected-color;
+}
+
+.add-new-work a {
+  color: white;
+}
+
+.add-new-work a:hover {
+  text-decoration: none;
+  color: white;
+}
+
 
 .add-work-form-group button:disabled, .add-chapter-form-group button:disabled {
   background-color: #7d4f5080;

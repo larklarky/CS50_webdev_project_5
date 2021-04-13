@@ -26,6 +26,12 @@ class Profile extends Component {
             return <Loader/>
         };
 
+        const currentUser = localStorage.getItem('currentUser');
+        var newWorkButton;
+        if(currentUser == user.id) {
+            newWorkButton = <button className='add-new-work'><Link to={"/works/add"}> Add new work</Link></button>;
+        }
+
         return (
             <div>
                 <div className='user-info-container'>
@@ -33,6 +39,7 @@ class Profile extends Component {
                     <div className='user-info'>
                         <h2>{user.username}</h2>
                         <p>Joined: {format(new Date(user.date_joined), 'yyyy-MM-dd')}</p>
+                        {newWorkButton}
                     </div>
                     
                 </div>
