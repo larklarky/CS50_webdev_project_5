@@ -26,10 +26,10 @@ class Chapter extends Component {
             return <Loader/>
         } 
         
-
+        
         let chapterIndex = 0;
         for(let i = 0; i < chapters.results.length; i++) {
-            if (chapters.results[i].id === this.props.match.params.chapterId) {
+            if (chapters.results[i].id == this.props.match.params.chapterId) {
                 chapterIndex = i;
             }
         }
@@ -46,7 +46,8 @@ class Chapter extends Component {
         if (chapterIndex > 0) {
             previousLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters.results[previousChapter].id}`}>Previous chapter</Link></button>
         }
-        
+        console.log('chapter index', chapterIndex)
+        console.log('chapters result', chapters.results[chapterIndex])
         return (
             <div>
                 <WorkDescription work={work}/>
