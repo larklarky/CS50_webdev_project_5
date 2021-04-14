@@ -1,5 +1,5 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, CREATE_WORK, CREATE_CHAPTER} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, CREATE_WORK, CREATE_CHAPTER, EDIT_WORK, EDIT_CHAPTER} from '../constants';
 import history from '../history';
 
 
@@ -304,6 +304,61 @@ export const createWork = (title, description, completed, warnings, relationship
         return response.json()
     })
     .then(response => {dispatch({type: CREATE_WORK, newWork: response})})
+}
 
+export const editWork = (workId, title, description, completed, warnings, relationships, rating, category, characters, fandoms) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    return fetch(
+        `http://127.0.0.1:8000/api/works/${workId}`,
+        {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify({ 
+                title: title, 
+                description: description,
+                rating: rating,
+                completed: completed,
+                relationships: relationships,
+                characters: characters,
+                categories: category,
+                warnings: warnings,
+                fandoms: fandoms,
+            })
+        }
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => {dispatch({type: EDIT_WORK, editedWork: response})})
+}
+
+export const editChapter = (chapterId, title, text, workId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    console.log('json string', JSON.stringify({title: title, text: text, work: workId,}))
+
+    return fetch(
+        `http://127.0.0.1:8000/api/chapters/${chapterId}`,
+        {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify({
+                title: title,
+                text: text,
+                work: workId,
+            })
+        }
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => {dispatch({type: EDIT_CHAPTER, editedChapter: response})})
 }
 
