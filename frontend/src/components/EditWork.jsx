@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {createWork} from '../actions';
+import {editWork, getWork} from '../actions';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -14,10 +14,11 @@ import RelationshipOptions from './RelationshipOptions';
 
 
 
-class AddWork extends Component {
+class EditWork extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            workId: '',
             title: '',
             description: '',
             rating:'',
@@ -30,9 +31,47 @@ class AddWork extends Component {
         }
     }
 
+    componentDidMount() {
+        const { match: { params } } = this.props;
+        const {work} = this.props;
+        if (Object.keys(work).length === 0) {
+            this.props.getWork(params.workId)
+        } else {
+            this.setState({
+                workId: params.workId,
+                title: work.title,
+                description: work.description,
+                rating:'',
+                completed: false,
+                relationships: '',
+                characters: '',
+                categories: '',
+                warnings: '',
+                fandoms: '',
+            })
+        }
+    }
     
 
-    handleCreateWork(e) {
+    componentDidUpdate(prevProps) {
+        if(Object.keys(this.props.work).length !== Object.keys(prevProps.work).length) {
+            const {work} = this.props;
+            this.setState({
+                workId: work.id,
+                title: work.title,
+                description: work.description,
+                rating: work.rating,
+                completed: work.completed,
+                relationships: work.relationships,
+                characters: work.characters,
+                categories: work.categories,
+                warnings: work.warnings,
+                fandoms: work.fandoms,
+            })
+        }
+    }
+
+    handleEditWork(e) {
         e.preventDefault()
         const {title, description, completed, characters, fandoms, rating, categories} = this.state;
         let warnings = this.state.warnings.map(warning => {
@@ -43,14 +82,16 @@ class AddWork extends Component {
         })
         
         let category = [{name: categories.value}]
-        this.props.createWork(title, description, completed, warnings, relationships, rating.value, category, characters, fandoms)
+        this.props.editWork(title, description, completed, warnings, relationships, rating.value, category, characters, fandoms)
     }
 
    
 
     
     render() {
-        console.log('LLLLLLL', this.state)
+        if (Object.keys(this.props.work).length === 0) {
+            return <div>Loading</div>;
+        }
         
         const animatedComponents = makeAnimated()
 
@@ -59,9 +100,22 @@ class AddWork extends Component {
             return {value: rate, label: RATES[rate].text}
         })
 
+        console.log('rateOptions', rateOptions, 'type of', typeof rateOptions)
+        console.log('characters', this.state.characters)
+        
+        
+
         const RateComponent = () => {
+            let value;
+            if (this.state.rating.length > 0)  {
+                value = [{value: this.state.rating, label: RATES[this.state.rating].text}];
+            } else {
+                value = [];
+            }
+            console.log('>><<<<<<<_______', this.state, value, {value: "NOT_RATED", label: "Not Rated"});
             return (
-                <Select 
+                <Select
+                    defaultValue={value}
                     options={rateOptions} 
                     onChange={(newValue) => {
                         this.setState({ rating:  newValue})
@@ -111,7 +165,7 @@ class AddWork extends Component {
 
         return(
             <div>
-                <h3 className='add-work-title'>Add Work</h3>
+                <h3 className='add-work-title'>Edit Work</h3>
                 <div className='add-work-container'>
                     <form className='add-work-form-group'>
                         <div className='form-field'>
@@ -181,9 +235,9 @@ class AddWork extends Component {
                                     || this.state.characters.length === 0
                                     || this.state.categories.length === 0
                                     || this.state.fandoms.length === 0 ? true : false} 
-                            onClick={(e) => this.handleCreateWork(e)}
+                            onClick={(e) => this.handleEditWork(e)}
                         >
-                            Create work
+                            Edit work
                         </button>
                     </form>
                 </div>
@@ -195,8 +249,9 @@ class AddWork extends Component {
 function mapStateToProps(state) {
     console.log('=======ghghghg', state)
     return {
-        newWork: state.newWork,
+        work: state.work,
+        editedWork: state.editedWork,
     }
 }
 
-export default connect(mapStateToProps, {createWork}) (AddWork);
+export default connect(mapStateToProps, {editWork, getWork}) (EditWork);

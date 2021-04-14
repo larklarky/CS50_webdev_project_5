@@ -11,7 +11,7 @@ const WorkDescription = ({work}) => {
     let EditButton;
 
     if (currentUser == work.user.id) {
-        EditButton = <button className='edit-work'><FontAwesomeIcon icon={faPencilAlt} color='#005C6E' size="1x" />Edit Work</button>
+        EditButton = <button className='edit-work'><Link to={`/works/edit/${work.id}/`}><FontAwesomeIcon icon={faPencilAlt} color='#005C6E' size="1x" />Edit Work</Link></button>
     } 
     
     return(

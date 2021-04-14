@@ -726,7 +726,7 @@ a:hover {
   background-color: $selected-color;
 }
 
-.add-new-chapter a {
+.add-new-chapter a, .edit-work a {
   color: $main-color;
 }
 
@@ -743,7 +743,7 @@ a:hover {
    }
 }
 
-.add-new-chapter a:hover {
+.add-new-chapter a:hover, .edit-work a:hover {
   text-decoration: none;
   color: $selected-color;
 }
