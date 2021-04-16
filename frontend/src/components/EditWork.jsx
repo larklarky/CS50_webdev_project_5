@@ -6,7 +6,6 @@ import {WARNINGS, CATEGORIES, RATES} from '../constants';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import AsyncSelect from 'react-select/async';
-// import FandomOptions from './FandomOptions';
 import FandomOptions from './FandomOptions';
 import CharactersOptions from './CharactersOptions';
 import RelationshipOptions from './RelationshipOptions';
@@ -41,12 +40,16 @@ class EditWork extends Component {
                 workId: params.workId,
                 title: work.title,
                 description: work.description,
-                rating:'',
-                completed: false,
-                relationships: '',
-                characters: '',
-                categories: '',
-                warnings: '',
+                rating: work.rating,
+                completed: work.completed,
+                relationships: work.relationships,
+                characters: work.characters,
+                categories: work.categories.map(category => {
+                    return {value: category.name, label: CATEGORIES[category.name].text}
+                }),
+                warnings: work.warnings.map(warning => {
+                    return {value: warning.name, label: WARNINGS[warning.name].text};
+                }),
                 fandoms: '',
             })
         }
@@ -63,9 +66,15 @@ class EditWork extends Component {
                 rating: work.rating,
                 completed: work.completed,
                 relationships: work.relationships,
-                characters: work.characters,
-                categories: work.categories,
-                warnings: work.warnings,
+                characters: work.characters.map(character => {
+                    return { value: character.id, label: character.name }
+                }),
+                categories: work.categories.map(category => {
+                    return {value: category.name, label: CATEGORIES[category.name].text}
+                }),
+                warnings: work.warnings.map(warning => {
+                    return {value: warning.name, label: WARNINGS[warning.name].text};
+                }),
                 fandoms: work.fandoms,
             })
         }
@@ -73,7 +82,7 @@ class EditWork extends Component {
 
     handleEditWork(e) {
         e.preventDefault()
-        const {title, description, completed, characters, fandoms, rating, categories} = this.state;
+        const {workId, title, description, completed, characters, fandoms, rating, categories} = this.state;
         let warnings = this.state.warnings.map(warning => {
             return {name: warning.value}
         }) 
@@ -82,13 +91,14 @@ class EditWork extends Component {
         })
         
         let category = [{name: categories.value}]
-        this.props.editWork(title, description, completed, warnings, relationships, rating.value, category, characters, fandoms)
+        this.props.editWork(workId, title, description, completed, warnings, relationships, rating.value, category, characters, fandoms)
     }
 
    
 
     
     render() {
+        console.log('characters', this.state.characters)
         if (Object.keys(this.props.work).length === 0) {
             return <div>Loading</div>;
         }
@@ -99,23 +109,12 @@ class EditWork extends Component {
         const rateOptions = Object.keys(RATES).map(rate => {
             return {value: rate, label: RATES[rate].text}
         })
-
-        console.log('rateOptions', rateOptions, 'type of', typeof rateOptions)
-        console.log('characters', this.state.characters)
-        
         
 
         const RateComponent = () => {
-            let value;
-            if (this.state.rating.length > 0)  {
-                value = [{value: this.state.rating, label: RATES[this.state.rating].text}];
-            } else {
-                value = [];
-            }
-            console.log('>><<<<<<<_______', this.state, value, {value: "NOT_RATED", label: "Not Rated"});
             return (
                 <Select
-                    defaultValue={value}
+                    value={rateOptions.find(obj => obj.value === this.state.rating)}
                     options={rateOptions} 
                     onChange={(newValue) => {
                         this.setState({ rating:  newValue})
@@ -131,12 +130,14 @@ class EditWork extends Component {
         })
 
         const WarningComponent = () => {
+            let warnings = this.state.warnings || [];
+
             return (
               <Select
                 cacheOptions
                 closeMenuOnSelect={false}
                 components={animatedComponents}
-                // defaultValue={[colourOptions[4], colourOptions[5]]}
+                value={warnings}
                 isMulti
                 options={warningOptions}
                 defaultOptions
@@ -152,8 +153,11 @@ class EditWork extends Component {
         })
 
         const CategoriesComponent = () => {
+            let categories = this.state.categories || [];
             return (
                 <Select 
+                    components={animatedComponents}
+                    value={categories}
                     options={categoriesOptions} 
                     onChange={(newValue) => {
                         this.setState({ categories:  newValue})
@@ -162,6 +166,7 @@ class EditWork extends Component {
             )
         }
 
+        let characters = this.state.characters || [];
 
         return(
             <div>
@@ -209,6 +214,8 @@ class EditWork extends Component {
                         <div className='options-list'>
                             <h5>Characters</h5>
                             <CharactersOptions
+                                value = {characters.map(character => {
+                                    return { value: character.id, label: character.name }})}
                                 onChange={(newValue) => {
                                     this.setState({ characters:  newValue})
                                 }}
