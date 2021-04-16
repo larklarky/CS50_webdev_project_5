@@ -42,8 +42,16 @@ const WorkDescription = ({work}) => {
                 <h6>Fandoms: {work.fandoms.map(fandom => {
                         return (fandom.name)}).join(', ')}
                 </h6>
+                <p> Relationships and characters: &nbsp;
+                    {work.relationships.map(relationship => {
+                        return (<span className='badge-pill relationship-and-character-tag'>{relationship.name}</span>)
+                    })}
+                    {work.characters.map(character => {
+                        return(<span className='badge-pill relationship-and-character-tag'>{character.name}</span>)
+                    })}
+                </p>
                 <span>Warnings: {work.warnings.map(warning => {
-                    return (WARNINGS[warning.name].text)
+                    return <span className='badge-pill relationship-and-character-tag'>{(WARNINGS[warning.name].text)}</span>
                 })} </span>
                 <div className='work-description'>
                     <p>{work.description}</p>
