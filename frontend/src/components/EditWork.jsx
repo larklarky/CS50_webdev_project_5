@@ -50,7 +50,7 @@ class EditWork extends Component {
                 warnings: work.warnings.map(warning => {
                     return {value: warning.name, label: WARNINGS[warning.name].text};
                 }),
-                fandoms: '',
+                fandoms: work.fandoms,
             })
         }
     }
@@ -167,6 +167,7 @@ class EditWork extends Component {
         }
 
         let characters = this.state.characters || [];
+        let fandoms = this.state.fandoms || [];
 
         return(
             <div>
@@ -205,6 +206,9 @@ class EditWork extends Component {
                         <div className='options-list'>
                             <h5>Fandom</h5>
                             <FandomOptions
+                                value = {fandoms.map(fandom => {
+                                    return {value: fandom.id, label: fandom.name}
+                                })}
                                 onChange={(newValue) => {
                                     this.setState({ fandoms:  newValue})
                                 }}
