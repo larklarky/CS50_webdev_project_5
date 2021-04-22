@@ -43,7 +43,9 @@ class EditWork extends Component {
                 rating: work.rating,
                 completed: work.completed,
                 relationships: work.relationships,
-                characters: work.characters,
+                characters: work.characters.map(character => {
+                    return { value: character.id, label: character.name }
+                }),
                 categories: work.categories.map(category => {
                     return {value: category.name, label: CATEGORIES[category.name].text}
                 }),
@@ -99,6 +101,7 @@ class EditWork extends Component {
     
     render() {
         console.log('characters', this.state.characters)
+        console.log('relationships edit', this.state.relationships)
         if (Object.keys(this.props.work).length === 0) {
             return <div>Loading</div>;
         }
@@ -168,6 +171,7 @@ class EditWork extends Component {
 
         let characters = this.state.characters || [];
         let fandoms = this.state.fandoms || [];
+        let relationships = this.state.relationships || [];
 
         return(
             <div>
@@ -218,8 +222,7 @@ class EditWork extends Component {
                         <div className='options-list'>
                             <h5>Characters</h5>
                             <CharactersOptions
-                                value = {characters.map(character => {
-                                    return { value: character.id, label: character.name }})}
+                                value = {characters}
                                 onChange={(newValue) => {
                                     this.setState({ characters:  newValue})
                                 }}
@@ -228,6 +231,9 @@ class EditWork extends Component {
                         <div className='options-list'>
                             <h5>Relationships</h5>
                             <RelationshipOptions
+                                value = {relationships.map(relationship => {
+                                    return {value: relationship.id, label: relationship.name}
+                                })}
                                 onChange={(newValue) => {
                                     this.setState({ relationships:  newValue})
                                 }}

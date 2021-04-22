@@ -45,7 +45,7 @@ class CharactersOptions extends Component {
     }
 
     render() {
-
+        console.log('characters props', this.props.value )
         return(
             <AsyncSelect
                 isMulti

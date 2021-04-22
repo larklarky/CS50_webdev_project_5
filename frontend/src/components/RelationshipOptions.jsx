@@ -47,12 +47,13 @@ class RelationshipOptions extends Component {
     }
 
     render() {
-
+        console.log('relationships props', this.props.value)
         return(
             <AsyncSelect
                 isMulti
                 cacheOptions
                 defaultOptions
+                value={this.props.value}
                 loadOptions={this.getOptions}
                 onInputChange={this.handleInputChangeRelationship}
                 onChange={this.props.onChange}

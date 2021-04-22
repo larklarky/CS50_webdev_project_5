@@ -5,13 +5,7 @@ import AsyncSelect from 'react-select/async';
 
 
 class FandomOptions extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            fandoms: '',
-            listOfFandoms: {},
-        }
-    }
+    
 
     handleInputChangeFandom = (newValue) => {
         const inputValue = newValue.replace(/\W/g, '');
@@ -32,23 +26,10 @@ class FandomOptions extends Component {
             return response.json()
         })
         .then( response => {
-            // let list = response.results;
-            // let newList = this.createNewObject(list)
-            // this.setState(state =>{
-            //     return {listOfFandoms: {...state.listOfFandoms, ...newList}}
-            // })
             return this.makeOptions(response)
         })
     }
 
-    // createNewObject(fandoms) {
-    //     let objectNew = fandoms.reduce((result, item) => {
-    //         let key = item.id;
-    //         result[key] = item;
-    //         return result;
-    //       }, {});
-    //     return objectNew;
-    // }
 
 
     makeOptions(response) {
@@ -63,12 +44,6 @@ class FandomOptions extends Component {
     }
 
     handleOnChange(fandoms) {
-        // let {listOfFandoms} = this.state;
-        // let fandomsList = []
-
-        // for(let fandom of fandoms) {
-        //     fandomsList.push(listOfFandoms[fandom.value])  
-        // }
         return this.props.onChange(fandoms.map(fandom => {
             return {id: fandom.value, name: fandom.label, category: fandom.category}
         }));
