@@ -5,7 +5,7 @@ const editChapter = (state = {}, action) => {
     switch(action.type) {
         case EDIT_CHAPTER:
             editedChapter = {...action.editedChapter};
-            window.location.href = `/works/${editedChapter.work}`;
+            window.location.href = `/works/${editedChapter.work}/chapters/${editedChapter.id}`;
             return editedChapter;
         default:
             return state;

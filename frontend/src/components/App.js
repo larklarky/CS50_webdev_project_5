@@ -14,6 +14,7 @@ import Chapter from './Chapter';
 import AddWork from './AddWork';
 import AddChapter from './AddChapter';
 import EditWork from './EditWork';
+import EditChapter from './EditChapter';
 import {logout, getCurrentUser} from '../actions';
 import { connect } from 'react-redux';
 
@@ -105,6 +106,7 @@ class App extends Component {
             <Route path="/users/:userId" component={Profile}></Route>
             <Route path="/works/add/:workId/chapter" component={AddChapter}></Route>
             <Route path="/works/add" component={AddWork}></Route>
+            <Route path="/works/edit/:workId/chapters/:chapterId" component={EditChapter}></Route>
             <Route path="/works/edit/:workId" component={EditWork}></Route>
             <Route path="/works/:workId/chapters/:chapterId" component={Chapter}></Route>
             <Route path="/works/:workId" component={Work}></Route>

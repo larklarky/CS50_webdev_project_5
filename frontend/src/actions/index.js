@@ -301,9 +301,14 @@ export const createWork = (title, description, completed, warnings, relationship
         }
     )
     .then((response) => {
-        return response.json()
+        response.json().then(result => {
+            if(response.status === 201) {
+                dispatch({type: CREATE_WORK, newWork: result})
+            } else {
+                dispatch({type: ERROR_MESSAGE, errorMessage: result})
+            }
+        })
     })
-    .then(response => {dispatch({type: CREATE_WORK, newWork: response})})
 }
 
 export const editWork = (workId, title, description, completed, warnings, relationships, rating, category, characters, fandoms) => dispatch => {
@@ -313,7 +318,7 @@ export const editWork = (workId, title, description, completed, warnings, relati
         headers['Authorization'] = `Token ${token}`
     }
     return fetch(
-        `http://127.0.0.1:8000/api/works/${workId}`,
+        `http://127.0.0.1:8000/api/works/${workId}/`,
         {
             method: 'PUT',
             headers: headers,
@@ -342,17 +347,17 @@ export const editChapter = (chapterId, title, text, workId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    console.log('json string', JSON.stringify({title: title, text: text, work: workId,}))
+    console.log('json string', JSON.stringify({title: title, text: text}))
 
     return fetch(
-        `http://127.0.0.1:8000/api/chapters/${chapterId}`,
+        `http://127.0.0.1:8000/api/chapters/${chapterId}/`,
         {
             method: 'PUT',
             headers: headers,
             body: JSON.stringify({
                 title: title,
                 text: text,
-                work: workId,
+                work: workId
             })
         }
     )
