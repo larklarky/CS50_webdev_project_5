@@ -5,7 +5,7 @@ const editWork = (state = {}, action) => {
     switch(action.type) {
         case EDIT_WORK:
             editedWork = {...action.editedWork}
-            window.location.href = `/works/add/${editedWork.id}/chapter`;
+            window.location.href = `/works/${editedWork.id}`;
             return editedWork;
         default:
             return state;

@@ -44,7 +44,7 @@ class EditWork extends Component {
                 completed: work.completed,
                 relationships: work.relationships,
                 characters: work.characters.map(character => {
-                    return { value: character.id, label: character.name }
+                    return { value: character.id, label: character.name, id: character.id, fandom: character.fandom }
                 }),
                 categories: work.categories.map(category => {
                     return {value: category.name, label: CATEGORIES[category.name].text}
@@ -69,7 +69,7 @@ class EditWork extends Component {
                 completed: work.completed,
                 relationships: work.relationships,
                 characters: work.characters.map(character => {
-                    return { value: character.id, label: character.name }
+                    return { value: character.id, label: character.name, id: character.id, fandom: character.fandom }
                 }),
                 categories: work.categories.map(category => {
                     return {value: category.name, label: CATEGORIES[category.name].text}
@@ -84,12 +84,15 @@ class EditWork extends Component {
 
     handleEditWork(e) {
         e.preventDefault()
-        const {workId, title, description, completed, characters, fandoms, rating, categories} = this.state;
+        const {workId, title, description, completed, fandoms, rating, categories} = this.state;
+        let characters = this.state.characters.map(character => {
+            return {name: character.label, fandom: character.fandom}
+        })
         let warnings = this.state.warnings.map(warning => {
             return {name: warning.value}
         }) 
         let relationships = this.state.relationships.map(relationship => {
-            return {name: relationship.label}
+            return {name: relationship.name}
         })
         
         let category = [{name: categories.value}]

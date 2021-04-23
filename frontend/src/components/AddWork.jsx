@@ -34,12 +34,15 @@ class AddWork extends Component {
 
     handleCreateWork(e) {
         e.preventDefault()
-        const {title, description, completed, characters, fandoms, rating, categories} = this.state;
+        const {title, description, completed, fandoms, rating, categories} = this.state;
+        let characters = this.state.characters.map(character => {
+            return {name: character.label, fandom: character.fandom}
+        })
         let warnings = this.state.warnings.map(warning => {
             return {name: warning.value}
         }) 
         let relationships = this.state.relationships.map(relationship => {
-            return {name: relationship.label}
+            return {name: relationship.name}
         })
         
         let category = [{name: categories.value}]
