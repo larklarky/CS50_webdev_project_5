@@ -5,6 +5,8 @@ import {getWork, getChapter, getChapters} from '../actions';
 import Loader from './Loader';
 import WorkDescription from './WorkDescription';
 import ReactMarkdown from 'react-markdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 class Chapter extends Component {
     constructor(props) {
@@ -46,8 +48,18 @@ class Chapter extends Component {
         if (chapterIndex > 0) {
             previousLink = <button type="button" className="btn next"><Link to={`/works/${work.id}/chapters/${chapters.results[previousChapter].id}`}>Previous chapter</Link></button>
         }
-        console.log('chapter index', chapterIndex)
-        console.log('chapters result', chapters.results[chapterIndex])
+
+
+        const currentUser = localStorage.getItem('currentUser');
+        var editChapter;
+        if(currentUser == work.user.id) {
+            editChapter = <button className='edit-chapter'>
+                <Link to={`/works/edit/${work.id}/chapters/${chapters.results[chapterIndex].id}`}><FontAwesomeIcon icon={faPencilAlt} color='#005C6E' size="1x" />Edit chapter</Link>
+                </button>
+        }
+
+
+        
         return (
             <div>
                 <WorkDescription work={work}/>
@@ -56,6 +68,7 @@ class Chapter extends Component {
                     <div>
                         <h5>{chapters.results[chapterIndex].title}</h5>
                         <p className="chapter-text"><ReactMarkdown>{chapters.results[chapterIndex].text}</ReactMarkdown></p>
+                        {editChapter}
                     </div>
                 </div>
                 <div>

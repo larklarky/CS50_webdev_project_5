@@ -475,9 +475,13 @@ a:hover {
 // chapter
 
 .btn.next {
-  background-color: #7d4f50;
+  background-color: $main-color;
   color: white;
   margin: 1rem;
+    a {
+      color: white;
+      text-decoration: none;
+    }
 }
 
 .chapter-text {
@@ -678,7 +682,7 @@ a:hover {
   color: $main-color;
 }
 
-.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work {
+.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter {
   border: none;
   width: 40%;
   padding: 10px;
@@ -711,7 +715,7 @@ a:hover {
   margin-right: 4px;
 }
 
-.add-new-chapter {
+.add-new-chapter, .edit-chapter {
   background-color: white;
   color: $main-color;
   padding: 4px 8px 4px 0px;
@@ -731,7 +735,7 @@ a:hover {
   background-color: $selected-color;
 }
 
-.add-new-chapter a, .edit-work a {
+.add-new-chapter a, .edit-work a, .edit-chapter a {
   color: $main-color;
 }
 
@@ -749,6 +753,25 @@ a:hover {
 }
 
 .add-new-chapter a:hover, .edit-work a:hover {
+  text-decoration: none;
+  color: $selected-color;
+}
+
+.edit-chapter {
+  width: auto;
+  margin-left: 15%;
+}
+
+.edit-chapter:hover {
+  color: $selected-color;
+  background-color: white;
+
+    a .svg-inline--fa.fa-w-16 {
+      color: $selected-color;
+    }
+}
+
+.edit-chapter a:hover {
   text-decoration: none;
   color: $selected-color;
 }
