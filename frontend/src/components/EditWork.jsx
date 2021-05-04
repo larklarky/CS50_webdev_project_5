@@ -37,7 +37,7 @@ class EditWork extends Component {
             this.props.getWork(params.workId)
         } else {
             this.setState({
-                workId: params.workId,
+                workId: parseInt(params.workId),
                 title: work.title,
                 description: work.description,
                 rating: work.rating,
@@ -84,7 +84,8 @@ class EditWork extends Component {
 
     handleEditWork(e) {
         e.preventDefault()
-        const {workId, title, description, completed, fandoms, rating, categories} = this.state;
+        const {workId, title, description, completed, fandoms, rating} = this.state;
+        console.log('edit work rating', rating)
         let characters = this.state.characters.map(character => {
             return {name: character.label, fandom: character.fandom}
         })
@@ -94,9 +95,12 @@ class EditWork extends Component {
         let relationships = this.state.relationships.map(relationship => {
             return {name: relationship.name}
         })
+        let category = this.state.categories.map(category => {
+            return {name: category.value}
+        })
         
-        let category = [{name: categories.value}]
-        this.props.editWork(workId, title, description, completed, warnings, relationships, rating.value, category, characters, fandoms)
+        console.log('category editwork', category)
+        this.props.editWork(workId, title, description, completed, warnings, relationships, rating, category, characters, fandoms)
     }
 
    

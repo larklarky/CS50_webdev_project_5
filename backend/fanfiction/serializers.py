@@ -184,3 +184,53 @@ class WorkSerializer(serializers.ModelSerializer):
 
         return work
 
+
+    def update(self, instance, validated_data):
+        print("validated data update", validated_data)
+        relationships_data = validated_data.pop('relationships')
+        characters_data = validated_data.pop('characters')
+        categories_data = validated_data.pop('categories')
+        print('categories data', categories_data)
+        warnings_data = validated_data.pop('warnings')
+        fandoms_data = validated_data.pop('fandoms')
+        user = self.context['request'].user
+
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.comleted = validated_data.get('comleted', instance.comleted)
+        instance.rating = validated_data.get('rating', instance.rating)
+        instance.save()
+        
+        instance.relationships.clear()
+        for relationship_data in relationships_data:
+            relationship, _ = Relationship.objects.get_or_create(**relationship_data)
+            instance.relationships.add(relationship)
+        
+        instance.characters.clear()
+        for character_data in characters_data:
+            character = Character.objects.filter(**character_data).first()
+            if character:
+                instance.characters.add(character)
+        
+        instance.categories.clear()
+        for category_data in categories_data:
+            category = Category.objects.filter(**category_data).first()
+            print('category', category)
+            if category:
+                instance.categories.add(category)
+        
+        instance.warnings.clear()
+        for warning_data in warnings_data:
+            warning = Warning.objects.filter(**warning_data).first()
+            if warning:
+                instance.warnings.add(warning)
+        
+        instance.fandoms.clear()
+        for fandom_data in fandoms_data:
+            fandom = Fandom.objects.filter(**fandom_data).first()
+            if fandom_data:
+                instance.fandoms.add(fandom)
+
+        return instance
+        
+
