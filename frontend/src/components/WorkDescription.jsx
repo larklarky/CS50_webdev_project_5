@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faTrashAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { format, parse } from 'date-fns';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
@@ -9,9 +9,11 @@ const WorkDescription = ({work}) => {
     const currentUser = localStorage.getItem('currentUser');
     console.log(currentUser == work.user.id);
     let EditButton;
+    let DeleteButton;
 
     if (currentUser == work.user.id) {
-        EditButton = <button className='edit-work'><Link to={`/works/edit/${work.id}/`}><FontAwesomeIcon icon={faPencilAlt} color='#005C6E' size="1x" />Edit Work</Link></button>
+        EditButton = <button className='edit-work'><Link to={`/works/edit/${work.id}/`}><FontAwesomeIcon icon={faPencilAlt} color='#005C6E' size="1x" data-toggle="tooltip" data-placement="bottom" title='Edit work'/></Link></button>
+        DeleteButton = <button className='delete-button'><Link to={`/works/delete/${work.id}/`}><FontAwesomeIcon icon={faTrashAlt} color='#005C6E' size="1x" data-toggle="tooltip" data-placement="top" title='Delete work'/></Link></button>
     } 
     
     return(
@@ -21,7 +23,11 @@ const WorkDescription = ({work}) => {
                     <h3>
                         <Link to={`/works/${work.id}`}>{work.title}</Link> by <Link to={`/users/${work.user.id}`}>{work.user.username}</Link>
                     </h3>
-                    {EditButton}
+                    <div>
+                        {EditButton}
+                        {DeleteButton}
+                    </div>
+                    
                 </div>
                 
                 

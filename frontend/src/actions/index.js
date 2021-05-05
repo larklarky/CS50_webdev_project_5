@@ -312,20 +312,7 @@ export const createWork = (title, description, completed, warnings, relationship
 }
 
 export const editWork = (workId, title, description, completed, warnings, relationships, rating, category, characters, fandoms) => dispatch => {
-    
-    console.log('edit work action', JSON.stringify({ 
-        id: workId,
-        title: title, 
-        description: description,
-        rating: rating,
-        completed: completed,
-        relationships: relationships,
-        characters: characters,
-        categories: category,
-        warnings: warnings,
-        fandoms: fandoms,
-    }), 'workid', workId)
-    console.log('type of id', typeof workId)
+
     const token = localStorage.getItem('token')
     let headers = {'Content-Type': 'application/json'}
     if(token !== null) {

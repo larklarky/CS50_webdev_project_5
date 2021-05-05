@@ -682,7 +682,7 @@ a:hover {
   color: $main-color;
 }
 
-.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter {
+.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter, .delete-button {
   border: none;
   width: 40%;
   padding: 10px;
@@ -696,17 +696,20 @@ a:hover {
   width: 25%;
 }
 
-.edit-work {
+.edit-work, .delete-button {
   width: fit-content;
   margin-top: 0;
   background-color: white;
   color: $main-color;
 }
 
-.edit-work:hover {
+.edit-work:hover, .delete-button:hover {
   color: $selected-color;
 
   .svg-inline--fa.fa-w-16 {
+    color: $selected-color;
+  }
+  .svg-inline--fa.fa-w-14 {
     color: $selected-color;
   }
 }
@@ -726,7 +729,7 @@ a:hover {
   margin-top: 1rem;
 }
 
-.edit-work {
+.edit-work, .delete-button {
   padding: 4px 8px;
 }
 

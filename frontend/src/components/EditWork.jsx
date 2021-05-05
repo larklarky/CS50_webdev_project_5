@@ -85,7 +85,6 @@ class EditWork extends Component {
     handleEditWork(e) {
         e.preventDefault()
         const {workId, title, description, completed, fandoms, rating} = this.state;
-        console.log('edit work rating', rating)
         let characters = this.state.characters.map(character => {
             return {name: character.label, fandom: character.fandom}
         })
@@ -107,8 +106,7 @@ class EditWork extends Component {
 
     
     render() {
-        console.log('characters', this.state.characters)
-        console.log('relationships edit', this.state.relationships)
+        
         if (Object.keys(this.props.work).length === 0) {
             return <div>Loading</div>;
         }
