@@ -789,6 +789,47 @@ a:hover {
   background-color: #7d4f5080;
 }
 
+/* Popup window */
+
+.popup-content {
+  margin: auto;
+  background: $main-color;
+  width: 50%;
+  padding: 5px;
+}
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-message {
+  background-color: $main-color;
+  text-align: center;
+  margin: 1rem;
+  color: white;
+}
+
+.actions {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.modal-button {
+  border: none;
+  width: 20%;
+  padding: 10px;
+  margin-top: 1rem;
+  border-radius: 5px;
+  color: white;
+  background-color: $secondary-color;
+  margin-right: 1rem;
+}
+
+.modal-button:hover {
+  background-color: $selected-color;
+  color: white;
+}
+
 
 
 

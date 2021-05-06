@@ -4,6 +4,11 @@ import { faPencilAlt, faTrashAlt, faTrash } from '@fortawesome/free-solid-svg-ic
 import { format, parse } from 'date-fns';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
+import Popup from 'reactjs-popup';
+// import 'reactjs-popup/dist/index.css';
+
+
+
 
 const WorkDescription = ({work}) => {
     const currentUser = localStorage.getItem('currentUser');
@@ -11,9 +16,27 @@ const WorkDescription = ({work}) => {
     let EditButton;
     let DeleteButton;
 
+    <Popup trigger={<button className="button"> Open Modal </button>} modal>
+    <span> Modal content </span>
+  </Popup>
+
     if (currentUser == work.user.id) {
-        EditButton = <button className='edit-work'><Link to={`/works/edit/${work.id}/`}><FontAwesomeIcon icon={faPencilAlt} color='#005C6E' size="1x" data-toggle="tooltip" data-placement="bottom" title='Edit work'/></Link></button>
-        DeleteButton = <button className='delete-button'><Link to={`/works/delete/${work.id}/`}><FontAwesomeIcon icon={faTrashAlt} color='#005C6E' size="1x" data-toggle="tooltip" data-placement="top" title='Delete work'/></Link></button>
+        EditButton =  <button className='edit-work'><Link to={`/works/edit/${work.id}/`}><FontAwesomeIcon icon={faPencilAlt} color='#005C6E' size="1x" data-toggle="tooltip" data-placement="bottom" title='Edit work'/></Link></button>
+        DeleteButton = <Popup trigger={<button className='delete-button'><FontAwesomeIcon icon={faTrashAlt} color='#005C6E' size="1x" data-toggle="tooltip" data-placement="top" title='Delete work'/></button>} modal>
+            {close => (
+                <>
+                    <div className="modal-message"><h3>Delete work?</h3></div>
+                    <div className="actions">
+                        <button className="modal-button">Yes</button>
+                        <button
+                         className="modal-button"
+                         onClick={() => {close()}}
+                        >No</button>
+                    </div>
+                </>
+            )}
+            
+        </Popup> 
     } 
     
     return(
