@@ -369,3 +369,26 @@ export const editChapter = (chapterId, title, text, workId) => dispatch => {
     .then(response => {dispatch({type: EDIT_CHAPTER, editedChapter: response})})
 }
 
+export const deleteWork = (workId, userId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    
+    return fetch(
+        `http://127.0.0.1:8000/api/works/${workId}/`,
+        {
+            method: 'DELETE',
+            headers: headers 
+        }
+    )
+    .then((response) => {
+        if(response.status === 204) {
+            window.location.href = `/users/${userId}`
+        } else {
+            dispatch({type: ERROR_MESSAGE, errorMessage: 'Could not delete'})
+        }
+    })
+}
+

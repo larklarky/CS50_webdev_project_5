@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {getWork, getChapters} from '../actions';
+import {getWork, getChapters, deleteWork} from '../actions';
 import Loader from './Loader';
 import WorkDescription from './WorkDescription';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +18,10 @@ class Work extends Component {
         this.props.getWork(params.workId)
         this.props.getChapters(params.workId)
         console.log('work params', params.workId)
+    }
+
+    handleDeleteWork(workId, userId) {
+        this.props.deleteWork(workId, userId)
     }
 
     render() { 
@@ -37,7 +41,7 @@ class Work extends Component {
 
         return (
             <div>
-                <WorkDescription work={work}/>
+                <WorkDescription work={work} handleDelete={(workId, userId) => this.handleDeleteWork(workId, userId)}/>
                 
                 <div className='row work-content'> 
                     <div>
@@ -67,4 +71,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {getWork, getChapters}) (Work);
+export default connect(mapStateToProps, {getWork, getChapters, deleteWork}) (Work);
