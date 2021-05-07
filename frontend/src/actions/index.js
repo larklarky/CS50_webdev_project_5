@@ -338,9 +338,14 @@ export const editWork = (workId, title, description, completed, warnings, relati
         }
     )
     .then((response) => {
-        return response.json()
+        return response.json().then(result => {
+            if(response.status === 401 || response.status === 403) {
+                dispatch({type: ERROR_MESSAGE, errorMessage: result})
+            } else {
+                dispatch({type: EDIT_WORK, editedWork: result})
+            }
+        })
     })
-    .then(response => {dispatch({type: EDIT_WORK, editedWork: response})})
 }
 
 export const editChapter = (chapterId, title, text, workId) => dispatch => {
@@ -364,9 +369,16 @@ export const editChapter = (chapterId, title, text, workId) => dispatch => {
         }
     )
     .then((response) => {
-        return response.json()
+        return response.json().then(result => {
+            if(response.status === 401 || response.status === 403) {
+                console.log('edit chapter error')
+                dispatch({type: ERROR_MESSAGE, errorMessage: result})
+            } else {
+                dispatch({type: EDIT_CHAPTER, editedChapter: result})
+            }
+        })
     })
-    .then(response => {dispatch({type: EDIT_CHAPTER, editedChapter: response})})
+    // .then(response => {dispatch({type: EDIT_CHAPTER, editedChapter: response})})
 }
 
 export const deleteWork = (workId, userId) => dispatch => {

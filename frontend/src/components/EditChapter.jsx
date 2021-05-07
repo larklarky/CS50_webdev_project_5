@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {editChapter, getChapter} from '../actions';
+import {editChapter, getChapter, getWork} from '../actions';
 import ISimpleMDE from 'react-simplemde-v1';
 import 'simplemde/dist/simplemde.min.css';
 import Loader from './Loader';
@@ -24,8 +24,11 @@ class EditChapter extends Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         const{chapter} = this.props;
-        this.setState({workId: params.workId, chapterId: params.chapterId});
+        this.setState({workId: params.workId, chapterId: params.chapterId});  
+        this.props.getWork(params.workId)
         
+        const currentUser = localStorage.getItem('currentUser');
+
         
         if (Object.keys(chapter).length === 0) {
             this.props.getChapter(params.chapterId);
@@ -122,7 +125,8 @@ function mapStateToProps(state) {
     console.log('=======ghghghg', state)
     return {
         chapter: state.chapter,
+        work: state.work,
     }
 }
 
-export default connect(mapStateToProps, {editChapter, getChapter}) (EditChapter);
+export default connect(mapStateToProps, {editChapter, getChapter, getWork}) (EditChapter);

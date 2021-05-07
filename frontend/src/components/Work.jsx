@@ -18,6 +18,7 @@ class Work extends Component {
         this.props.getWork(params.workId)
         this.props.getChapters(params.workId)
         console.log('work params', params.workId)
+        
     }
 
     handleDeleteWork(workId, userId) {
