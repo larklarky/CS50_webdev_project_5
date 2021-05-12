@@ -9,7 +9,8 @@ import AsyncSelect from 'react-select/async';
 import FandomOptions from './FandomOptions';
 import CharactersOptions from './CharactersOptions';
 import RelationshipOptions from './RelationshipOptions';
- 
+import Loader from './Loader';
+import { Redirect } from 'react-router';
 
 
 
@@ -27,6 +28,7 @@ class EditWork extends Component {
             categories: '',
             warnings: '',
             fandoms: '',
+            redirect: false,
         }
     }
 
@@ -61,24 +63,30 @@ class EditWork extends Component {
     componentDidUpdate(prevProps) {
         if(Object.keys(this.props.work).length !== Object.keys(prevProps.work).length) {
             const {work} = this.props;
-            this.setState({
-                workId: work.id,
-                title: work.title,
-                description: work.description,
-                rating: work.rating,
-                completed: work.completed,
-                relationships: work.relationships,
-                characters: work.characters.map(character => {
-                    return { value: character.id, label: character.name, id: character.id, fandom: character.fandom }
-                }),
-                categories: work.categories.map(category => {
-                    return {value: category.name, label: CATEGORIES[category.name].text}
-                }),
-                warnings: work.warnings.map(warning => {
-                    return {value: warning.name, label: WARNINGS[warning.name].text};
-                }),
-                fandoms: work.fandoms,
-            })
+            const currentUser = localStorage.getItem('currentUser');
+            if (work.user.id !== currentUser) {
+                this.setState({redirect: true})
+            } else {
+                this.setState({
+                    workId: work.id,
+                    title: work.title,
+                    description: work.description,
+                    rating: work.rating,
+                    completed: work.completed,
+                    relationships: work.relationships,
+                    characters: work.characters.map(character => {
+                        return { value: character.id, label: character.name, id: character.id, fandom: character.fandom }
+                    }),
+                    categories: work.categories.map(category => {
+                        return {value: category.name, label: CATEGORIES[category.name].text}
+                    }),
+                    warnings: work.warnings.map(warning => {
+                        return {value: warning.name, label: WARNINGS[warning.name].text};
+                    }),
+                    fandoms: work.fandoms,
+                })
+            }
+            
         }
     }
 
@@ -107,9 +115,12 @@ class EditWork extends Component {
     
     render() {
         
-        if (Object.keys(this.props.work).length === 0) {
-            return <div>Loading</div>;
-        }
+        if (this.state.redirect === true) {
+            return <Redirect to='/'/>
+        } else if (Object.keys(this.props.work).length === 0) {
+            return <Loader/> 
+        } 
+    
         
         const animatedComponents = makeAnimated()
 

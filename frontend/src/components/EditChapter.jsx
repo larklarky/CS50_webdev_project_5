@@ -4,6 +4,7 @@ import {editChapter, getChapter, getWork} from '../actions';
 import ISimpleMDE from 'react-simplemde-v1';
 import 'simplemde/dist/simplemde.min.css';
 import Loader from './Loader';
+import { Redirect } from 'react-router';
 
  
 
@@ -18,6 +19,8 @@ class EditChapter extends Component {
             workId: '',
             chapterId: '',
             loaded: false,
+            redirect: false,
+
         }
     }
 
@@ -27,8 +30,6 @@ class EditChapter extends Component {
         this.setState({workId: params.workId, chapterId: params.chapterId});  
         this.props.getWork(params.workId)
         
-        const currentUser = localStorage.getItem('currentUser');
-
         
         if (Object.keys(chapter).length === 0) {
             this.props.getChapter(params.chapterId);
@@ -44,11 +45,19 @@ class EditChapter extends Component {
     componentDidUpdate(prevProps) {
         if(Object.keys(this.props.chapter).length !== Object.keys(prevProps.chapter).length) {
             const {chapter} = this.props;
+             
             this.setState({
                 title: chapter.title,
                 text: chapter.text,
-                loaded: true
+                loaded: true,
             })
+            
+        }
+        if(Object.keys(this.props.work).length !== 0) {
+            const currentUser = localStorage.getItem('currentUser');
+            if (this.props.work.user.id !== currentUser) {
+                this.setState({redirect: true})
+            }
         }
     }
 
@@ -61,9 +70,12 @@ class EditChapter extends Component {
 
     render() {
 
-        if (this.state.loaded === false) {
-            return <Loader/>
+        if (this.state.redirect === true) {
+            return <Redirect to='/'/>
+        } else if (this.state.loaded === false) {
+            return <Loader/> 
         } 
+        
 
 
         const option = {
