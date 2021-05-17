@@ -1,5 +1,6 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
-    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, CREATE_WORK, CREATE_CHAPTER, EDIT_WORK, EDIT_CHAPTER} from '../constants';
+    RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, 
+    CREATE_WORK, CREATE_CHAPTER, EDIT_WORK, EDIT_CHAPTER, LIKE_WORK, GET_LIKES_FOR_WORK, GET_USER_LIKE} from '../constants';
 import history from '../history';
 
 
@@ -402,5 +403,29 @@ export const deleteWork = (workId, userId) => dispatch => {
             dispatch({type: ERROR_MESSAGE, errorMessage: 'Could not delete'})
         }
     })
+}
+
+export const LikeWork = (workId, userId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+
+    return fetch(
+        `http://127.0.0.1:8000/api/likes/`,
+        {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                work: workId,
+                user: userId,
+            })
+        }
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => dispatch({type: LIKE_WORK, newLike: response}))
 }
 

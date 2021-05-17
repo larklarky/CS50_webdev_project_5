@@ -142,4 +142,7 @@ class LikeView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = LikeSerializer
     queryset = Like.objects.all()
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['user', 'work']
+    search_fields = ['work']
 

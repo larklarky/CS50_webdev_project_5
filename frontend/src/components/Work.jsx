@@ -18,7 +18,7 @@ class Work extends Component {
         this.props.getWork(params.workId)
         this.props.getChapters(params.workId)
         console.log('work params', params.workId)
-        
+
     }
 
     handleDeleteWork(workId, userId) {
@@ -27,7 +27,7 @@ class Work extends Component {
 
     render() { 
         const {work, chapters} = this.props
-        if (Object.keys(work).length === 0) {
+        if (Object.keys(work).length === 0 || Object.keys(chapters).length === 0) {
             return <Loader/>
         } 
         console.log('render work1111', work)
