@@ -166,7 +166,6 @@ export const createChapter = (title, text, workId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    console.log('json string', JSON.stringify({title: title, text: text, work: workId,}))
 
     return fetch(
         `http://127.0.0.1:8000/api/chapters/`,
@@ -355,7 +354,6 @@ export const editChapter = (chapterId, title, text, workId) => dispatch => {
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
     }
-    console.log('json string', JSON.stringify({title: title, text: text}))
 
     return fetch(
         `http://127.0.0.1:8000/api/chapters/${chapterId}/`,
@@ -429,3 +427,20 @@ export const LikeWork = (workId, userId) => dispatch => {
     .then(response => dispatch({type: LIKE_WORK, newLike: response}))
 }
 
+export const DidUserLiked = (workId, userId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+    return fetch(
+        `http://127.0.0.1:8000/api/likes/?user=${userId}&work=${workId}`,
+        {headers: headers}
+    )
+    .then((response) => {
+        return response.json()
+    })
+    .then(response => {
+        dispatch({type: GET_USER_LIKE, usersLike: response})
+    })
+}

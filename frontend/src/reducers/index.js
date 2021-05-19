@@ -16,7 +16,7 @@ import createChapter from './createChapter'
 import editWork from './editWork'
 import editChapter from './editChapter'
 import likeWork from './likeWork'
-import getWorksLikes from './getWorksLikes'
+import getUsersLike from './getUsersLike'
 
 
 export default combineReducers({
@@ -37,5 +37,5 @@ export default combineReducers({
     editWork,
     editChapter,
     likeWork,
-    getWorksLikes,
+    getUsersLike,
 })

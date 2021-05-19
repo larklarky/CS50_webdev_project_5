@@ -682,7 +682,7 @@ a:hover {
   color: $main-color;
 }
 
-.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter, .delete-button {
+.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter, .delete-button, .like-button {
   border: none;
   width: 40%;
   padding: 10px;
@@ -696,7 +696,7 @@ a:hover {
   width: 25%;
 }
 
-.edit-work, .delete-button {
+.edit-work, .delete-button, .like-button {
   width: fit-content;
   margin-top: 0;
   background-color: white;

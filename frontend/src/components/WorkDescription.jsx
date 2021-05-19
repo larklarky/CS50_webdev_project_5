@@ -5,15 +5,16 @@ import { format, parse } from 'date-fns';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
 import Popup from 'reactjs-popup';
+import Like from './Like';
 
 // import 'reactjs-popup/dist/index.css';
 
 
 
 
-const WorkDescription = ({work, handleDelete}) => {
+const WorkDescription = ({workId, work, handleDelete}) => {
     const currentUser = localStorage.getItem('currentUser');
-    console.log(currentUser == work.user.id);
+    // console.log(currentUser == work.user.id);
     let EditButton;
     let DeleteButton;
 
@@ -84,6 +85,12 @@ const WorkDescription = ({work, handleDelete}) => {
                 <div className='work-description'>
                     <p>{work.description}</p>
                     <p>Last update: {format(new Date(work.date_modified), 'yyyy-MM-dd')}</p>
+                </div>
+                <div className='work-stat'>
+                    <Like 
+                        likes={work.num_likes}
+                        workId={workId}
+                    />
                 </div>
                 
             </div>

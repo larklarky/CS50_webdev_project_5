@@ -23,7 +23,7 @@ class Chapter extends Component {
     }
 
     render() { 
-        const {work, chapter, chapters} = this.props
+        const {work, chapter, chapters, match: { params }} = this.props
         if (Object.keys(work).length === 0 || Object.keys(chapters).length === 0) {
             return <Loader/>
         } 
@@ -62,7 +62,7 @@ class Chapter extends Component {
         
         return (
             <div>
-                <WorkDescription work={work}/>
+                <WorkDescription workId={params.workId} work={work}/>
                 
                 <div className='row work-content'> 
                     <div>

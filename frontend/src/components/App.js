@@ -149,7 +149,7 @@ class App extends Component {
 
 
 function mapStateToProps(state) {
-  console.log('======= app', state)
+  // console.log('======= app', state)
   return {
       logout: state.logout,
       currentUser: state.currentUser,

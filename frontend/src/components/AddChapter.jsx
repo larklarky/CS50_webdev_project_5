@@ -46,8 +46,6 @@ class AddChapter extends Component {
             }
         };
 
-        console.log('chapter text', this.state.text)
-
         return(
             <div>
                 <h3 className='add-chapter-title'>Add new chapter</h3>

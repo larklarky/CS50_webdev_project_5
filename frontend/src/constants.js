@@ -19,8 +19,8 @@ export const CREATE_CHAPTER = 'CREATE_CHAPTER';
 export const EDIT_WORK = 'EDIT_WORK';
 export const EDIT_CHAPTER = 'EDIT_CHAPTER';
 export const LIKE_WORK = 'LIKE_WORK';
-export const GET_LIKES_FOR_WORK = 'GET_LIKES_FOR_WORK';
 export const GET_USER_LIKE = 'GET_USER_LIKE';
+
 
 
 
