@@ -12,6 +12,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import permissions
+from django.db.models import Count
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
@@ -22,7 +23,6 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
-        print('view object', isinstance(obj, Chapter))
         if request.method in permissions.SAFE_METHODS:
             return True
 
@@ -82,7 +82,7 @@ class UserView(viewsets.ModelViewSet):
 class WorkView(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     serializer_class = WorkSerializer
-    queryset = Work.objects.all().order_by('-date_modified')
+    queryset = Work.objects.annotate(num_likes=Count('likes')).order_by('-date_modified')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user', 'fandoms']
     pagination_class = StandardResultsSetPagination
