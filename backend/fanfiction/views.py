@@ -31,6 +31,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return obj.work.user.id == request.user
         elif isinstance(obj, Work) == True:
             return obj.user.id == request.user
+        elif isinstance(obj, Like) == True:
+            return obj.user == request.user
 
 # Create your views here.
 class LargeResultsSetPagination(PageNumberPagination):
@@ -139,7 +141,7 @@ class BookmarkView(viewsets.ModelViewSet):
     queryset = Bookmark.objects.all()
 
 class LikeView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     serializer_class = LikeSerializer
     queryset = Like.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter]

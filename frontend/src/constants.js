@@ -18,8 +18,10 @@ export const CREATE_WORK = 'CREATE_WORK';
 export const CREATE_CHAPTER = 'CREATE_CHAPTER';
 export const EDIT_WORK = 'EDIT_WORK';
 export const EDIT_CHAPTER = 'EDIT_CHAPTER';
-export const LIKE_WORK = 'LIKE_WORK';
 export const GET_USER_LIKE = 'GET_USER_LIKE';
+export const DELETE_LIKE = 'DELETE_LIKE';
+export const SET_LIKE = 'SET_LIKE';
+export const UNSET_LIKE = 'UNSET_LIKE';
 
 
 

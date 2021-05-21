@@ -619,6 +619,10 @@ a:hover {
   background-color: #7d4f5080;
 }
 
+.form-group button:focus {
+  outline: none;
+}
+
 
 
 /* add work */
@@ -692,6 +696,10 @@ a:hover {
   background-color: $secondary-color;
 }
 
+.add-work-form-group button:focus, .add-chapter-form-group button:focus, .add-new-work:focus, .add-new-chapter:focus, .edit-work:focus, .edit-chapter:focus, .delete-button:focus, .like-button:focus {
+  outline: none;
+}
+
 .add-chapter-form-group button {
   width: 25%;
 }
@@ -702,6 +710,7 @@ a:hover {
   background-color: white;
   color: $main-color;
 }
+
 
 .edit-work:hover, .delete-button:hover {
   color: $selected-color;
@@ -828,6 +837,10 @@ a:hover {
 .modal-button:hover {
   background-color: $selected-color;
   color: white;
+}
+
+.modal-button:focus {
+  outline: none;
 }
 
 

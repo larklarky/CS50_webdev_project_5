@@ -14,7 +14,6 @@ import Like from './Like';
 
 const WorkDescription = ({workId, work, handleDelete}) => {
     const currentUser = localStorage.getItem('currentUser');
-    // console.log(currentUser == work.user.id);
     let EditButton;
     let DeleteButton;
 

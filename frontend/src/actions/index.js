@@ -1,6 +1,6 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
     RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, 
-    CREATE_WORK, CREATE_CHAPTER, EDIT_WORK, EDIT_CHAPTER, LIKE_WORK, GET_LIKES_FOR_WORK, GET_USER_LIKE} from '../constants';
+    CREATE_WORK, CREATE_CHAPTER, EDIT_WORK, EDIT_CHAPTER, GET_USER_LIKE, SET_LIKE, UNSET_LIKE} from '../constants';
 import history from '../history';
 
 
@@ -424,7 +424,10 @@ export const LikeWork = (workId, userId) => dispatch => {
     .then((response) => {
         return response.json()
     })
-    .then(response => dispatch({type: LIKE_WORK, newLike: response}))
+    .then(response => {
+        dispatch(getWork(workId))
+        dispatch({type: SET_LIKE, likeId: response.id})
+    } )
 }
 
 export const DidUserLiked = (workId, userId) => dispatch => {
@@ -443,4 +446,29 @@ export const DidUserLiked = (workId, userId) => dispatch => {
     .then(response => {
         dispatch({type: GET_USER_LIKE, usersLike: response})
     })
+}
+
+export const DeleteLike = (likeId, workId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    }
+
+    return fetch(
+        `http://127.0.0.1:8000/api/likes/${likeId}/`,
+        {
+            method: 'DELETE',
+            headers: headers,
+        }
+    )
+    .then((response) => {
+            if (response.status === 204) {
+                dispatch(getWork(workId))
+                dispatch({type: UNSET_LIKE})
+            } else {
+                dispatch({type: ERROR_MESSAGE, errorMessage: 'Could not delete'})
+            }
+    })
+    
 }

@@ -53,7 +53,6 @@ class AddWork extends Component {
 
     
     render() {
-        console.log('LLLLLLL', this.state)
         
         const animatedComponents = makeAnimated()
 

@@ -1,13 +1,17 @@
-import {GET_USER_LIKE} from '../constants';
+import {GET_USER_LIKE, SET_LIKE, UNSET_LIKE} from '../constants';
 
-const getUsersLike = (state = false, action) => {
+const getUsersLike = (state = {}, action) => {
     switch(action.type) {
         case GET_USER_LIKE:
             if(action.usersLike.results.length > 0) {
-                return true
+                return {id: action.usersLike.results[0].id, liked: true}
             } else {
-                return false
+                return {liked: false}
             }
+        case UNSET_LIKE:
+            return {liked: false}
+        case SET_LIKE:
+            return {id: action.likeId, liked: true}
         default:
             return state;
     }
