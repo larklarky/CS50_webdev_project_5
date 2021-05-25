@@ -22,6 +22,10 @@ export const GET_USER_LIKE = 'GET_USER_LIKE';
 export const DELETE_LIKE = 'DELETE_LIKE';
 export const SET_LIKE = 'SET_LIKE';
 export const UNSET_LIKE = 'UNSET_LIKE';
+export const GET_USER_BOOKMARK = 'GET_USER_BOOKMARK';
+export const DELETE_BOOKMARK = 'DELETE_BOOKMARK';
+export const SET_BOOKMARK = 'SET_BOOKMARK';
+export const UNSET_BOOKMARK = 'UNSET_BOOKMARK';
 
 
 

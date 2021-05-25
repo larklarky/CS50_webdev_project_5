@@ -33,6 +33,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return obj.user.id == request.user
         elif isinstance(obj, Like) == True:
             return obj.user == request.user
+        elif isinstance(obj, Bookmark) == True:
+            return obj.user == request.user
 
 # Create your views here.
 class LargeResultsSetPagination(PageNumberPagination):
@@ -84,7 +86,10 @@ class UserView(viewsets.ModelViewSet):
 class WorkView(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     serializer_class = WorkSerializer
-    queryset = Work.objects.annotate(num_likes=Count('likes')).order_by('-date_modified')
+    queryset = Work.objects.annotate(
+        num_likes=Count('likes'),
+        num_bookmarks=Count('bookmarks'),
+    ).order_by('-date_modified')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['user', 'fandoms']
     pagination_class = StandardResultsSetPagination
@@ -136,9 +141,12 @@ class CharacterView(viewsets.ModelViewSet):
     search_fields = ['name']
 
 class BookmarkView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     serializer_class = BookmarkSerializer
     queryset = Bookmark.objects.all()
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['user', 'work']
+    search_fields = ['work']
 
 class LikeView(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)

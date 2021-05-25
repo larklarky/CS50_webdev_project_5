@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
 import Popup from 'reactjs-popup';
 import Like from './Like';
+import Bookmark from './Bookmark';
 
 // import 'reactjs-popup/dist/index.css';
 
@@ -88,6 +89,10 @@ const WorkDescription = ({workId, work, handleDelete}) => {
                 <div className='work-stat'>
                     <Like 
                         likes={work.num_likes}
+                        workId={workId}
+                    />
+                    <Bookmark
+                        bookmarks={work.num_bookmarks} 
                         workId={workId}
                     />
                 </div>

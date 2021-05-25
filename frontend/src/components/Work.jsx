@@ -66,7 +66,7 @@ class Work extends Component {
 
 
 function mapStateToProps(state) {
-    // console.log('======= work wwwwww', state)
+    console.log('======= work wwwwww', state)
     return {
         work: state.work,
         chapters: state.chapters,

@@ -686,7 +686,12 @@ a:hover {
   color: $main-color;
 }
 
-.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter, .delete-button, .like-button {
+.work-stat {
+  display: flex;
+  
+}
+
+.add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter, .delete-button, .like-button, .bookmark-button {
   border: none;
   width: 40%;
   padding: 10px;
@@ -696,7 +701,7 @@ a:hover {
   background-color: $secondary-color;
 }
 
-.add-work-form-group button:focus, .add-chapter-form-group button:focus, .add-new-work:focus, .add-new-chapter:focus, .edit-work:focus, .edit-chapter:focus, .delete-button:focus, .like-button:focus {
+.add-work-form-group button:focus, .add-chapter-form-group button:focus, .add-new-work:focus, .add-new-chapter:focus, .edit-work:focus, .edit-chapter:focus, .delete-button:focus, .like-button:focus, .bookmark-button:focus {
   outline: none;
 }
 
@@ -704,7 +709,7 @@ a:hover {
   width: 25%;
 }
 
-.edit-work, .delete-button, .like-button {
+.edit-work, .delete-button, .like-button, .bookmark-button {
   width: fit-content;
   margin-top: 0;
   background-color: white;
