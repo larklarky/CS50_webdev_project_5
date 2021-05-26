@@ -373,11 +373,8 @@ a:hover {
     margin-right: 5px;
   }
   .work-description {
-    border-bottom: dashed 0.5px #aa998f;
-    margin-bottom: 1rem;
-    padding-bottom: 0.7rem;
     margin-top: 2rem;
-      
+    margin-bottom: 0;  
   }
 
   h6 {
@@ -688,7 +685,12 @@ a:hover {
 
 .work-stat {
   display: flex;
-  
+  margin-bottom: 2rem;
+
+  .svg-inline--fa.fa-w-12 {
+    margin-right: 0.2rem;
+  }
+
 }
 
 .add-work-form-group button, .add-chapter-form-group button, .add-new-work, .add-new-chapter, .edit-work, .edit-chapter, .delete-button, .like-button, .bookmark-button {

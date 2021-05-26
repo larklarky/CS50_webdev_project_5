@@ -409,6 +409,8 @@ export const LikeWork = (workId, userId) => dispatch => {
     let headers = {'Content-Type': 'application/json'}
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
+    } else {
+        return
     }
 
     return fetch(
@@ -423,12 +425,13 @@ export const LikeWork = (workId, userId) => dispatch => {
         }
     )
     .then((response) => {
-        return response.json()
+        return response.json().then(result => {
+            if(response.status === 201) {
+                dispatch(getWork(workId))
+                dispatch({type: SET_LIKE, likeId: response.id})
+            }
+        })
     })
-    .then(response => {
-        dispatch(getWork(workId))
-        dispatch({type: SET_LIKE, likeId: response.id})
-    } )
 }
 
 export const DidUserLiked = (workId, userId) => dispatch => {
@@ -436,16 +439,19 @@ export const DidUserLiked = (workId, userId) => dispatch => {
     let headers = {'Content-Type': 'application/json'}
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
+    } else {
+        return
     }
     return fetch(
         `http://127.0.0.1:8000/api/likes/?user=${userId}&work=${workId}`,
         {headers: headers}
     )
     .then((response) => {
-        return response.json()
-    })
-    .then(response => {
-        dispatch({type: GET_USER_LIKE, usersLike: response})
+        return response.json().then(result => {
+            if(response.status === 200) {
+                dispatch({type: GET_USER_LIKE, usersLike: result})
+            } 
+        })
     })
 }
 
@@ -479,6 +485,8 @@ export const BookmarkWork = (workId, userId) => dispatch => {
     let headers = {'Content-Type': 'application/json'}
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
+    } else {
+        return
     }
 
     return fetch(
@@ -493,12 +501,13 @@ export const BookmarkWork = (workId, userId) => dispatch => {
         }
     )
     .then((response) => {
-        return response.json()
+        return response.json().then(result => {
+            if(response.status === 201) {
+                dispatch(getWork(workId))
+                dispatch({type: SET_BOOKMARK, bookmarkId: result.id})
+            }
+        })
     })
-    .then(response => {
-        dispatch(getWork(workId))
-        dispatch({type: SET_BOOKMARK, bookmarkId: response.id})
-    } )
 }
 
 export const DidUserBookmarked = (workId, userId) => dispatch => {
@@ -506,16 +515,19 @@ export const DidUserBookmarked = (workId, userId) => dispatch => {
     let headers = {'Content-Type': 'application/json'}
     if(token !== null) {
         headers['Authorization'] = `Token ${token}`
+    } else {
+        return
     }
     return fetch(
         `http://127.0.0.1:8000/api/bookmarks/?user=${userId}&work=${workId}`,
         {headers: headers}
     )
     .then((response) => {
-        return response.json()
-    })
-    .then(response => {
-        dispatch({type: GET_USER_BOOKMARK, usersBookmark: response})
+        return response.json().then(result => {
+            if(response.status === 200) {
+                dispatch({type: GET_USER_BOOKMARK, usersBookmark: result})
+            }
+        })
     })
 }
 

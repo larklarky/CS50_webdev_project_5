@@ -1,6 +1,6 @@
 import {GET_USER_BOOKMARK, SET_BOOKMARK, UNSET_BOOKMARK} from '../constants';
 
-const getUsersBookmark = (state = {}, action) => {
+const getUsersBookmark = (state = {bookmarked: false}, action) => {
     switch(action.type) {
         case GET_USER_BOOKMARK:
             if(action.usersBookmark.results.length > 0) {
