@@ -495,8 +495,8 @@ export const BookmarkWork = (workId, userId) => dispatch => {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
-                work: workId,
-                user: userId,
+                work: {id: workId},
+                user: {id: userId},
             })
         }
     )

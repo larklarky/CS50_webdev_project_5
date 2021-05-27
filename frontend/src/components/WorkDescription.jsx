@@ -68,9 +68,9 @@ const WorkDescription = ({workId, work, handleDelete}) => {
                 <span className={work.completed ? 'badge work-status-finished' : 'badge work-status-process'}>
                     {work.completed ? 'Finished' : 'In process'}
                 </span>
-                <h6>Fandoms: {work.fandoms.map(fandom => {
+                <p className='fandoms-p'>Fandoms: {work.fandoms.map(fandom => {
                         return (fandom.name)}).join(', ')}
-                </h6>
+                </p>
                 <p> Relationships and characters: &nbsp;
                     {work.relationships.map(relationship => {
                         return (<span className='badge-pill relationship-and-character-tag'>{relationship.name}</span>)

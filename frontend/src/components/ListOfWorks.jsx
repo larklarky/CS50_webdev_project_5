@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
 import { format, parse } from 'date-fns';
+import Like from './Like';
+import Bookmark from './Bookmark';
 
 const ListOfWorks = ({works, name}) => {
 
@@ -49,6 +51,20 @@ const ListOfWorks = ({works, name}) => {
                                         return(<span className='badge-pill relationship-and-character-tag'>{WARNINGS[warning.name].text} &nbsp;</span>)
                                     })}
                                 </p>
+                                <div className='work-stat-list'>
+                                    <p>Likes: {work.num_likes}</p>
+                                    <p>Bookmarks: {work.num_bookmarks}</p>
+                                </div>
+                                {/* <div className='work-stat'>
+                                    <Like 
+                                        likes={work.num_likes}
+                                        workId={work.id}
+                                    />
+                                    <Bookmark
+                                        bookmarks={work.num_bookmarks} 
+                                        workId={work.id}
+                                    />
+                                </div> */}
                                 
                             </div>
                             

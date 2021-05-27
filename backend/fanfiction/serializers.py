@@ -91,15 +91,6 @@ class CharacterSerializer(serializers.ModelSerializer):
             'fandom',
         )
 
-class BookmarkSerializer(serializers.ModelSerializer):
-    class Meta:
-        # ordering = ['-id']
-        model = Bookmark
-        fields = (
-            'id',
-            'user',
-            'work',
-        )
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -236,5 +227,80 @@ class WorkSerializer(serializers.ModelSerializer):
                 instance.fandoms.add(fandom)
 
         return instance
+
+
+class WorkReadOnlySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=True)
+    relationships = RelationshipSerializer(many=True, required=False)
+    characters = CharacterSerializer(many=True, required=False)
+    categories = CategorySerializer(many=True, required=False)
+    warnings = WarningSerializer(many=True, required=False)
+    fandoms = FandomSerializer(many=True, required=False)
+    user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+    num_likes = serializers.IntegerField(source='likes.count', required=False)
+    num_bookmarks = serializers.IntegerField(source='bookmarks.count', required=False)
+   
+    class Meta:
+        ordering = ['-date_modified']
+        model = Work
+        fields = (
+            'id',
+            'user',
+            'title',
+            'description',
+            'relationships',
+            'characters',
+            'categories',
+            'warnings',
+            'rating',
+            'comleted',
+            'date_created',
+            'date_modified',
+            'fandoms',
+            'num_likes',
+            'num_bookmarks',
+        )
+        extra_kwargs = {
+            'user': {'read_only': True},
+            'category': {'read_only': True},
+            'title': {'required': False},
+            'description': {'required': False},
+            'relationships': {'required': False},
+            'characters': {'required': False},
+            'categories': {'required': False},
+            'warnings': {'required': False},
+            'rating': {'required': False},
+            'comleted': {'required': False},
+            'date_created': {'required': False},
+            'date_modified': {'required': False},
+            'fandoms': {'required': False},
+            'num_likes': {'required': False},
+            'num_bookmarks': {'required': False},
+        }
+
+class BookmarkSerializer(serializers.ModelSerializer):
+    work = WorkReadOnlySerializer()
+    user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+
+    class Meta:
+        # ordering = ['-id']
+        model = Bookmark
+        fields = (
+            'id',
+            'user',
+            'work',
+        )
+        validators = []
+
+    def validate(self, attrs):
+        return attrs        
+    
+    def create(self, validated_data):
+        print("validated data", validated_data)
+        work_data = validated_data.get('work')
+        user = self.context['request'].user
+        work = Work.objects.filter(id=work_data['id']).first()
+        bookmark, _ = Bookmark.objects.get_or_create(user=user, work=work)
+        return bookmark
         
 

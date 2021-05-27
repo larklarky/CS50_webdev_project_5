@@ -15,6 +15,7 @@ import AddWork from './AddWork';
 import AddChapter from './AddChapter';
 import EditWork from './EditWork';
 import EditChapter from './EditChapter';
+import UserBookmarks from './UserBookmarks';
 import {logout, getCurrentUser} from '../actions';
 import { connect } from 'react-redux';
 
@@ -41,12 +42,14 @@ class App extends Component {
     const {currentUser} = this.props;
     let navItem;
     let navItem2;
+    let navItem3;
     if (localStorage.getItem('token') === null) {
       navItem = <NavLink to="/login" activeClassName="selected">Login</NavLink>
       navItem2 = <NavLink to="/registration" activeClassName="selected">Registration</NavLink>
     } else {
       navItem = <NavLink to={`/users/${currentUser.id}`} activeClassName='selected'>My Profile</NavLink>
       navItem2 = <NavLink to="#" onClick={() => this.handleLogout()}>Logout</NavLink>
+      navItem3 = <NavLink to={`/works/bookmarks`} activeClassName='selected'>Bookmarks</NavLink>
     }
     return (
       <Router history={history}>
@@ -66,6 +69,9 @@ class App extends Component {
               <li className="nav-item">
                 {navItem}
                 {/* <NavLink to="/login" activeClassName="selected">Login</NavLink> */}
+              </li>
+              <li className='nav-item'>
+                {navItem3}
               </li>
               <li className='nav-item'>
                 {navItem2}
@@ -106,6 +112,7 @@ class App extends Component {
             <Route path="/users/:userId" component={Profile}></Route>
             <Route path="/works/add/:workId/chapter" component={AddChapter}></Route>
             <Route path="/works/add" component={AddWork}></Route>
+            <Route path="/works/bookmarks" component={UserBookmarks}></Route>
             <Route path="/works/edit/:workId/chapters/:chapterId" component={EditChapter}></Route>
             <Route path="/works/edit/:workId" component={EditWork}></Route>
             <Route path="/works/:workId/chapters/:chapterId" component={Chapter}></Route>

@@ -317,6 +317,14 @@ a:hover {
 .col-md.work-container {
   padding-left: 25px;
   padding-top: 16px;
+
+  .work-stat-list {
+    display: flex;
+    
+    p {
+      margin-right: 0.6rem;
+    }
+  }
 }
 
 .work-container {
@@ -377,13 +385,18 @@ a:hover {
     margin-bottom: 0;  
   }
 
-  h6 {
-    margin-top: 1rem;
-  }
+}
+
+.fandoms-p {
+  margin-top: 1rem;
 }
 
 .row.work-content {
   margin: 2rem;
+  
+  a {
+    color: $main-color;
+  }
 }
 
 .information-container {
@@ -395,6 +408,10 @@ a:hover {
 .work-title-container {
   display: flex;
   justify-content: space-between;
+  
+  a {
+    color: $main-color;
+  }
 }
 // categories
 
@@ -482,7 +499,8 @@ a:hover {
 }
 
 .chapter-text {
-  margin-left: 15%;
+  margin-left: 10%;
+  margin-right: 5%;
   
 }
 
