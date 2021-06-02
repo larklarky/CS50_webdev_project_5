@@ -1,7 +1,7 @@
 import {RECIEVED_WORKS, RECIEVED_CATEGORIES, RECIEVED_FANDOMS_BY_CATEGORY, RECIEVED_WORKS_BY_FANDOM, GET_USER, 
     RECIEVED_WORKS_BY_USER, GET_WORK, RECIEVED_CHAPTERS, GET_CHAPTER, REGISTRATION, ERROR_MESSAGE, CURRENT_USER, 
     CREATE_WORK, CREATE_CHAPTER, EDIT_WORK, EDIT_CHAPTER, GET_USER_LIKE, SET_LIKE, UNSET_LIKE, GET_USER_BOOKMARK,
-     SET_BOOKMARK, UNSET_BOOKMARK } from '../constants';
+     SET_BOOKMARK, UNSET_BOOKMARK, USERS_BOOKMARKS } from '../constants';
 import history from '../history';
 
 
@@ -554,4 +554,29 @@ export const DeleteBookmark = (bookmarkId, workId) => dispatch => {
             }
     })
     
+}
+
+export const UsersBookmarks = (userId) => dispatch => {
+    const token = localStorage.getItem('token')
+    let headers = {'Content-Type': 'application/json'}
+    if(token !== null) {
+        headers['Authorization'] = `Token ${token}`
+    } else {
+        return
+    }
+
+    return fetch(
+        `http://127.0.0.1:8000/api/bookmarks/?user=${userId}`,
+        {headers: headers}
+    )
+    .then((response) => {
+        return response.json().then(result => {
+            if(response.status === 200) {
+                dispatch({type: USERS_BOOKMARKS, usersBookmarks: result})
+            } else {
+                dispatch({type: ERROR_MESSAGE, errorMessage: 'Could not retrieve'})
+            }
+        }
+        )
+    })
 }
