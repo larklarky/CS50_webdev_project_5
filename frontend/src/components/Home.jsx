@@ -4,20 +4,25 @@ import { Link } from 'react-router-dom';
 import {getWorks, getFandomCategories} from '../actions';
 import ListOfWorks from './ListOfWorks';
 import Loader from './Loader';
+import Pagination from './Pagination';
+import queryString from 'query-string';
 
 class Home extends Component {
     constructor(props) {
         super(props);
     }
 
+    
+
     componentDidMount() {
+        const parsed = queryString.parse(this.props.location.search);
         this.props.getFandomCategories()
-        this.props.getWorks()
+        this.props.getWorks(parsed.page)
         
     }
 
     render() {
-        console.log(this.props.fandomCategories)
+        const parsed = queryString.parse(this.props.location.search);
         const {fandomCategories, works} = this.props
         if (Object.keys(works).length === 0 || Object.keys(fandomCategories).length === 0) {
             return <Loader/>
@@ -39,7 +44,12 @@ class Home extends Component {
                     <h2 className='fandom-category-header'>Recent works</h2>
                     <ListOfWorks works={works.results} name='date'/>
                 </div>
-                
+                <Pagination 
+                    count={works.count}
+                    page={parsed.page}
+                    pageSize='2'
+
+                />
             </div>
             
         )

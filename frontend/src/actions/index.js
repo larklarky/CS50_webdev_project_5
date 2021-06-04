@@ -7,7 +7,7 @@ import history from '../history';
 
 
 
-export const getWorks = () => dispatch => {
+export const getWorks = (page=1) => dispatch => {
     const token = localStorage.getItem('token')
     let headers = {}
     if(token !== null) {
@@ -15,7 +15,7 @@ export const getWorks = () => dispatch => {
     }
 
     return fetch(
-        'http://127.0.0.1:8000/api/works/',
+        `http://127.0.0.1:8000/api/works/?page=${page}`,
         {headers: headers},
     )
     .then((response) => {

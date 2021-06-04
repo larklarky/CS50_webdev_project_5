@@ -125,9 +125,7 @@ class App extends Component {
             <Route path="/registration">
               <Registration />
             </Route>
-            <Route exact path="/">
-              <Home />
-            </Route>
+            <Route exact path="/" component={Home}></Route>
             
           </Switch>
 

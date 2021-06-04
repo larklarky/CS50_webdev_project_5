@@ -21,7 +21,6 @@ class WorksByFandom extends Component {
     }
 
     render() {
-        console.log('works', this.props.works)
         const {works} = this.props
         if (Object.keys(works).length === 0) {
             return <Loader/>
