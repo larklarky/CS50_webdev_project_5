@@ -21,6 +21,14 @@ class Home extends Component {
         
     }
 
+    componentDidUpdate(prevProps) {
+        let prevPage = queryString.parse(prevProps.location.search).page
+        let newPage = queryString.parse(this.props.location.search).page
+        if(prevPage !== newPage) {
+            this.props.getWorks(newPage)
+        }
+    }
+
     render() {
         const parsed = queryString.parse(this.props.location.search);
         const {fandomCategories, works} = this.props
@@ -47,8 +55,6 @@ class Home extends Component {
                 <Pagination 
                     count={works.count}
                     page={parsed.page}
-                    pageSize='2'
-
                 />
             </div>
             
