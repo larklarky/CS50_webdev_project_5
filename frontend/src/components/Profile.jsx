@@ -5,6 +5,8 @@ import {getUser, getWorksByUser} from '../actions';
 import ListOfWorks from './ListOfWorks';
 import { format, parse } from 'date-fns';
 import Loader from './Loader';
+import Pagination from './Pagination';
+import queryString from 'query-string';
 
 
 class Profile extends Component {
@@ -14,13 +16,23 @@ class Profile extends Component {
 
     componentDidMount() {
         const { match: { params } } = this.props;
+        const parsed = queryString.parse(this.props.location.search);
         this.props.getUser(params.userId);
-        this.props.getWorksByUser(params.userId)
-        console.log('user params', params.userId)
+        this.props.getWorksByUser(params.userId, parsed.page)
+    }
+
+    componentDidUpdate(prevProps) {
+        let prevPage = queryString.parse(prevProps.location.search).page
+        let newPage = queryString.parse(this.props.location.search).page
+        const { match: { params } } = this.props;
+        if(prevPage !== newPage) {
+            this.props.getWorksByUser(params.userId, newPage)
+        }
     }
 
     render() { 
         console.log('>>>> this.props', this.props.works)
+        const parsed = queryString.parse(this.props.location.search);
         const {user, works} = this.props;
         if (Object.keys(user).length === 0 || Object.keys(works).length === 0) {
             return <Loader/>
@@ -45,6 +57,10 @@ class Profile extends Component {
                 </div>
                 
                 <ListOfWorks works={works.results} name='user'/>
+                <Pagination 
+                    count={works.count}
+                    page={parsed.page}
+                />
             </div>
         )
     }

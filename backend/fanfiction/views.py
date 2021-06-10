@@ -45,7 +45,7 @@ class LargeResultsSetPagination(PageNumberPagination):
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 2
     page_size_query_param = 'page_size'
-    max_page_size = 100
+    max_page_size= 100
 
 
 class RegistrationView(views.APIView):
@@ -147,6 +147,7 @@ class BookmarkView(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['user', 'work']
     search_fields = ['work']
+    pagination_class = StandardResultsSetPagination
 
 class LikeView(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)

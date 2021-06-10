@@ -51,11 +51,12 @@ class Home extends Component {
                 <div className='recent-works-container'>
                     <h2 className='fandom-category-header'>Recent works</h2>
                     <ListOfWorks works={works.results} name='date'/>
+                    <Pagination 
+                        count={works.count}
+                        page={parsed.page}
+                    />
                 </div>
-                <Pagination 
-                    count={works.count}
-                    page={parsed.page}
-                />
+                
             </div>
             
         )

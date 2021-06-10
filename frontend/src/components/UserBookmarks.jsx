@@ -3,19 +3,32 @@ import { connect } from 'react-redux';
 import {UsersBookmarks} from '../actions';
 import ListOfWorks from './ListOfWorks';
 import Loader from './Loader';
+import Pagination from './Pagination';
+import queryString from 'query-string';
 
 
 class UserBookmarks extends Component {
 
     componentDidMount() {
         const currentUser = parseInt(localStorage.getItem('currentUser'));
-        this.props.UsersBookmarks(currentUser)
+        const parsed = queryString.parse(this.props.location.search);
+        this.props.UsersBookmarks(currentUser, parsed.page)
 
+    }
+
+    componentDidUpdate(prevProps) {
+        let prevPage = queryString.parse(prevProps.location.search).page
+        let newPage = queryString.parse(this.props.location.search).page
+        const currentUser = parseInt(localStorage.getItem('currentUser'));
+        if(prevPage !== newPage) {
+            this.props.UsersBookmarks(currentUser, newPage)
+        }
     }
 
 
     render() {
         
+        const parsed = queryString.parse(this.props.location.search);
         if (Object.keys(this.props.bookmarks).length === 0) {
             return <Loader/>
         }
@@ -30,6 +43,10 @@ class UserBookmarks extends Component {
             <div className='bookmarks-list-container'>
                 <h3>Bookmarks by {currentUser.username} </h3>
                 <ListOfWorks works={works} name='bookmarks'/>
+                <Pagination 
+                    count={this.props.bookmarks.count}
+                    page={parsed.page}
+                />
             </div>
         )
     }

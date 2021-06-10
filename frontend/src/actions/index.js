@@ -59,7 +59,7 @@ export const getListOfFandomsByCategory = (categoryId) => dispatch => {
     .then(response => dispatch({type: RECIEVED_FANDOMS_BY_CATEGORY, fandoms: response}))
 }
 
-export const getListOfWorksByFandom = (fandomId) => dispatch => {
+export const getListOfWorksByFandom = (fandomId, page=1) => dispatch => {
     const token = localStorage.getItem('token')
     let headers = {}
     if(token !== null) {
@@ -67,7 +67,7 @@ export const getListOfWorksByFandom = (fandomId) => dispatch => {
     }
 
     return fetch(
-        `http://127.0.0.1:8000/api/works/?fandoms=${fandomId}`,
+        `http://127.0.0.1:8000/api/works/?fandoms=${fandomId}&page=${page}`,
         {headers: headers}
     )
     .then((response) =>{
@@ -76,7 +76,7 @@ export const getListOfWorksByFandom = (fandomId) => dispatch => {
     .then(response => dispatch({type: RECIEVED_WORKS_BY_FANDOM, works: response})) 
 }
 
-export const getWorksByUser = (userId) => dispatch => {
+export const getWorksByUser = (userId, page=1) => dispatch => {
     const token = localStorage.getItem('token')
     let headers = {}
     if(token !== null) {
@@ -84,7 +84,7 @@ export const getWorksByUser = (userId) => dispatch => {
     }
 
     return fetch(
-        `http://127.0.0.1:8000/api/works/?user=${userId}`,
+        `http://127.0.0.1:8000/api/works/?user=${userId}&page=${page}`,
         {headers: headers}
     )
     .then((response) =>{
@@ -556,7 +556,7 @@ export const DeleteBookmark = (bookmarkId, workId) => dispatch => {
     
 }
 
-export const UsersBookmarks = (userId) => dispatch => {
+export const UsersBookmarks = (userId, page=1) => dispatch => {
     const token = localStorage.getItem('token')
     let headers = {'Content-Type': 'application/json'}
     if(token !== null) {
@@ -566,7 +566,7 @@ export const UsersBookmarks = (userId) => dispatch => {
     }
 
     return fetch(
-        `http://127.0.0.1:8000/api/bookmarks/?user=${userId}`,
+        `http://127.0.0.1:8000/api/bookmarks/?user=${userId}&page=${page}`,
         {headers: headers}
     )
     .then((response) => {
