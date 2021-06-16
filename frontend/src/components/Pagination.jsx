@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Loader from './Loader';
 import { Link } from 'react-router-dom';
 
 
 const Pagination = ({page=1, count, pageSize=2}) => {
-    console.log('bookmarks pagination', count)
     
     let prevButton;
     let nextButton;

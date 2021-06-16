@@ -12,9 +12,9 @@ class Home extends Component {
         super(props);
     }
 
-    
 
     componentDidMount() {
+        console.log('home props', this.props)
         const parsed = queryString.parse(this.props.location.search);
         this.props.getFandomCategories()
         this.props.getWorks(parsed.page)

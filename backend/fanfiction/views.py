@@ -90,9 +90,10 @@ class WorkView(viewsets.ModelViewSet):
         num_likes=Count('likes'),
         num_bookmarks=Count('bookmarks'),
     ).order_by('-date_modified')
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['user', 'fandoms']
     pagination_class = StandardResultsSetPagination
+    search_fields = ['title', 'description', 'characters__name', 'fandoms__name']
 
 
 class ChapterView(viewsets.ModelViewSet):
