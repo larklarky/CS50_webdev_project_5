@@ -37,7 +37,7 @@ function App(props) {
 
   // const history = useHistory()
   
-  const [search, setSearch] = useState('');
+  const [toggler, setToggler] = useState(false);
 
   
   const handleLogout = () => {
@@ -77,11 +77,11 @@ function App(props) {
       <nav className="navbar navbar-expand-lg navbar-light">
         <div className="navbar-brand"><NavLink exact to="/"><img className='navbar-img' src='/quill-drawing-a-line.svg' /></NavLink></div>
         {/* <a className="navbar-brand" href="#">Navbar</a> */}
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button className={toggler ?  "navbar-toggler" : "navbar-toggler collapsed"} onClick={(e) => setToggler(!toggler)} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded={toggler ? "true" : "false"} aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div className={toggler ? "collapse navbar-collapse show" : "collapse navbar-collapse"} id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <NavLink exact to="/" activeClassName="selected">Home</NavLink>
