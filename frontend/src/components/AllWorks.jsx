@@ -45,10 +45,11 @@ class AllWorks extends Component {
         const parsed = queryString.parse(this.props.location.search);
         if (Object.keys(this.props.works).length === 0) {
             return <Loader/>
-        } 
+        }
+        console.log('parsed search', parsed.search)
         return(
             <div className='all-works-main'>
-                <h3>All works</h3>
+                <h3>{parsed.search === undefined ? 'All works' : `Search results for "${parsed.search}"`}</h3>
                 <ListOfWorks works={this.props.works.results}/>
                 <Pagination count={this.props.works.count} page={parsed.page}/>
                 
