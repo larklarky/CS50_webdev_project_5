@@ -64,7 +64,7 @@ class EditWork extends Component {
         if(Object.keys(this.props.work).length !== Object.keys(prevProps.work).length) {
             const {work} = this.props;
             const currentUser = localStorage.getItem('currentUser');
-            if (work.user.id !== currentUser) {
+            if (work.user.id != currentUser) {
                 this.setState({redirect: true})
             } else {
                 this.setState({

@@ -55,7 +55,7 @@ class EditChapter extends Component {
         }
         if(Object.keys(this.props.work).length !== 0) {
             const currentUser = localStorage.getItem('currentUser');
-            if (this.props.work.user.id !== currentUser) {
+            if (this.props.work.user.id != currentUser) {
                 this.setState({redirect: true})
             }
         }

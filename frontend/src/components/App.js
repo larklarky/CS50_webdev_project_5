@@ -18,24 +18,13 @@ import UserBookmarks from './UserBookmarks';
 import AllWorks from './AllWorks';
 import {logout, getCurrentUser, getWorks} from '../actions';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
-import { isThisQuarter } from 'date-fns';
 import history from '../history'
 import Search from './Search';
+import ErrorMessage from './ErrorMessage';
 
 
 
 function App(props) {
-
-  // const query = queryString.parse(window.location.search).search;
-
-  // console.log(' APPP INITI<<<<<<<<<<', query)
-  
-  // this.state={
-  //   search: query || '',
-  // }
-
-  // const history = useHistory()
   
   const [toggler, setToggler] = useState(false);
 
@@ -50,13 +39,14 @@ function App(props) {
     }
 
   }, [])
-  // componentDidMount() {
-  //   if(localStorage.getItem('token') !== null) {
-  //     this.props.getCurrentUser()
-  //   }
-    
-  // }
+  
 
+  let errorData;
+  let errorComponent;
+  if(Object.keys(props.errorMessage).length !== 0) {
+    errorData = props.errorMessage.non_field_errors[0];
+    errorComponent = <ErrorMessage errorMessage={errorData}/>
+  }
 
 
   const {currentUser} = props;
@@ -69,7 +59,7 @@ function App(props) {
   } else {
     navItem = <NavLink to={`/users/${currentUser.id}`} activeClassName='selected'>My Profile</NavLink>
     navItem2 = <NavLink to="#" onClick={handleLogout}>Logout</NavLink>
-    navItem3 = <NavLink to={`/works/bookmarks`} activeClassName='selected'>Bookmarks</NavLink>
+    navItem3 = <li className='nav-item'><NavLink to={`/works/bookmarks`} activeClassName='selected'>Bookmarks</NavLink></li>
   }
   return (
     <Router history={history}>
@@ -93,9 +83,7 @@ function App(props) {
               {navItem}
               {/* <NavLink to="/login" activeClassName="selected">Login</NavLink> */}
             </li>
-            <li className='nav-item'>
-              {navItem3}
-            </li>
+            {navItem3}
             <li className='nav-item'>
               {navItem2}
               {/* <NavLink to="/registration" activeClassName="selected">Registration</NavLink> */}
@@ -104,23 +92,7 @@ function App(props) {
           <Search />
         </div>
       </nav>
-        {/* <nav className='navbar-container'>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/registration">Registration</Link>
-            </li>
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </nav> */}
+      {errorComponent}
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
@@ -178,6 +150,7 @@ function mapStateToProps(state) {
   return {
       logout: state.logout,
       currentUser: state.currentUser,
+      errorMessage: state.errorMessage,
   }
 }
 

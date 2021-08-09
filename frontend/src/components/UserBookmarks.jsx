@@ -56,7 +56,7 @@ function mapStateToProps(state) {
     // console.log('======= bookmarks list', state)
     return {
         bookmarks: state.usersBookmarks,
-        currentUser:state.currentUser
+        currentUser:state.currentUser,
     }
 }
 

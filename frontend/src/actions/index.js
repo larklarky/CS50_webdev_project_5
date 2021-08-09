@@ -580,3 +580,7 @@ export const UsersBookmarks = (userId, page=1) => dispatch => {
         )
     })
 }
+
+export const ClearErrorMessage = () => dispatch => {
+    dispatch({type: ERROR_MESSAGE, errorMessage: ''})
+}

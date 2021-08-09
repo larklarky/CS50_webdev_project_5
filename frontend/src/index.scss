@@ -21,14 +21,23 @@ code {
     monospace;
 }
 
-.error-message {
+.error-message-main {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
   color: #721c24;
   background-color: #f8d7da;
-  border-color: #f5c6cb;
-  width: 80%;
-  padding: 3px;
-  margin-bottom: 1rem;
+  padding: 15px 20px;
+  border-radius: 7px;
+
+  .error-text {
+    font-size: 1.2rem;
+  }
+  .error-button {
+    font-weight: bold;
+  }
 }
+
 
 .success-message {
   color: #155724;

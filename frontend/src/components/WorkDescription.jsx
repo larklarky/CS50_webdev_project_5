@@ -8,8 +8,6 @@ import Popup from 'reactjs-popup';
 import Like from './Like';
 import Bookmark from './Bookmark';
 
-// import 'reactjs-popup/dist/index.css';
-
 
 
 

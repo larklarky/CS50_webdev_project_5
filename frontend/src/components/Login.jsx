@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {getToken} from '../actions'
+import {getToken, ClearErrorMessage} from '../actions'
 import PasswordShowHide from './PasswordShowHide';
 
-import history from '../history'
 
 
 class Login extends Component {
@@ -22,30 +21,18 @@ class Login extends Component {
     }
 
 
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.currentUser && !prevProps.currentUser) {
-    //         if (Object.keys(this.props.currentUser).length !== 0) {
-    //             console.log('11111111')
-    //             history.push('/')
-    //         }
-    //     }
-        
-    // }
+    componentWillUnmount() {
+        this.props.ClearErrorMessage()
+    }
 
 
     render() {
-        const {errorMessage} = this.props;
-        let error;
-        console.log('error length', this.props)
-        if(Object.keys(errorMessage).length !== 0) {
-            error = <div className='error-message'>{errorMessage.non_field_errors[0]}</div>
-        }
+
         return(
             <div className='main'>
                 <div className='authorization-container'>
                     <h1 className="login-header">Login form</h1>
                     <form className='form-group'>
-                        {error}
                         <input 
                             type='text' 
                             placeholder='Username'
@@ -82,4 +69,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, {getToken}) (Login);
+export default connect(mapStateToProps, {getToken, ClearErrorMessage}) (Login);

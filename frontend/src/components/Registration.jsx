@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PasswordShowHide from './PasswordShowHide';
-import {SignUp} from '../actions';
+import {SignUp, ClearErrorMessage} from '../actions';
 import registration from '../reducers/registration';
 import errorMessage from '../reducers/errorMessage';
 
@@ -28,6 +28,10 @@ class Registration extends Component {
 
         }
         
+    }
+
+    componentWillUnmount() {
+        this.props.ClearErrorMessage()
     }
 
     render() {
@@ -97,4 +101,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, {SignUp}) (Registration);
+export default connect(mapStateToProps, {SignUp, ClearErrorMessage}) (Registration);
