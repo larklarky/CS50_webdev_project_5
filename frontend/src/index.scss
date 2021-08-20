@@ -49,7 +49,6 @@ code {
 .navbar-container {
   display: flex;
   flex-direction: row;
-  // background-color: #7d4f50;
   background-color: $main-color;
 }
 
@@ -59,7 +58,6 @@ code {
 
 .btn.btn-outline.my-2.my-sm-0{
   color: white;
-  // border: white solid 1px;
   background-color: $secondary-color;
 }
 
@@ -122,12 +120,7 @@ a:hover {
   color: $secondary-color;
 }
 
-// .fandom-categories-container {
-//   display: grid;
-//   grid-template-columns: 1fr 1fr;
-//   width: 44%;
-  
-// } 
+
 
 // Footer
 
@@ -208,7 +201,6 @@ a:hover {
 .fandom-categories-container {
   display: flex;
   flex-direction: column;
-  // border-right: rgba(94, 94, 94, 0.2) 2px solid;
   width: 90%;
   margin-top: 3rem;
   padding-bottom: 2rem;
@@ -225,11 +217,6 @@ a:hover {
   margin-left: 2rem;
 }
 
-// .fandom-category-item {
-//   margin: 0.7rem;
-//   border: solid 1px #aa998f;
-//   padding: 0.8rem 0.7rem 0.8rem 0.7rem;
-// }
 
 .fandom-category-item a {
   color: $main-color;
@@ -271,8 +258,6 @@ a:hover {
 }
 
 .col.work-card {
-  // background-color: #d8e7e8;
-  // background-image: linear-gradient(to top, #eafdff, #f0fdff, #f7fdff, #fcfeff, #ffffff);
   background-image: linear-gradient(to bottom, #eafdff, #f0fdff, #f7fdff, #fcfeff, #ffffff);
   margin: 1rem 0 1rem 5%;
   max-width: 13%;
@@ -282,7 +267,6 @@ a:hover {
   border-top-left-radius: 13px;
 
   .svg-inline--fa {
-    // font-size: 4rem;
     border-radius: 18px;
     background-color: white;
     padding: 12px;
@@ -422,6 +406,7 @@ a:hover {
     color: $main-color;
   }
 }
+
 // categories
 
 .gen{
@@ -476,14 +461,12 @@ a:hover {
 .badge.work-status-finished {
   color: #55a630;
   background-color: #f0efeb;
-  // margin-top: 1.2rem;
 }
 
 .badge.work-status-process {
   color: #99170e;
   background-color: #f0efeb;
   font-size: large;
-  // margin-top: 1.2rem;
 }
 
 
