@@ -59,14 +59,13 @@ function App(props) {
   } else {
     navItem = <NavLink to={`/users/${currentUser.id}`} activeClassName='selected'>My Profile</NavLink>
     navItem2 = <NavLink to="#" onClick={handleLogout}>Logout</NavLink>
-    navItem3 = <li className='nav-item'><NavLink to={`/works/bookmarks`} activeClassName='selected'>Bookmarks</NavLink></li>
+    navItem3 = <li className="nav-item"><NavLink to={`/works/bookmarks`} activeClassName='selected'>Bookmarks</NavLink></li>
   }
   return (
     <Router history={history}>
       <div>
       <nav className="navbar navbar-expand-lg navbar-light">
         <div className="navbar-brand"><NavLink exact to="/"><img className='navbar-img' src='/quill-drawing-a-line.svg' /></NavLink></div>
-        {/* <a className="navbar-brand" href="#">Navbar</a> */}
         <button className={toggler ?  "navbar-toggler" : "navbar-toggler collapsed"} onClick={(e) => setToggler(!toggler)} type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded={toggler ? "true" : "false"} aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -77,16 +76,14 @@ function App(props) {
               <NavLink exact to="/" activeClassName="selected">Home</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to={`/works`} activeClassName="selected">All Works</NavLink>
+              <NavLink exact to={`/works`} activeClassName="selected">All Works</NavLink>
             </li>
             <li className="nav-item">
               {navItem}
-              {/* <NavLink to="/login" activeClassName="selected">Login</NavLink> */}
             </li>
             {navItem3}
             <li className='nav-item'>
               {navItem2}
-              {/* <NavLink to="/registration" activeClassName="selected">Registration</NavLink> */}
             </li>
           </ul>
           <Search />
@@ -109,7 +106,7 @@ function App(props) {
           <Route path="/works/edit/:workId" component={EditWork}></Route>
           <Route path="/works/:workId/chapters/:chapterId" component={Chapter}></Route>
           <Route path="/works/:workId" component={Work}></Route>
-          <Route path="/works" component={AllWorks}></Route>
+          <Route path="/works/" component={AllWorks}></Route>
           
           
           <Route path="/login">
@@ -146,7 +143,6 @@ function App(props) {
 
 
 function mapStateToProps(state) {
-  // console.log('======= app', state)
   return {
       logout: state.logout,
       currentUser: state.currentUser,
