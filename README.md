@@ -5,7 +5,8 @@ Project features
 ================
 - LogIn and SignUp.
 - The site allows users to find and read any work on the site.
-- All works have categories which can be found on the main page and every category has its own fandoms.
+- All works are under categories which can be found on the main page and every category has its own fandoms.
+- Every work/fanfic has a lot of information like title, description, age rate, list of characters, relationships, warnings etc.
 - Any authorized user can create, edit or delete their own work.
 - Creating, editing and deleting chapters for a work.
 - Authorized users also can like or bookmark any work.
