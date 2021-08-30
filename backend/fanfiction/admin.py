@@ -8,7 +8,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'username')
 
 class WorkAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'user', 'date_created', 'comleted')
+    list_display = ('id', 'title', 'user', 'date_created', 'completed')
 
 class ChapterAdmin(admin.ModelAdmin):
     list_display = ('work', 'title')

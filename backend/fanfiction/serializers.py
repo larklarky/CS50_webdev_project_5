@@ -124,7 +124,7 @@ class WorkSerializer(serializers.ModelSerializer):
             'categories',
             'warnings',
             'rating',
-            'comleted',
+            'completed',
             'date_created',
             'date_modified',
             'fandoms',
@@ -192,7 +192,7 @@ class WorkSerializer(serializers.ModelSerializer):
 
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
-        instance.comleted = validated_data.get('comleted', instance.comleted)
+        instance.completed = validated_data.get('completed', instance.completed)
         instance.rating = validated_data.get('rating', instance.rating)
         instance.save()
         
@@ -253,7 +253,7 @@ class WorkReadOnlySerializer(serializers.ModelSerializer):
             'categories',
             'warnings',
             'rating',
-            'comleted',
+            'completed',
             'date_created',
             'date_modified',
             'fandoms',
@@ -270,7 +270,7 @@ class WorkReadOnlySerializer(serializers.ModelSerializer):
             'categories': {'required': False},
             'warnings': {'required': False},
             'rating': {'required': False},
-            'comleted': {'required': False},
+            'completed': {'required': False},
             'date_created': {'required': False},
             'date_modified': {'required': False},
             'fandoms': {'required': False},

@@ -30,7 +30,7 @@ class Work(models.Model):
     title = models.CharField(max_length = 500, blank = False)
     description = models.TextField(blank=False)
     rating = models.CharField(max_length=30, choices=RATING_CHOICES)
-    comleted = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     
     date_created = models.DateTimeField(auto_now_add = True)
     date_modified = models.DateTimeField(auto_now = True)
