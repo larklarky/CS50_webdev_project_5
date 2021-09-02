@@ -43,6 +43,7 @@ function App(props) {
 
   let errorData;
   let errorComponent;
+  console.log('error message app', props.errorMessage)
   if(Object.keys(props.errorMessage).length !== 0) {
     errorData = props.errorMessage.non_field_errors[0];
     errorComponent = <ErrorMessage errorMessage={errorData}/>

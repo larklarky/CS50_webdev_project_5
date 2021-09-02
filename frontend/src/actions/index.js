@@ -428,7 +428,7 @@ export const LikeWork = (workId, userId) => dispatch => {
         return response.json().then(result => {
             if(response.status === 201) {
                 dispatch(getWork(workId))
-                dispatch({type: SET_LIKE, likeId: response.id})
+                dispatch({type: SET_LIKE, likeId: result.id})
             }
         })
     })
