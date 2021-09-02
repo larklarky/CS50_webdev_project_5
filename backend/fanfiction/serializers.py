@@ -108,8 +108,8 @@ class WorkSerializer(serializers.ModelSerializer):
     warnings = WarningSerializer(many=True)
     fandoms = FandomSerializer(many=True)
     user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
-    num_likes = serializers.IntegerField(source='likes.count')
-    num_bookmarks = serializers.IntegerField(source='bookmarks.count')
+    num_likes = serializers.IntegerField(source='likes.count', required=False)
+    num_bookmarks = serializers.IntegerField(source='bookmarks.count', required=False)
    
     class Meta:
         ordering = ['-date_modified']
@@ -134,6 +134,8 @@ class WorkSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'user': {'read_only': True},
             'category': {'read_only': True},
+            'num_likes': {'required': False},
+            'num_bookmarks': {'required': False},
         }
     
     def create(self, validated_data):

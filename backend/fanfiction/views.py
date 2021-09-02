@@ -28,13 +28,13 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # Instance must have an attribute named `owner`.
         if isinstance(obj, Chapter) == True:
-            return obj.work.user.id == request.user
+            return obj.work.user.id == request.user.id
         elif isinstance(obj, Work) == True:
-            return obj.user.id == request.user
+            return obj.user.id == request.user.id
         elif isinstance(obj, Like) == True:
-            return obj.user == request.user
+            return obj.user.id == request.user.id
         elif isinstance(obj, Bookmark) == True:
-            return obj.user == request.user
+            return obj.user.id == request.user.id
 
 # Create your views here.
 class LargeResultsSetPagination(PageNumberPagination):
