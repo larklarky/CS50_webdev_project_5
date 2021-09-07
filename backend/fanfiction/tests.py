@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.http import response
 from django.test import TestCase, Client
-from .models import FandomCategory, User
-from .serializers import FandomCategorySerializer, UserSerializer
+from .models import FandomCategory, User, Fandom
+from .serializers import FandomCategorySerializer, FandomSerializer
 from django.urls import reverse
 from rest_framework import status
 
@@ -14,7 +14,7 @@ class FandomCategoryTest(TestCase):
         self.music = FandomCategory.objects.create(name='Music')
         self.literature = FandomCategory.objects.create(name='Literature')
 
-    def test_get_fandom_category(self):
+    def test_get_fandom_category_from_db(self):
         music_category = FandomCategory.objects.get(name='Music')
         literature_category = FandomCategory.objects.get(name='Literature')
 
@@ -100,7 +100,6 @@ class AuthorizationTest(TestCase):
         
         token = "Token " + response.data['token']
         
-
         response = client.patch(
             '/api/users/' + str(self.user1.id) + '/',
             {'first_name': 'Alex', 'last_name': 'DJ'},
@@ -124,3 +123,57 @@ class AuthorizationTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
+class FandomTest(TestCase):
+    def setUp(self):
+        self.music = FandomCategory.objects.create(name='Music')
+        self.literature = FandomCategory.objects.create(name='Literature')
+        self.Sherlock = Fandom.objects.create(name='Sherlock', category=self.literature)
+        self.BTS = Fandom.objects.create(name='BTS', category=self.music)
+    
+    def test_get_all_fandoms(self):
+        response = client.get('/api/fandoms/')
+
+        fandoms = [self.Sherlock, self.BTS]
+        serializer = FandomSerializer(fandoms, many=True)
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_get_fandom_by_id(self):
+        response = client.get(
+            f'/api/fandoms/{self.Sherlock.id}/'
+        )
+        self.assertEqual(response.data['id'], self.Sherlock.id)
+        self.assertEqual(response.data['name'], self.Sherlock.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_fandom_by_wrong_id(self):
+        response = client.get(
+            f'/api/fandoms/6/'
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_edit_fandom(self):
+        self.user1 = User.objects.create_user(username='user1', password='1111', email='user1@mail.com')
+        response = client.post('/api/token/', {'username': self.user1.username, 'password': '1111' }, content_type= 'application/json')
+        self.assertContains(response, 'token')
+        
+        token = "Token " + response.data['token']
+        response = client.patch(
+            f'/api/fandoms/{self.Sherlock.id}/',
+            {'name': 'Harry Potter',},
+            content_type= 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_fandom(self):
+        self.user1 = User.objects.create_user(username='user1', password='1111', email='user1@mail.com')
+        response = client.post('/api/token/', {'username': self.user1.username, 'password': '1111' }, content_type= 'application/json')
+        self.assertContains(response, 'token')
+        
+        token = "Token " + response.data['token']
+        response = client.delete(
+            f'/api/fandoms/{self.Sherlock.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

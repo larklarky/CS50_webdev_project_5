@@ -14,6 +14,10 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import permissions
 from django.db.models import Count
 
+class ReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.method in permissions.SAFE_METHODS
+
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit it.
@@ -106,23 +110,23 @@ class ChapterView(viewsets.ModelViewSet):
     filterset_fields = ['work']
 
 class CategoryView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (ReadOnly,)
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 class WarningView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (ReadOnly,)
     serializer_class = WarningSerializer
     queryset = Warning.objects.all()
 
 class FandomCategoryView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (ReadOnly,)
     serializer_class = FandomCategorySerializer
     queryset = FandomCategory.objects.all()
     filter_backends = [DjangoFilterBackend]
 
 class FandomView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (ReadOnly,)
     serializer_class = FandomSerializer
     queryset = Fandom.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter]
