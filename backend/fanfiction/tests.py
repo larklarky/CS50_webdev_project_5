@@ -72,6 +72,7 @@ class AuthorizationTest(TestCase):
         self.assertContains(response, 'id', status_code=status.HTTP_201_CREATED)
         self.assertEqual(response.data['username'], 'user2')
         self.assertEqual(response.data['email'], 'user2@mail.com')
+        user2_id = response.data['id']
 
         response = client.post('/api/token/', {'username': 'user2', 'password': '1111' }, content_type= 'application/json')
         self.assertContains(response, 'token')
@@ -79,10 +80,47 @@ class AuthorizationTest(TestCase):
         token = "Token " + response.data['token']
         response = client.patch(
             '/api/users/' + str(self.user1.id) + '/',
-            {'first_name': 'Alex', 'last_name¶': 'DJ'},
+            {'first_name': 'Alex', 'last_name': 'DJ'},
+            content_type= 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        response = client.patch(
+            '/api/users/' + str(user2_id) + '/',
+            {'first_name': 'Alex', 'last_name': 'DJ'},
             content_type= 'application/json',
             HTTP_AUTHORIZATION=token
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_logout(self):
+        response = client.post('/api/token/', {'username': self.user1.username, 'password': '1111' }, content_type= 'application/json')
+        self.assertContains(response, 'token')
+        
+        token = "Token " + response.data['token']
+        
+
+        response = client.patch(
+            '/api/users/' + str(self.user1.id) + '/',
+            {'first_name': 'Alex', 'last_name': 'DJ'},
+            content_type= 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = client.delete(
+            '/api/logout/',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = client.patch(
+            '/api/users/' + str(self.user1.id) + '/',
+            {'first_name': 'Alex', 'last_name': 'DJ'},
+            content_type= 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
