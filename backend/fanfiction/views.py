@@ -141,7 +141,7 @@ class RelationshipView(viewsets.ModelViewSet):
     search_fields = ['name']
 
 class CharacterView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (ReadOnly,)
     serializer_class = CharacterSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     queryset = Character.objects.all()

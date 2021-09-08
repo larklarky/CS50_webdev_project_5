@@ -1,16 +1,28 @@
 from django.contrib.auth.models import User
 from django.http import response
 from django.test import TestCase, Client
-from .models import FandomCategory, User, Fandom
-from .serializers import FandomCategorySerializer, FandomSerializer
+from .models import FandomCategory, User, Fandom, Character
+from .serializers import FandomCategorySerializer, FandomSerializer, CharacterSerializer
 from django.urls import reverse
 from rest_framework import status
 
 
 client = Client()
 
-class FandomCategoryTest(TestCase):
+class MyTestCase(TestCase):
     def setUp(self):
+        self.user1 = User.objects.create_user(username='user1', password='1111', email='user1@mail.com')
+        self.user2 = User.objects.create_user(username='user2', password='1111', email='user2@mail.com')
+
+    def login(self, username, password):
+        response = client.post('/api/token/', {'username': username, 'password': password }, content_type= 'application/json')
+        token = "Token " + response.data['token']
+        return token
+
+class FandomCategoryTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+
         self.music = FandomCategory.objects.create(name='Music')
         self.literature = FandomCategory.objects.create(name='Literature')
 
@@ -123,8 +135,9 @@ class AuthorizationTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class FandomTest(TestCase):
+class FandomTest(MyTestCase):
     def setUp(self):
+        super().setUp()
         self.music = FandomCategory.objects.create(name='Music')
         self.literature = FandomCategory.objects.create(name='Literature')
         self.Sherlock = Fandom.objects.create(name='Sherlock', category=self.literature)
@@ -153,11 +166,7 @@ class FandomTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_edit_fandom(self):
-        self.user1 = User.objects.create_user(username='user1', password='1111', email='user1@mail.com')
-        response = client.post('/api/token/', {'username': self.user1.username, 'password': '1111' }, content_type= 'application/json')
-        self.assertContains(response, 'token')
-        
-        token = "Token " + response.data['token']
+        token = self.login('user1', '1111')
         response = client.patch(
             f'/api/fandoms/{self.Sherlock.id}/',
             {'name': 'Harry Potter',},
@@ -167,13 +176,58 @@ class FandomTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_delete_fandom(self):
-        self.user1 = User.objects.create_user(username='user1', password='1111', email='user1@mail.com')
-        response = client.post('/api/token/', {'username': self.user1.username, 'password': '1111' }, content_type= 'application/json')
-        self.assertContains(response, 'token')
-        
-        token = "Token " + response.data['token']
+        token = self.login('user1', '1111')
         response = client.delete(
             f'/api/fandoms/{self.Sherlock.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class CharactersTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+        self.literature = FandomCategory.objects.create(name='Literature')
+        self.Sherlock = Fandom.objects.create(name='Sherlock', category=self.literature)
+        self.sherlock_holmes = Character.objects.create(name = "Sherlock Holmes", fandom = self.Sherlock)
+        self.john_watson = Character.objects.create(name = 'John Watson', fandom = self.Sherlock)
+
+    def test_get_all_characters(self):
+        response = client.get('/api/characters/')
+
+        characters = [self.sherlock_holmes, self.john_watson]
+        serializer = CharacterSerializer(characters, many=True)
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_get_character_by_id(self):
+        response = client.get(
+            f'/api/characters/{self.sherlock_holmes.id}/'
+        )
+        self.assertEqual(response.data['id'], self.sherlock_holmes.id)
+        self.assertEqual(response.data['name'], self.sherlock_holmes.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_character_by_wrong_id(self):
+        response = client.get(
+            f'/api/characters/6/'
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_edit_character(self):
+        token = self.login('user1', '1111')
+        response = client.patch(
+            f'/api/characters/{self.sherlock_holmes.id}/',
+            {'name': 'Harry Potter',},
+            content_type= 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_character(self):
+        token = self.login('user1', '1111')
+        response = client.delete(
+            f'/api/fandoms/{self.sherlock_holmes.id}/',
             HTTP_AUTHORIZATION=token
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
