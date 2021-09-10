@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.http import response
 from django.test import TestCase, Client
-from .models import FandomCategory, User, Fandom, Character
-from .serializers import FandomCategorySerializer, FandomSerializer, CharacterSerializer
+from .models import FandomCategory, User, Fandom, Character, Relationship, Warning, Category
+from .serializers import (FandomCategorySerializer, FandomSerializer, CharacterSerializer, 
+RelationshipSerializer, WarningSerializer, CategorySerializer)
 from django.urls import reverse
 from rest_framework import status
 
@@ -227,7 +228,164 @@ class CharactersTest(MyTestCase):
     def test_delete_character(self):
         token = self.login('user1', '1111')
         response = client.delete(
-            f'/api/fandoms/{self.sherlock_holmes.id}/',
+            f'/api/characters/{self.sherlock_holmes.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class RelationshipTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+        self.literature = FandomCategory.objects.create(name='Literature')
+        self.sherlock = Fandom.objects.create(name='Sherlock', category=self.literature)
+        self.sherlock_holmes = Character.objects.create(name = "Sherlock Holmes", fandom = self.sherlock)
+        self.john_watson = Character.objects.create(name = 'John Watson', fandom = self.sherlock)
+        self.irene_adler = Character.objects.create(name = 'Irene Adler', fandom = self.sherlock)
+        self.sherlock_john = Relationship.objects.create(name = 'Sherlock Holmes/John Watson')
+        self.sherlock_irene = Relationship.objects.create(name = 'Sherlock Holmes/Irene Adler')
+
+    def test_get_all_relationships(self):
+        response = client.get('/api/relationships/')
+
+        relationships = [self.sherlock_john, self.sherlock_irene]
+        serializer = RelationshipSerializer(relationships, many=True)
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_get_relationship_by_id(self):
+        response = client.get(
+            f'/api/relationships/{self.sherlock_irene.id}/'
+        )
+        self.assertEqual(response.data['id'], self.sherlock_irene.id)
+        self.assertEqual(response.data['name'], self.sherlock_irene.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_relationship_by_wrong_id(self):
+        response = client.get(
+            f'/api/relationships/6/'
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_edit_relationship(self):
+        token = self.login('user1', '1111')
+        response = client.patch(
+            f'/api/relationships/{self.sherlock_irene.id}/',
+            {'name': 'Harry Potter/Hermione Granger',},
+            content_type= 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_relationship(self):
+        token = self.login('user1', '1111')
+        response = client.delete(
+            f'/api/relationships/{self.sherlock_irene.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class WarningTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+        self.underage = Warning.objects.create(name='Underage')
+        self.rape_noncon = Warning.objects.create(name='Rape/Non-Con')
+        self.no_warnings = Warning.objects.create(name='No Warnings Apply')
+        self.character_death = Warning.objects.create(name='Major Character Death')
+        self.violence = Warning.objects.create(name='Graphic Depictions Of Violence')
+        self.choose_no_warnings = Warning.objects.create(name='Choose Not To Use Warnings')
+
+        
+    def test_get_all_warnings(self):
+        response = client.get('/api/warnings/')
+
+
+        warnings = [self.underage, self.rape_noncon, self.no_warnings, self.character_death, self.violence, self.choose_no_warnings]
+        serializer = WarningSerializer(warnings, many=True)
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_get_warning_by_id(self):
+        response = client.get(
+            f'/api/warnings/{self.no_warnings.id}/'
+        )
+        self.assertEqual(response.data['id'], self.no_warnings.id)
+        self.assertEqual(response.data['name'], self.no_warnings.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_warning_by_wrong_id(self):
+        response = client.get(
+            f'/api/warnings/10/'
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_edit_warning(self):
+        token = self.login('user1', '1111')
+        response = client.patch(
+            f'/api/warnings/{self.no_warnings.id}/',
+            {'name': 'Mary Sue',},
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_warning(self):
+        token = self.login('user1', '1111')
+        response = client.delete(
+            f'/api/warnings/{self.no_warnings.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class CategoryTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+        self.other = Category.objects.create(name='Other')
+        self.multy = Category.objects.create(name='Multy')
+        self.mm = Category.objects.create(name='M/M')
+        self.gen = Category.objects.create(name='Gen')
+        self.fm = Category.objects.create(name='F/M')
+        self.ff = Category.objects.create(name='F/F')
+
+    def test_get_all_categories(self):
+        response = client.get('/api/categories/')
+
+
+        categories = [self.other, self.multy, self.mm, self.gen, self.fm, self.ff]
+        serializer = CategorySerializer(categories, many=True)
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    
+    def test_get_category_by_id(self):
+        response = client.get(
+            f'/api/categories/{self.multy.id}/'
+        )
+        self.assertEqual(response.data['id'], self.multy.id)
+        self.assertEqual(response.data['name'], self.multy.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_category_by_wrong_id(self):
+        response = client.get(
+            f'/api/categories/10/'
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_edit_category(self):
+        token = self.login('user1', '1111')
+        response = client.patch(
+            f'/api/categories/{self.multy.id}/',
+            {'name': 'Aliens',},
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_category(self):
+        token = self.login('user1', '1111')
+        response = client.delete(
+            f'/api/categories/{self.multy.id}/',
             HTTP_AUTHORIZATION=token
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

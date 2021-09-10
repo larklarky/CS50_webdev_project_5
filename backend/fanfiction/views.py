@@ -1,3 +1,4 @@
+import re
 from django.http import response
 from django.shortcuts import render
 from rest_framework import viewsets
@@ -13,6 +14,8 @@ from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import permissions
 from django.db.models import Count
+
+MODIFY_METHODS = ('PATCH', 'DELETE', 'PUT')
 
 class ReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -41,6 +44,10 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return obj.user.id == request.user.id
         elif isinstance(obj, User) == True:
             return obj.id == request.user.id
+        elif isinstance(obj, Relationship) == True:
+            if request.method in MODIFY_METHODS:
+                return False
+            return True
 
 # Create your views here.
 class LargeResultsSetPagination(PageNumberPagination):
@@ -134,7 +141,7 @@ class FandomView(viewsets.ModelViewSet):
     search_fields = ['name']
 
 class RelationshipView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
     serializer_class = RelationshipSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     queryset = Relationship.objects.all()
