@@ -1,8 +1,9 @@
+from re import T
 from django.contrib.auth.models import User
 from django.http import response
 from django.test import TestCase, Client
-from .models import FandomCategory, User, Fandom, Character, Relationship, Warning, Category
-from .serializers import (FandomCategorySerializer, FandomSerializer, CharacterSerializer, 
+from .models import FandomCategory, User, Fandom, Character, Relationship, Warning, Category, Work
+from .serializers import (FandomCategorySerializer, FandomSerializer, CharacterSerializer, WorkSerializer,
 RelationshipSerializer, WarningSerializer, CategorySerializer)
 from django.urls import reverse
 from rest_framework import status
@@ -289,12 +290,12 @@ class RelationshipTest(MyTestCase):
 class WarningTest(MyTestCase):
     def setUp(self):
         super().setUp()
-        self.underage = Warning.objects.create(name='Underage')
-        self.rape_noncon = Warning.objects.create(name='Rape/Non-Con')
-        self.no_warnings = Warning.objects.create(name='No Warnings Apply')
-        self.character_death = Warning.objects.create(name='Major Character Death')
-        self.violence = Warning.objects.create(name='Graphic Depictions Of Violence')
-        self.choose_no_warnings = Warning.objects.create(name='Choose Not To Use Warnings')
+        self.underage = Warning.objects.create(name='UNDERAGE')
+        self.rape_noncon = Warning.objects.create(name='RAPE_NONCON')
+        self.no_warnings = Warning.objects.create(name='NO_WARNINGS_APPLY')
+        self.character_death = Warning.objects.create(name='MAJOR_CHARACTER_DEATH')
+        self.violence = Warning.objects.create(name='VIOLENCE')
+        self.choose_no_warnings = Warning.objects.create(name='CHOOSE_NOT_TO_USE_WARNINGS')
 
         
     def test_get_all_warnings(self):
@@ -342,17 +343,17 @@ class WarningTest(MyTestCase):
 class CategoryTest(MyTestCase):
     def setUp(self):
         super().setUp()
-        self.other = Category.objects.create(name='Other')
-        self.multy = Category.objects.create(name='Multy')
-        self.mm = Category.objects.create(name='M/M')
-        self.gen = Category.objects.create(name='Gen')
-        self.fm = Category.objects.create(name='F/M')
-        self.ff = Category.objects.create(name='F/F')
+        self.other = Category.objects.create(name='OTHER')
+        self.multy = Category.objects.create(name='MULTY')
+        self.mm = Category.objects.create(name='MM')
+        self.gen = Category.objects.create(name='GEN')
+        self.fm = Category.objects.create(name='FM')
+        self.ff = Category.objects.create(name='FF')
 
     def test_get_all_categories(self):
         response = client.get('/api/categories/')
 
-
+        
         categories = [self.other, self.multy, self.mm, self.gen, self.fm, self.ff]
         serializer = CategorySerializer(categories, many=True)
         self.assertEqual(response.data['results'], serializer.data)
@@ -389,3 +390,70 @@ class CategoryTest(MyTestCase):
             HTTP_AUTHORIZATION=token
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class WorkTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+        self.literature = FandomCategory.objects.create(name='Literature')
+        self.sherlock = Fandom.objects.create(name='Sherlock', category=self.literature)
+        self.sherlock_holmes = Character.objects.create(name = "Sherlock Holmes", fandom = self.sherlock)
+        self.john_watson = Character.objects.create(name = 'John Watson', fandom = self.sherlock)
+        self.irene_adler = Character.objects.create(name = 'Irene Adler', fandom = self.sherlock)
+        self.sherlock_john = Relationship.objects.create(name = 'Sherlock Holmes/John Watson')
+        self.sherlock_irene = Relationship.objects.create(name = 'Sherlock Holmes/Irene Adler')
+        self.underage = Warning.objects.create(name='UNDERAGE')
+        self.rape_noncon = Warning.objects.create(name='RAPE_NONCON')
+        self.no_warnings = Warning.objects.create(name='NO_WARNINGS_APPLY')
+        self.character_death = Warning.objects.create(name='MAJOR_CHARACTER_DEATH')
+        self.violence = Warning.objects.create(name='VIOLENCE')
+        self.choose_no_warnings = Warning.objects.create(name='CHOOSE_NOT_TO_USE_WARNINGS')
+        self.other = Category.objects.create(name='OTHER')
+        self.multy = Category.objects.create(name='MULTY')
+        self.mm = Category.objects.create(name='MM')
+        self.gen = Category.objects.create(name='GEN')
+        self.fm = Category.objects.create(name='FM')
+        self.ff = Category.objects.create(name='FF')
+    
+    def test_create_work(self):
+        title = 'Dignissim cras tincidunt lobortis feugiat vivamus at augue eget'
+        description = """Facilisi morbi tempus iaculis urna id volutpat lacus. Tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Neque laoreet suspendisse interdum consectetur libero id faucibus.
+        """
+        token = self.login('user1', '1111')
+        json_data = {
+            "title": title, 
+            "description": description, 
+            "fandoms": [
+                {"name": self.sherlock.name, "category": self.sherlock.category.id}
+            ],
+            "rating": "TEEN_AND_UP", 
+            "completed": False, 
+            "relationships": [
+                {"name": self.sherlock_irene.name}
+            ],
+            "characters": [
+                {"name":self.irene_adler.name, "fandom":self.irene_adler.fandom.id}, 
+                {"name": self.sherlock_holmes.name, "fandom":self.sherlock_holmes.fandom.id}, 
+                {"name":self.john_watson.name, "fandom":self.john_watson.fandom.id}
+            ],
+            "categories": [{"name": self.fm.name},],
+            "warnings": [{"name": "NO_WARNINGS_APPLY"}],
+        }
+        response = client.post(
+            "/api/works/",
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token,
+        )
+        
+        self.assertEqual(response.data['title'], json_data['title'])
+        self.assertIn(response.data['description'], json_data['description'])
+        self.assertEqual(response.data['fandoms'], FandomSerializer([self.sherlock], many=True).data)
+        self.assertEqual(response.data['rating'], json_data['rating'])
+        self.assertEqual(response.data['completed'], json_data['completed'])
+        self.assertEqual(response.data['relationships'], RelationshipSerializer([self.sherlock_irene], many=True).data)
+        self.assertEqual(response.data['characters'], CharacterSerializer([self.sherlock_holmes, self.john_watson, self.irene_adler], many=True).data)
+        self.assertEqual(response.data['categories'], CategorySerializer([self.fm], many=True).data)
+        self.assertEqual(response.data['warnings'], WarningSerializer([self.no_warnings], many=True).data)
+
+        
