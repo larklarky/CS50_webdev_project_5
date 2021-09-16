@@ -21,6 +21,70 @@ class MyTestCase(TestCase):
         token = "Token " + response.data['token']
         return token
 
+    def works(self):
+        self.music = FandomCategory.objects.create(name='Music')
+        self.literature = FandomCategory.objects.create(name='Literature')
+        self.sherlock = Fandom.objects.create(name='Sherlock', category=self.literature)
+        self.sherlock_holmes = Character.objects.create(name = "Sherlock Holmes", fandom = self.sherlock)
+        self.john_watson = Character.objects.create(name = 'John Watson', fandom = self.sherlock)
+        self.irene_adler = Character.objects.create(name = 'Irene Adler', fandom = self.sherlock)
+        self.sherlock_john = Relationship.objects.create(name = 'Sherlock Holmes/John Watson')
+        self.sherlock_irene = Relationship.objects.create(name = 'Sherlock Holmes/Irene Adler')
+
+        self.bts = Fandom.objects.create(name='BTS', category=self.music)
+        self.jeon_jungkook = Character.objects.create(name='Jeon Jungkook', fandom = self.bts)
+        self.kim_namjoon = Character.objects.create(name='Kim Namjoon | RM', fandom = self.bts)
+        self.min_yoongi = Character.objects.create(name='Min Yoongi | Suga', fandom = self.bts)
+        self.jungkook_namjoon = Relationship.objects.create(name = 'Jeon Jungkook/Kim Namjoon')
+        self.namjoon_yoongi = Relationship.objects.create(name = 'Kim Namjoon/Min Yoongi')
+        
+        self.underage = Warning.objects.create(name='UNDERAGE')
+        self.rape_noncon = Warning.objects.create(name='RAPE_NONCON')
+        self.no_warnings = Warning.objects.create(name='NO_WARNINGS_APPLY')
+        self.character_death = Warning.objects.create(name='MAJOR_CHARACTER_DEATH')
+        self.violence = Warning.objects.create(name='VIOLENCE')
+        self.choose_no_warnings = Warning.objects.create(name='CHOOSE_NOT_TO_USE_WARNINGS')
+
+        self.other = Category.objects.create(name='OTHER')
+        self.multy = Category.objects.create(name='MULTY')
+        self.mm = Category.objects.create(name='MM')
+        self.gen = Category.objects.create(name='GEN')
+        self.fm = Category.objects.create(name='FM')
+        self.ff = Category.objects.create(name='FF')
+
+        self.work1 = Work.objects.create(
+            user=self.user1, 
+            title='Volutpat est velit egestas dui id ornare', 
+            description='Fermentum leo vel orci porta. Id aliquet lectus proin nibh nisl condimentum id venenatis. Viverra aliquet eget sit amet tellus cras adipiscing. Sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis.',
+            completed=False,
+            rating = 'TEEN_AND_UP',
+        )
+
+        # self.work1.user = self.user1
+        self.work1.fandoms.add(self.sherlock)
+        self.work1.warnings.add(self.violence)
+        self.work1.categories.add(self.fm)
+        self.work1.characters.add(self.sherlock_holmes, self.irene_adler, self.john_watson)
+        self.work1.relationships.add(self.sherlock_irene)
+        self.work1.save()
+
+        self.work2 = Work.objects.create(
+            user=self.user2,
+            title='Tempus urna et pharetra pharetra massa massa',
+            description='Est ante in nibh mauris. Amet mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan.',
+            completed=False,
+            rating='GENERAL_AUDIENCES',
+        )
+
+        self.work1.fandoms.add(self.bts)
+        self.work1.warnings.add(self.no_warnings)
+        self.work1.categories.add(self.mm)
+        self.work1.characters.add(self.jeon_jungkook, self.kim_namjoon, self.min_yoongi)
+        self.work1.relationships.add(self.jungkook_namjoon)
+        self.work1.save()
+
+
+
 class FandomCategoryTest(MyTestCase):
     def setUp(self):
         super().setUp()
@@ -402,12 +466,14 @@ class WorkTest(MyTestCase):
         self.irene_adler = Character.objects.create(name = 'Irene Adler', fandom = self.sherlock)
         self.sherlock_john = Relationship.objects.create(name = 'Sherlock Holmes/John Watson')
         self.sherlock_irene = Relationship.objects.create(name = 'Sherlock Holmes/Irene Adler')
+
         self.underage = Warning.objects.create(name='UNDERAGE')
         self.rape_noncon = Warning.objects.create(name='RAPE_NONCON')
         self.no_warnings = Warning.objects.create(name='NO_WARNINGS_APPLY')
         self.character_death = Warning.objects.create(name='MAJOR_CHARACTER_DEATH')
         self.violence = Warning.objects.create(name='VIOLENCE')
         self.choose_no_warnings = Warning.objects.create(name='CHOOSE_NOT_TO_USE_WARNINGS')
+
         self.other = Category.objects.create(name='OTHER')
         self.multy = Category.objects.create(name='MULTY')
         self.mm = Category.objects.create(name='MM')
@@ -456,4 +522,47 @@ class WorkTest(MyTestCase):
         self.assertEqual(response.data['categories'], CategorySerializer([self.fm], many=True).data)
         self.assertEqual(response.data['warnings'], WarningSerializer([self.no_warnings], many=True).data)
 
+    def test_get_all_works_without_token(self):
+        self.works()
+        response = client.get(
+            '/api/works/',
+        )
+
+        works = [self.work1, self.work2]
+        serializer = WorkSerializer(works, many=True)
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_all_works_with_token(self):
+        self.works()
+        token = token = self.login('user1', '1111')
+        response = client.get(
+            '/api/works/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        works = [self.work1, self.work2]
+        serializer = WorkSerializer(works, many=True)
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_work_by_id(self):
+        self.works()
+        token = self.login('user1', '1111')
+        response = client.get(
+            f"/api/works/{self.work1.id}/",
+            HTTP_AUTHORIZATION=token
+        )
+        work = self.work1
+        serializer = WorkSerializer(work)
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_work_by_wrong_id(self):
+        token = self.login('user1', '1111')
+        response = client.get(
+            f"/api/works/10/",
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         
