@@ -459,29 +459,9 @@ class CategoryTest(MyTestCase):
 class WorkTest(MyTestCase):
     def setUp(self):
         super().setUp()
-        self.literature = FandomCategory.objects.create(name='Literature')
-        self.sherlock = Fandom.objects.create(name='Sherlock', category=self.literature)
-        self.sherlock_holmes = Character.objects.create(name = "Sherlock Holmes", fandom = self.sherlock)
-        self.john_watson = Character.objects.create(name = 'John Watson', fandom = self.sherlock)
-        self.irene_adler = Character.objects.create(name = 'Irene Adler', fandom = self.sherlock)
-        self.sherlock_john = Relationship.objects.create(name = 'Sherlock Holmes/John Watson')
-        self.sherlock_irene = Relationship.objects.create(name = 'Sherlock Holmes/Irene Adler')
-
-        self.underage = Warning.objects.create(name='UNDERAGE')
-        self.rape_noncon = Warning.objects.create(name='RAPE_NONCON')
-        self.no_warnings = Warning.objects.create(name='NO_WARNINGS_APPLY')
-        self.character_death = Warning.objects.create(name='MAJOR_CHARACTER_DEATH')
-        self.violence = Warning.objects.create(name='VIOLENCE')
-        self.choose_no_warnings = Warning.objects.create(name='CHOOSE_NOT_TO_USE_WARNINGS')
-
-        self.other = Category.objects.create(name='OTHER')
-        self.multy = Category.objects.create(name='MULTY')
-        self.mm = Category.objects.create(name='MM')
-        self.gen = Category.objects.create(name='GEN')
-        self.fm = Category.objects.create(name='FM')
-        self.ff = Category.objects.create(name='FF')
-    
+        
     def test_create_work(self):
+        self.works()
         title = 'Dignissim cras tincidunt lobortis feugiat vivamus at augue eget'
         description = """Facilisi morbi tempus iaculis urna id volutpat lacus. Tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Neque laoreet suspendisse interdum consectetur libero id faucibus.
         """
@@ -566,3 +546,127 @@ class WorkTest(MyTestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         
+    def test_edit_work(self):
+        self.works()
+        token = self.login('user1', '1111')
+        description = """Facilisi morbi tempus iaculis urna id volutpat lacus. Tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Neque laoreet suspendisse interdum consectetur libero id faucibus.
+        """
+        json_data = {
+            "title": "Volutpat est velit egestas dui id ornare", 
+            "description": description, 
+            "fandoms": [
+                {"name": self.sherlock.name, "category": self.sherlock.category.id}
+            ],
+            "rating": "TEEN_AND_UP", 
+            "completed": True, 
+            "relationships": [
+                {"name": self.sherlock_irene.name}
+            ],
+            "characters": [
+                {"name":self.irene_adler.name, "fandom":self.irene_adler.fandom.id}, 
+                {"name": self.sherlock_holmes.name, "fandom":self.sherlock_holmes.fandom.id}, 
+                {"name":self.john_watson.name, "fandom":self.john_watson.fandom.id}
+            ],
+            "categories": [{"name": self.fm.name},],
+            "warnings": [{"name": "VIOLENCE"}],
+        }
+        response = client.put(
+            f"/api/works/{self.work1.id}/",
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        
+        self.assertEqual(response.data['completed'], json_data['completed'])
+        self.assertEqual(response.data['warnings'], WarningSerializer([self.violence], many=True).data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_work_with_wrong_token(self):
+        self.works()
+        token = self.login('user2', '1111')
+        description = """Facilisi morbi tempus iaculis urna id volutpat lacus. Tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Neque laoreet suspendisse interdum consectetur libero id faucibus.
+        """
+        json_data = {
+            "title": "Volutpat est velit egestas dui id ornare", 
+            "description": description, 
+            "fandoms": [
+                {"name": self.sherlock.name, "category": self.sherlock.category.id}
+            ],
+            "rating": "TEEN_AND_UP", 
+            "completed": True, 
+            "relationships": [
+                {"name": self.sherlock_irene.name}
+            ],
+            "characters": [
+                {"name":self.irene_adler.name, "fandom":self.irene_adler.fandom.id}, 
+                {"name": self.sherlock_holmes.name, "fandom":self.sherlock_holmes.fandom.id}, 
+                {"name":self.john_watson.name, "fandom":self.john_watson.fandom.id}
+            ],
+            "categories": [{"name": self.fm.name},],
+            "warnings": [{"name": "VIOLENCE"}],
+        }
+        response = client.put(
+            f"/api/works/{self.work1.id}/",
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+        
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_edit_work_without_token(self):
+        self.works()
+        description = """Facilisi morbi tempus iaculis urna id volutpat lacus. Tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse. Neque laoreet suspendisse interdum consectetur libero id faucibus.
+        """
+        json_data = {
+            "title": "Volutpat est velit egestas dui id ornare", 
+            "description": description, 
+            "fandoms": [
+                {"name": self.sherlock.name, "category": self.sherlock.category.id}
+            ],
+            "rating": "TEEN_AND_UP", 
+            "completed": True, 
+            "relationships": [
+                {"name": self.sherlock_irene.name}
+            ],
+            "characters": [
+                {"name":self.irene_adler.name, "fandom":self.irene_adler.fandom.id}, 
+                {"name": self.sherlock_holmes.name, "fandom":self.sherlock_holmes.fandom.id}, 
+                {"name":self.john_watson.name, "fandom":self.john_watson.fandom.id}
+            ],
+            "categories": [{"name": self.fm.name},],
+            "warnings": [{"name": "VIOLENCE"}],
+        }
+        response = client.put(
+            f"/api/works/{self.work1.id}/",
+            json_data,
+            content_type = 'application/json',
+        )
+        
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)    
+
+    def test_delete_work_without_token(self):
+        self.works()
+        response = client.delete(f"/api/works/{self.work1.id}/")
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_work_with_wrong_token(self):
+        self.works()
+        token = self.login('user2', '1111')
+        response = client.delete(
+            f"/api/works/{self.work1.id}/",
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_work(self):
+        self.works()
+        token = self.login('user1', '1111')
+        response = client.delete(
+            f"/api/works/{self.work1.id}/",
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
