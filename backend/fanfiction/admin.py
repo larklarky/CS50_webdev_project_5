@@ -11,7 +11,13 @@ class WorkAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'user', 'date_created', 'completed')
 
 class ChapterAdmin(admin.ModelAdmin):
-    list_display = ('work', 'title')
+    list_display = ('work', 'title', 'get_user',)
+
+    def get_user(self, obj):
+        return obj.work.user
+
+    get_user.short_description = 'user'
+    get_user.admin_order_field = 'work__user'
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)

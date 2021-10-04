@@ -14,6 +14,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import permissions
 from django.db.models import Count
+from django.core.exceptions import PermissionDenied
 
 MODIFY_METHODS = ('PATCH', 'DELETE', 'PUT')
 
@@ -26,6 +27,9 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
     Object-level permission to only allow owners of an object to edit it.
     Assumes the model instance has an `owner` attribute.
     """
+
+    def has_permission(self, request, view):
+        return True
 
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,
@@ -110,6 +114,14 @@ class WorkView(viewsets.ModelViewSet):
 
 
 class ChapterView(viewsets.ModelViewSet):
+    def perform_create(self, serializer):
+        work = Work.objects.get(id = serializer.validated_data['work'].id)
+        if self.request.user.id != work.user.id:
+            raise PermissionDenied()
+        
+        serializer.save()
+            
+
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     serializer_class = ChapterSerializer
     queryset = Chapter.objects.all()

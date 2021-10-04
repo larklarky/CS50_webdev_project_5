@@ -2,9 +2,9 @@ from re import T
 from django.contrib.auth.models import User
 from django.http import response
 from django.test import TestCase, Client
-from .models import FandomCategory, User, Fandom, Character, Relationship, Warning, Category, Work
+from .models import FandomCategory, User, Fandom, Character, Relationship, Warning, Category, Work, Chapter
 from .serializers import (FandomCategorySerializer, FandomSerializer, CharacterSerializer, WorkSerializer,
-RelationshipSerializer, WarningSerializer, CategorySerializer)
+RelationshipSerializer, WarningSerializer, CategorySerializer, ChapterSerializer)
 from django.urls import reverse
 from rest_framework import status
 
@@ -82,6 +82,54 @@ class MyTestCase(TestCase):
         self.work1.characters.add(self.jeon_jungkook, self.kim_namjoon, self.min_yoongi)
         self.work1.relationships.add(self.jungkook_namjoon)
         self.work1.save()
+
+    def chapters(self):
+        self.works()
+        self.chapter1_work1 = Chapter.objects.create(
+            title = 'Chapter 1',
+            text = """
+                Tempus urna et pharetra pharetra massa massa. Est ante in nibh mauris. Amet mattis vulputate enim nulla 
+                aliquet porttitor lacus luctus accumsan. Volutpat lacus laoreet non curabitur. Urna cursus eget nunc 
+                scelerisque viverra mauris in aliquam sem. Non consectetur a erat nam. Bibendum enim facilisis gravida 
+                neque convallis. Tortor consequat id porta nibh venenatis cras. Vivamus at augue eget arcu. Id faucibus 
+                nisl tincidunt eget nullam. Ut placerat orci nulla pellentesque dignissim enim sit amet. Facilisis volutpat 
+                est velit egestas dui id. Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant. Sed 
+                lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt. Iaculis eu non diam phasellus 
+                vestibulum. Turpis in eu mi bibendum neque. Ullamcorper sit amet risus nullam. 
+            """,
+            work = self.work1
+        )
+        self.chapter1_work1.save()
+
+        self.chapter2_work1 = Chapter.objects.create(
+            title = 'Chapter 2',
+            text = """
+                Consectetur lorem donec massa sapien. Est pellentesque elit ullamcorper dignissim. Purus sit amet luctus 
+                venenatis lectus magna fringilla. Turpis in eu mi bibendum. At risus viverra adipiscing at. Amet purus gravida 
+                quis blandit turpis cursus. Felis donec et odio pellentesque diam volutpat commodo sed egestas. Rhoncus dolor 
+                purus non enim praesent elementum facilisis leo. Dolor magna eget est lorem. Ut aliquam purus sit amet luctus. 
+                Augue interdum velit euismod in pellentesque massa placerat duis. Nibh tortor id aliquet lectus proin nibh nisl 
+                condimentum. Aliquet bibendum enim facilisis gravida. Vel quam elementum pulvinar etiam. In fermentum posuere urna 
+                nec. Sed tempus urna et pharetra. 
+            """,
+            work = self.work1
+        )
+        self.chapter2_work1.save()
+
+        self.chapter1_work2 = Chapter.objects.create(
+            title = 'Chapter 1',
+            text = """
+                Sollicitudin aliquam ultrices sagittis orci a scelerisque purus semper eget. Libero volutpat sed cras ornare 
+                arcu dui vivamus arcu. Mauris pellentesque pulvinar pellentesque habitant morbi tristique. Amet aliquam id 
+                diam maecenas ultricies. Volutpat maecenas volutpat blandit aliquam. Vel facilisis volutpat est velit egestas. 
+                Mauris ultrices eros in cursus turpis. Nec feugiat nisl pretium fusce id velit ut. Sit amet nisl purus in 
+                mollis nunc sed id. Odio ut enim blandit volutpat maecenas volutpat. 
+            """,
+            work = self.work2
+        )
+        self.chapter1_work2.save()
+
+    
 
 
 
@@ -669,4 +717,258 @@ class WorkTest(MyTestCase):
             HTTP_AUTHORIZATION=token
         )
 
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class ChapterTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+
+    def test_create_chapter(self):
+        self.works()
+        token = self.login('user1', '1111')
+        json_data = {
+            "title": "Chapter 1",
+            "text": """
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
+                aliqua. Scelerisque felis imperdiet proin fermentum leo. Viverra ipsum nunc aliquet bibendum enim facilisis gravida. 
+                Nunc lobortis mattis aliquam faucibus purus in. Et leo duis ut diam quam nulla porttitor massa. 
+                Ligula ullamcorper malesuada proin libero nunc consequat interdum. Volutpat est velit egestas dui id ornare. 
+                Fermentum leo vel orci porta. Id aliquet lectus proin nibh nisl condimentum id venenatis. 
+                Viverra aliquet eget sit amet tellus cras adipiscing. 
+            """,
+            "work": self.work1.id
+        }
+        response = client.post(
+            "/api/chapters/",
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.data['title'], json_data['title'])
+        self.assertIn(response.data['text'], json_data['text'])
+        self.assertEqual(response.data['work'], json_data['work'])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    
+    def test_create_chapter_without_token(self):
+        self.works()
+        json_data = {
+            "title": "Chapter 1",
+            "text": """
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
+                aliqua. Scelerisque felis imperdiet proin fermentum leo. Viverra ipsum nunc aliquet bibendum enim facilisis gravida. 
+                Nunc lobortis mattis aliquam faucibus purus in. Et leo duis ut diam quam nulla porttitor massa. 
+                Ligula ullamcorper malesuada proin libero nunc consequat interdum. Volutpat est velit egestas dui id ornare. 
+                Fermentum leo vel orci porta. Id aliquet lectus proin nibh nisl condimentum id venenatis. 
+                Viverra aliquet eget sit amet tellus cras adipiscing. 
+            """,
+            "work": self.work1.id
+        }
+        response = client.post(
+            "/api/chapters/",
+            json_data,
+            content_type = 'application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_chapter_not_owner(self):
+        self.works()
+        token = self.login('user2', '1111')
+        json_data = {
+            "title": "Chapter 1",
+            "text": """
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
+                aliqua. Scelerisque felis imperdiet proin fermentum leo. Viverra ipsum nunc aliquet bibendum enim facilisis gravida. 
+                Nunc lobortis mattis aliquam faucibus purus in. Et leo duis ut diam quam nulla porttitor massa. 
+                Ligula ullamcorper malesuada proin libero nunc consequat interdum. Volutpat est velit egestas dui id ornare. 
+                Fermentum leo vel orci porta. Id aliquet lectus proin nibh nisl condimentum id venenatis. 
+                Viverra aliquet eget sit amet tellus cras adipiscing. 
+            """,
+            "work": self.work1.id
+        }
+        response = client.post(
+            "/api/chapters/",
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_get_all_chapters_without_token(self):
+        self.works()
+        self.chapters()
+
+        chapters = [self.chapter1_work1, self.chapter2_work1, self.chapter1_work2]
+        serializer = ChapterSerializer(chapters, many=True)
+
+        response = client.get(
+            '/api/chapters/'
+        )
+
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_all_chapters(self):
+        self.works()
+        self.chapters()
+        token = self.login('user2', '1111')
+
+        chapters = [self.chapter1_work1, self.chapter2_work1, self.chapter1_work2]
+        serializer = ChapterSerializer(chapters, many=True)
+
+        response = client.get(
+            '/api/chapters/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_chapter_by_id(self):
+        self.works()
+        self.chapters()
+        token = self.login('user2', '1111')
+
+        serializer = ChapterSerializer(self.chapter1_work1)
+
+        response = client.get(
+            f'/api/chapters/{self.chapter1_work1.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+    def test_get_chapter_by_id_without_token(self):
+        self.works()
+        self.chapters()
+
+        serializer = ChapterSerializer(self.chapter1_work1)
+
+        response = client.get(
+            f'/api/chapters/{self.chapter1_work1.id}/',
+        )
+
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    
+    def test_edit_chapter(self):
+        self.works()
+        self.chapters()
+        token = self.login('user1', '1111')
+        json_data = {
+            "title": "Chapter 1 edited",
+            "text": """
+                Tempus urna et pharetra pharetra massa massa. Est ante in nibh mauris. Amet mattis vulputate enim nulla 
+                aliquet porttitor lacus luctus accumsan. Volutpat lacus laoreet non curabitur. Urna cursus eget nunc 
+                scelerisque viverra mauris in aliquam sem. Non consectetur a erat nam. Bibendum enim facilisis gravida 
+                neque convallis. Tortor consequat id porta nibh venenatis cras. Vivamus at augue eget arcu. Id faucibus 
+                nisl tincidunt eget nullam. Ut placerat orci nulla pellentesque dignissim enim sit amet. Facilisis volutpat 
+                est velit egestas dui id. Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant. Sed 
+                lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt. Iaculis eu non diam phasellus 
+                vestibulum. Turpis in eu mi bibendum neque. Ullamcorper sit amet risus nullam. 
+            """,
+            "work": self.work1.id
+        }
+
+        response = client.put(
+            f"/api/chapters/{self.chapter1_work1.id}/",
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.data['title'], json_data['title'])
+        self.assertIn(response.data['text'], json_data['text'])
+        self.assertEqual(response.data['work'], json_data['work'])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_chapter_not_owner(self):
+        self.works()
+        self.chapters()
+        token = self.login('user2', '1111')
+        json_data = {
+            "title": "Chapter 1 edited",
+            "text": """
+                Tempus urna et pharetra pharetra massa massa. Est ante in nibh mauris. Amet mattis vulputate enim nulla 
+                aliquet porttitor lacus luctus accumsan. Volutpat lacus laoreet non curabitur. Urna cursus eget nunc 
+                scelerisque viverra mauris in aliquam sem. Non consectetur a erat nam. Bibendum enim facilisis gravida 
+                neque convallis. Tortor consequat id porta nibh venenatis cras. Vivamus at augue eget arcu. Id faucibus 
+                nisl tincidunt eget nullam. Ut placerat orci nulla pellentesque dignissim enim sit amet. Facilisis volutpat 
+                est velit egestas dui id. Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant. Sed 
+                lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt. Iaculis eu non diam phasellus 
+                vestibulum. Turpis in eu mi bibendum neque. Ullamcorper sit amet risus nullam. 
+            """,
+            "work": self.work1.id
+        }
+
+        response = client.put(
+            f"/api/chapters/{self.chapter1_work1.id}/",
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_edit_chapter_without_token(self):
+        self.works()
+        self.chapters()
+        json_data = {
+            "title": "Chapter 1 edited",
+            "text": """
+                Tempus urna et pharetra pharetra massa massa. Est ante in nibh mauris. Amet mattis vulputate enim nulla 
+                aliquet porttitor lacus luctus accumsan. Volutpat lacus laoreet non curabitur. Urna cursus eget nunc 
+                scelerisque viverra mauris in aliquam sem. Non consectetur a erat nam. Bibendum enim facilisis gravida 
+                neque convallis. Tortor consequat id porta nibh venenatis cras. Vivamus at augue eget arcu. Id faucibus 
+                nisl tincidunt eget nullam. Ut placerat orci nulla pellentesque dignissim enim sit amet. Facilisis volutpat 
+                est velit egestas dui id. Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant. Sed 
+                lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt. Iaculis eu non diam phasellus 
+                vestibulum. Turpis in eu mi bibendum neque. Ullamcorper sit amet risus nullam. 
+            """,
+            "work": self.work1.id
+        }
+
+        response = client.put(
+            f"/api/chapters/{self.chapter1_work1.id}/",
+            json_data,
+            content_type = 'application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_chapter_not_owner(self):
+        self.works()
+        self.chapters()
+        token = self.login('user1', '1111')
+
+        response = client.delete(
+            f"/api/chapters/{self.chapter1_work2.id}/",
+            HTTP_AUTHORIZATION=token
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_chapter_without_token(self):
+        self.works()
+        self.chapters()
+
+        response = client.delete(
+            f"/api/chapters/{self.chapter1_work2.id}/",
+        )
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_chapter(self):
+        self.works()
+        self.chapters()
+        token = self.login('user1', '1111')
+
+        response = client.delete(
+            f"/api/chapters/{self.chapter2_work1.id}/",
+            HTTP_AUTHORIZATION=token
+        )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

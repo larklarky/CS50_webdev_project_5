@@ -139,7 +139,6 @@ class WorkSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validated_data):
-        print("validated data", validated_data)
         relationships_data = validated_data.pop('relationships')
         characters_data = validated_data.pop('characters')
         categories_data = validated_data.pop('categories')
