@@ -17,6 +17,8 @@ from django.db.models import Count
 from django.core.exceptions import PermissionDenied
 
 MODIFY_METHODS = ('PATCH', 'DELETE', 'PUT')
+MODIFY_METHODS_EDITING = ('PATCH', 'PUT')
+
 
 class ReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -43,8 +45,12 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         elif isinstance(obj, Work) == True:
             return obj.user.id == request.user.id
         elif isinstance(obj, Like) == True:
+            if request.method in MODIFY_METHODS_EDITING:
+                return False
             return obj.user.id == request.user.id
         elif isinstance(obj, Bookmark) == True:
+            if request.method in MODIFY_METHODS_EDITING:
+                return False
             return obj.user.id == request.user.id
         elif isinstance(obj, User) == True:
             return obj.id == request.user.id

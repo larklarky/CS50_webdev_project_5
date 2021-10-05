@@ -1,10 +1,11 @@
+import json
 from re import T
 from django.contrib.auth.models import User
 from django.http import response
 from django.test import TestCase, Client
-from .models import FandomCategory, User, Fandom, Character, Relationship, Warning, Category, Work, Chapter
+from .models import FandomCategory, User, Fandom, Character, Relationship, Warning, Category, Work, Chapter, Like, Bookmark
 from .serializers import (FandomCategorySerializer, FandomSerializer, CharacterSerializer, WorkSerializer,
-RelationshipSerializer, WarningSerializer, CategorySerializer, ChapterSerializer)
+RelationshipSerializer, WarningSerializer, CategorySerializer, ChapterSerializer, LikeSerializer, BookmarkSerializer)
 from django.urls import reverse
 from rest_framework import status
 
@@ -129,6 +130,14 @@ class MyTestCase(TestCase):
         )
         self.chapter1_work2.save()
 
+    def likes(self):
+        self.works()
+
+        self.like1 = Like.objects.create(user = self.user1, work = self.work2)
+        self.like1.save()
+
+        self.like2 = Like.objects.create(user = self.user2, work = self.work1)
+        self.like2.save()
     
 
 
@@ -856,6 +865,17 @@ class ChapterTest(MyTestCase):
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_get_chapter_by_wrong_id(self):
+        self.works()
+        self.chapters()
+
+        response = client.get(
+            f"/api/chapters/10/",
+
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     
     def test_edit_chapter(self):
         self.works()
@@ -972,3 +992,194 @@ class ChapterTest(MyTestCase):
             HTTP_AUTHORIZATION=token
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class LikeTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+
+    def test_create_like(self):
+        self.works()
+        token = self.login('user1', '1111')
+
+        json_data = {
+            "user": self.user1.id,
+            "work": self.work2.id,
+        }
+
+        response = client.post(
+            '/api/likes/',
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.data['user'], self.user1.id)
+        self.assertEqual(response.data['work'], json_data['work'])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_like_without_token(self):
+        self.works()
+
+        json_data = {
+            "user": self.user1.id,
+            "work": self.work2.id,
+        }
+
+        response = client.post(
+            '/api/likes/',
+            json_data,
+            content_type = 'application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_all_likes(self):
+        self.works()
+        self.likes()
+        token = self.login('user1', '1111')
+
+        response = client.get(
+            '/api/likes/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        likes = [self.like1, self.like2]
+        serializer = LikeSerializer(likes, many = True)
+        
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_all_likes_without_token(self):
+        self.works()
+        self.likes()
+
+        response = client.get(
+            '/api/likes/',
+        )
+
+        likes = [self.like1, self.like2]
+        serializer = LikeSerializer(likes, many = True)
+        
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+    def test_get_like_by_id(self):
+        self.works()
+        self.likes()
+
+        token = self.login('user1', '1111')
+
+        response = client.get(
+            f'/api/likes/{self.like1.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        serializer = LikeSerializer(self.like1)
+
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_like_by_wrong_id(self):
+        self.works()
+        self.likes()
+
+        token = self.login('user1', '1111')
+
+        response = client.get(
+            f'/api/likes/10/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+    def test_delete_like_without_token(self):
+        self.works()
+        self.likes()
+
+        response = client.delete(
+            f'/api/likes/{self.like1.id}/'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_like_not_owner(self):
+        self.works()
+        self.likes()
+        token = self.login('user1', '1111')
+
+        response = client.delete(
+            f'/api/likes/{self.like2.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_like_owner(self):
+        self.works()
+        self.likes()
+        token = self.login('user1', '1111')
+
+        response = client.delete(
+            f'/api/likes/{self.like1.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_edit_like_owner(self):
+        self.works()
+        self.likes()
+        token = self.login('user1', '1111')
+
+        json_data = {
+            "user": '5',
+            "work": "12"
+        }
+
+        response = client.put(
+            f'/api/likes/{self.like1.id}/',
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_edit_like_not_owner(self):
+        self.works()
+        self.likes()
+        token = self.login('user2', '1111')
+
+        json_data = {
+            "user": '5',
+            "work": "12"
+        }
+
+        response = client.put(
+            f'/api/likes/{self.like1.id}/',
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_edit_like_without_token(self):
+        self.works()
+        self.likes()
+
+        json_data = {
+            "user": '5',
+            "work": "12"
+        }
+
+        response = client.put(
+            f'/api/likes/{self.like1.id}/',
+            json_data,
+            content_type = 'application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
