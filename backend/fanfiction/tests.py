@@ -138,6 +138,15 @@ class MyTestCase(TestCase):
 
         self.like2 = Like.objects.create(user = self.user2, work = self.work1)
         self.like2.save()
+
+    def bookmarks(self):
+        self.works()
+
+        self.bookmark1 = Bookmark.objects.create(user = self.user1, work = self.work2)
+        self.bookmark1.save()
+
+        self.bookmark2 = Bookmark.objects.create(user = self.user2, work = self.work1)
+        self.bookmark2.save()
     
 
 
@@ -1178,6 +1187,196 @@ class LikeTest(MyTestCase):
 
         response = client.put(
             f'/api/likes/{self.like1.id}/',
+            json_data,
+            content_type = 'application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class BookmarkTest(MyTestCase):
+    def setUp(self):
+        super().setUp()
+
+    def test_create_bookmark(self):
+        self.works()
+        token = self.login('user1', '1111')
+
+        json_data = {
+            "user": {"id": self.user1.id},
+            "work": {"id": self.work2.id},
+        }
+
+        response = client.post(
+            '/api/bookmarks/',
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.data['user']['id'], self.user1.id)
+        self.assertEqual(response.data['work']['id'], json_data['work']['id'])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_bookmark_without_token(self):
+        self.works()
+
+        json_data = {
+            "user": {"id": self.user1.id},
+            "work": {"id": self.work2.id},
+        }
+
+        response = client.post(
+            '/api/bookmarks/',
+            json_data,
+            content_type = 'application/json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_all_bookmarks(self):
+        self.works()
+        self.bookmarks()
+        token = self.login('user1', '1111')
+
+        response = client.get(
+            '/api/bookmarks/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        bookmarks = [self.bookmark1, self.bookmark2]
+        serializer = BookmarkSerializer(bookmarks, many = True)
+        
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_all_bookmarks_without_token(self):
+        self.works()
+        self.bookmarks()
+
+        response = client.get(
+            '/api/bookmarks/',
+        )
+
+        bookmarks = [self.bookmark1, self.bookmark2]
+        serializer = BookmarkSerializer(bookmarks, many = True)
+        
+        self.assertEqual(response.data['results'], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+    def test_get_bookmark_by_id(self):
+        self.works()
+        self.bookmarks()
+
+        token = self.login('user1', '1111')
+
+        response = client.get(
+            f'/api/bookmarks/{self.bookmark1.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        serializer = BookmarkSerializer(self.bookmark1)
+
+        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_bookmark_by_wrong_id(self):
+        self.works()
+        self.bookmarks()
+
+        token = self.login('user1', '1111')
+
+        response = client.get(
+            f'/api/bookmarks/10/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_bookmark_without_token(self):
+        self.works()
+        self.bookmarks()
+
+        response = client.delete(
+            f'/api/bookmarks/{self.bookmark1.id}/'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_bookmark_not_owner(self):
+        self.works()
+        self.bookmarks()
+        token = self.login('user1', '1111')
+
+        response = client.delete(
+            f'/api/bookmarks/{self.bookmark2.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_bookmark_owner(self):
+        self.works()
+        self.bookmarks()
+        token = self.login('user1', '1111')
+
+        response = client.delete(
+            f'/api/bookmarks/{self.bookmark1.id}/',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_edit_bookmark_owner(self):
+        self.works()
+        self.bookmarks()
+        token = self.login('user1', '1111')
+
+        json_data = {
+            "user": {"id": 5},
+            "work": {"id": 12}
+        }
+
+        response = client.put(
+            f'/api/bookmarks/{self.bookmark1.id}/',
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_edit_bookmark_not_owner(self):
+        self.works()
+        self.bookmarks()
+        token = self.login('user2', '1111')
+
+        json_data = {
+            "user": {"id": 5},
+            "work": {"id": 12}
+        }
+
+        response = client.put(
+            f'/api/bookmarks/{self.bookmark1.id}/',
+            json_data,
+            content_type = 'application/json',
+            HTTP_AUTHORIZATION=token
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_edit_bookmark_without_token(self):
+        self.works()
+        self.bookmarks()
+
+        json_data = {
+            "user": {"id": 5},
+            "work": {"id": 12}
+        }
+
+        response = client.put(
+            f'/api/bookmarks/{self.bookmark1.id}/',
             json_data,
             content_type = 'application/json',
         )
