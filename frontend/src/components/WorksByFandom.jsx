@@ -28,6 +28,7 @@ class WorksByFandom extends Component {
         const { match: { params } } = this.props;
         if(prevPage !== newPage) {
             this.props.getListOfWorksByFandom(params.fandomId, newPage)
+            window.scrollTo(0, 0)
         }
     }
 

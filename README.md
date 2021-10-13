@@ -24,6 +24,7 @@ Backend
 - Using many-to-many relations in a database — in previous projects there was no need to use more complicated relations between models. But in this application many-to-many relations were essential. For example not only in any fandom can there be a lot of works but also any work can have two or more fandoms. The same applies to other models.
 
 - Using the Django rest framework  — I chose to use the framework for two reasons. First of all because it would make work with data more convenient and fast. For example rest framework allows to configure more complex search and filtering through the data without much struggles. Secondly, learning a new way to work with data. 
+- API covered by tests.
 
 
 
@@ -47,6 +48,8 @@ Backend
 - serializers.py  — stores all the serializers for each django model. Serializers classes are defined as children of DjangoREST framework’s ModelSerializers. Those classes allow work with querysets and model instances and convert Python datatypes to JSON and other types.
 - urls.py  — contains all url paths that create mapping between URLs and views. 
 - views.py  — contains functions that take web requests and return web responses.
+- tests.py - contains tests for API.
+- requirements.txt - contains all information of all libraries that needed to be installed in order for the project to work.
 
 
 Frontend

@@ -26,6 +26,7 @@ class Home extends Component {
         let newPage = queryString.parse(this.props.location.search).page
         if(prevPage !== newPage) {
             this.props.getWorks(newPage)
+            window.scrollTo(0, 0)
         }
     }
 

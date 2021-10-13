@@ -22,6 +22,7 @@ class UserBookmarks extends Component {
         const currentUser = parseInt(localStorage.getItem('currentUser'));
         if(prevPage !== newPage) {
             this.props.UsersBookmarks(currentUser, newPage)
+            window.scrollTo(0, 0)
         }
     }
 

@@ -9,6 +9,8 @@ const Pagination = ({page=1, count, pageSize=2}) => {
     let pagesAmount = Math.ceil(count / pageSize)
     let nextPage = parseInt(page) + 1
     let prevPage = parseInt(page) - 1
+
+    console.log('page', page, 'next page', nextPage, 'prev page', prevPage)
     
     
     if(page < pagesAmount) {

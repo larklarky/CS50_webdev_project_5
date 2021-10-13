@@ -27,6 +27,7 @@ class Profile extends Component {
         const { match: { params } } = this.props;
         if(prevPage !== newPage) {
             this.props.getWorksByUser(params.userId, newPage)
+            window.scrollTo(0, 0)
         }
     }
 
