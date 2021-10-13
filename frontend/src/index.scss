@@ -497,6 +497,7 @@ a:hover {
 .chapter-text {
   margin-left: 10%;
   margin-right: 5%;
+  padding-top: 1.5rem;
   
 }
 
@@ -791,8 +792,8 @@ a:hover {
 }
 
 .edit-chapter {
-  width: auto;
-  margin-left: 15%;
+  width: max-content;
+  margin-left: 10%;
 }
 
 .edit-chapter:hover {
