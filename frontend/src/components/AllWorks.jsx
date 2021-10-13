@@ -36,6 +36,7 @@ class AllWorks extends Component {
         let newSearch = queryString.parse(this.props.location.search).search
         if(prevSearch !== newSearch) {
             this.props.getWorks(1, newSearch)
+            window.scrollTo(0, 0)
         }
 
     }
@@ -52,7 +53,6 @@ class AllWorks extends Component {
                 <h3>{parsed.search === undefined ? 'All works' : `Search results for "${parsed.search}"`}</h3>
                 <ListOfWorks works={this.props.works.results}/>
                 <Pagination count={this.props.works.count} page={parsed.page}/>
-                
             </div>
         )
     }
