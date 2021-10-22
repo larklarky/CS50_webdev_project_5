@@ -16,19 +16,20 @@ class Home extends Component {
     componentDidMount() {
         console.log('home props', this.props)
         const parsed = queryString.parse(this.props.location.search);
+        console.log('parsed', parsed.page)
         this.props.getFandomCategories()
-        this.props.getWorks(parsed.page)
+        this.props.getWorks({page_size: 10})
         
     }
 
-    componentDidUpdate(prevProps) {
-        let prevPage = queryString.parse(prevProps.location.search).page
-        let newPage = queryString.parse(this.props.location.search).page
-        if(prevPage !== newPage) {
-            this.props.getWorks(newPage)
-            window.scrollTo(0, 0)
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     let prevPage = queryString.parse(prevProps.location.search).page
+    //     let newPage = queryString.parse(this.props.location.search).page
+    //     if(prevPage !== newPage) {
+    //         this.props.getWorks(newPage)
+    //         window.scrollTo(0, 0)
+    //     }
+    // }
 
     render() {
         const parsed = queryString.parse(this.props.location.search);
@@ -52,10 +53,10 @@ class Home extends Component {
                 <div className='recent-works-container'>
                     <h2 className='fandom-category-header'>Recent works</h2>
                     <ListOfWorks works={works.results} name='date'/>
-                    <Pagination 
+                    {/* <Pagination 
                         count={works.count}
                         page={parsed.page}
-                    />
+                    /> */}
                 </div>
                 
             </div>

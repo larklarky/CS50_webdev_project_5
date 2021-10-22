@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 
-const Pagination = ({page=1, count, pageSize=2}) => {
+const Pagination = ({page=1, count, pageSize=5}) => {
     
     let prevButton;
     let nextButton;

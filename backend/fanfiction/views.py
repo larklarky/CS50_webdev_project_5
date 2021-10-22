@@ -59,14 +59,14 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
                 return False
             return True
 
-# Create your views here.
+
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 100
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 5
     page_size_query_param = 'page_size'
     max_page_size= 100
 

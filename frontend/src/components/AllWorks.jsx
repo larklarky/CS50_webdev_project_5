@@ -17,7 +17,7 @@ class AllWorks extends Component {
         console.log('all works props', this.props )
         const { match: { params } } = this.props;
         const parsed = queryString.parse(this.props.location.search);
-        this.props.getWorks(parsed.page, parsed.search)
+        this.props.getWorks({page: parsed.page, search: parsed.search})
     }
 
 
@@ -29,13 +29,14 @@ class AllWorks extends Component {
         let newPage = queryString.parse(this.props.location.search).page
 
         if(prevPage !== newPage) {
-            this.props.getWorks(newPage)
+            this.props.getWorks({page: newPage})
+            window.scrollTo(0, 0)
         }
 
         let prevSearch = queryString.parse(prevProps.location.search).search
         let newSearch = queryString.parse(this.props.location.search).search
         if(prevSearch !== newSearch) {
-            this.props.getWorks(1, newSearch)
+            this.props.getWorks({search: newSearch})
             window.scrollTo(0, 0)
         }
 

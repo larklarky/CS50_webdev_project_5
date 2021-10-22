@@ -3,15 +3,18 @@ The main purpose of the application is to allow users to find, read and post the
 
 Project features
 ================
-- LogIn and SignUp.
+- LogIn and SignUp, Logout.
 - The site allows users to find and read any work on the site.
-- All works are under categories which can be found on the main page and every category has its own fandoms.
-- Every work/fanfic has a lot of information like title, description, age rate, list of characters, relationships, warnings etc.
+- The user can perform search by title, work description, fandom or character name.
+- All works are under categories that can be found on the main page and every category has its own fandoms.
+- The main page also shows the last ten works.
+- Users can find a list of all works on the All works page.
+- Every work/fanfic has a lot of information like title, description, age rate, list of characters, relationships, warnings, etc.
 - Any authorized user can create, edit or delete their own work.
-- Creating, editing and deleting chapters for a work.
-- Authorized users also can like or bookmark any work.
-- On the profile page there is some information about the user, list of their works if they exist.
-- Bookmarks page shows all the works that the user decided to add to their bookmark lists.
+- The same goes for creating, editing, and deleting chapters for a work.
+- Authorized users also can like or bookmark any work. The amount of likes and bookmarks for every work is displayed under the work's description.
+- On the profile page there is some information about the user, list of their works if they have ones.
+- Bookmarks page shows all the works that the user decided to add to their bookmark list.
 - Pagination.
 - Mobile responsive.
 
@@ -21,10 +24,10 @@ Distinctiveness and Complexity
 
 Backend
 -------
-- Using many-to-many relations in a database — in previous projects there was no need to use more complicated relations between models. But in this application many-to-many relations were essential. For example not only in any fandom can there be a lot of works but also any work can have two or more fandoms. The same applies to other models.
+- Using many-to-many relations in a database — in previous projects, there was no need to use more complicated relations between models. But in this application many-to-many relations were essential. For example, not only in any fandom can there be a lot of works but also any work can have two or more fandoms. The same applies to other models.
 
-- Using the Django rest framework  — I chose to use the framework for two reasons. First of all because it would make work with data more convenient and fast. For example rest framework allows to configure more complex search and filtering through the data without much struggles. Secondly, learning a new way to work with data. 
-- API covered by tests.
+- Using the Django rest framework  — I chose to use the framework for two reasons. First of all, because it would make work with data more convenient and fast. For example, rest framework allows to configure a more complex search and filtering through the data without many struggles. Secondly, learning a new way to work with data. 
+- API is covered by tests.
 
 
 
@@ -32,7 +35,7 @@ Frontend
 --------
 - React  — I chose React because it seems more suitable for bigger and more complex projects. 
 - Redux  — this library is a great helper with handling the whole state and its changes of the application.
-- Markdown  — since all this application is about writing moderately big pieces of text, using markdown library was an obvious choice.
+- Markdown  — since all this application is about writing moderately big pieces of text, using the markdown library was an obvious choice.
 - React-select  — since I needed to use dropdowns in some parts of the application, for example, when a user creating a new work needs to choose a character from a given list of characters, I decided to use this library. It allows to perform asynchronous requests when needed. 
 - React-popup  — this component makes creating popups much simpler.
 
@@ -67,7 +70,7 @@ Contains two png and svg icons for creating a site icon.
 
 **Actions**
 
-Folder has only one file index.js. There are all functions needed for Reducer to know what exactly happened in the application. They also help to make web requests to the server side. 
+The folder has only one file index.js. There are all functions needed for Reducer to know what exactly happened in the application. They also help to make web requests to the server side. 
 
 **Components**
 
