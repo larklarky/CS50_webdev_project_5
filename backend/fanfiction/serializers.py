@@ -102,7 +102,7 @@ class LikeSerializer(serializers.ModelSerializer):
         )
 
 class WorkSerializer(serializers.ModelSerializer):
-    relationships = RelationshipSerializer(many=True)
+    relationships = RelationshipSerializer(many=True, required=False)
     characters = CharacterSerializer(many=True)
     categories = CategorySerializer(many=True)
     warnings = WarningSerializer(many=True)
@@ -139,7 +139,6 @@ class WorkSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validated_data):
-        relationships_data = validated_data.pop('relationships')
         characters_data = validated_data.pop('characters')
         categories_data = validated_data.pop('categories')
         warnings_data = validated_data.pop('warnings')
@@ -154,11 +153,12 @@ class WorkSerializer(serializers.ModelSerializer):
             if character:
                 work.characters.add(character)
             # TODO return error if data doesn't exist
-
-        for relationship_data in relationships_data:
-            relationship, _ = Relationship.objects.get_or_create(**relationship_data)
-            work.relationships.add(relationship)
-        # TODO return error if data doesn't exist
+        if 'relationships' in validated_data:
+            relationships_data = validated_data.pop('relationships')
+            for relationship_data in relationships_data:
+                relationship, _ = Relationship.objects.get_or_create(**relationship_data)
+                work.relationships.add(relationship)
+            # TODO return error if data doesn't exist
 
         for category_data in categories_data:
             category = Category.objects.filter(**category_data).first()
@@ -182,11 +182,8 @@ class WorkSerializer(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
-        print("validated data update", validated_data)
-        relationships_data = validated_data.pop('relationships')
         characters_data = validated_data.pop('characters')
         categories_data = validated_data.pop('categories')
-        print('categories data', categories_data)
         warnings_data = validated_data.pop('warnings')
         fandoms_data = validated_data.pop('fandoms')
         user = self.context['request'].user
@@ -198,9 +195,11 @@ class WorkSerializer(serializers.ModelSerializer):
         instance.save()
         
         instance.relationships.clear()
-        for relationship_data in relationships_data:
-            relationship, _ = Relationship.objects.get_or_create(**relationship_data)
-            instance.relationships.add(relationship)
+        if 'relationships' in validated_data:
+            relationships_data = validated_data.pop('relationships')
+            for relationship_data in relationships_data:
+                relationship, _ = Relationship.objects.get_or_create(**relationship_data)
+                instance.relationships.add(relationship)
         
         instance.characters.clear()
         for character_data in characters_data:
@@ -211,7 +210,6 @@ class WorkSerializer(serializers.ModelSerializer):
         instance.categories.clear()
         for category_data in categories_data:
             category = Category.objects.filter(**category_data).first()
-            print('category', category)
             if category:
                 instance.categories.add(category)
         
@@ -297,7 +295,6 @@ class BookmarkSerializer(serializers.ModelSerializer):
         return attrs        
     
     def create(self, validated_data):
-        print("validated data", validated_data)
         work_data = validated_data.get('work')
         user = self.context['request'].user
         work = Work.objects.filter(id=work_data['id']).first()

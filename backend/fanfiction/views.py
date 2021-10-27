@@ -132,6 +132,7 @@ class ChapterView(viewsets.ModelViewSet):
     serializer_class = ChapterSerializer
     queryset = Chapter.objects.all()
     filter_backends = [DjangoFilterBackend]
+    pagination_class = LargeResultsSetPagination
     filterset_fields = ['work']
 
 class CategoryView(viewsets.ModelViewSet):

@@ -99,9 +99,13 @@ class EditWork extends Component {
         let warnings = this.state.warnings.map(warning => {
             return {name: warning.value}
         }) 
-        let relationships = this.state.relationships.map(relationship => {
-            return {name: relationship.name}
-        })
+        let relationships;
+        if(this.state.relationships.length !== 0) {
+            relationships = this.state.relationships.map(relationship => {
+                return {name: relationship.name}
+            })
+        }
+        
         let category = this.state.categories.map(category => {
             return {name: category.value}
         })
@@ -264,7 +268,6 @@ class EditWork extends Component {
                                     || this.state.description.length === 0
                                     || this.state.rating.length === 0
                                     || this.state.warnings.length === 0
-                                    || this.state.relationships.length === 0
                                     || this.state.characters.length === 0
                                     || this.state.categories.length === 0
                                     || this.state.fandoms.length === 0 ? true : false} 
