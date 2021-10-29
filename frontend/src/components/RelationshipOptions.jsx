@@ -47,14 +47,12 @@ class RelationshipOptions extends Component {
     }
 
     handleOnChange(relationships) {
-        console.log('>>>>>>>>>>', relationships);
         return this.props.onChange(relationships.map(relationship => {
             return {id: relationship.value, name: relationship.label}
         }));
     }
 
     render() {
-        console.log('relationships props', this.props.value)
         return(
             <AsyncSelect
                 isMulti

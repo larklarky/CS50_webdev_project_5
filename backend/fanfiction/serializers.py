@@ -102,7 +102,7 @@ class LikeSerializer(serializers.ModelSerializer):
         )
 
 class WorkSerializer(serializers.ModelSerializer):
-    relationships = RelationshipSerializer(many=True, required=False)
+    relationships = RelationshipSerializer(many=True,)
     characters = CharacterSerializer(many=True)
     categories = CategorySerializer(many=True)
     warnings = WarningSerializer(many=True)
@@ -144,6 +144,9 @@ class WorkSerializer(serializers.ModelSerializer):
         warnings_data = validated_data.pop('warnings')
         fandoms_data = validated_data.pop('fandoms')
         user = self.context['request'].user
+        relationships_data = []
+        if 'relationships' in validated_data:
+            relationships_data = validated_data.pop('relationships')
         
 
         work = Work.objects.create(user=user, **validated_data)
@@ -152,31 +155,24 @@ class WorkSerializer(serializers.ModelSerializer):
             character = Character.objects.filter(**character_data).first()
             if character:
                 work.characters.add(character)
-            # TODO return error if data doesn't exist
-        if 'relationships' in validated_data:
-            relationships_data = validated_data.pop('relationships')
-            for relationship_data in relationships_data:
-                relationship, _ = Relationship.objects.get_or_create(**relationship_data)
-                work.relationships.add(relationship)
-            # TODO return error if data doesn't exist
+        for relationship_data in relationships_data:
+            relationship, _ = Relationship.objects.get_or_create(**relationship_data)
+            work.relationships.add(relationship)
 
         for category_data in categories_data:
             category = Category.objects.filter(**category_data).first()
             if category:
                 work.categories.add(category)
-            # TODO return error if data doesn't exist    
         
         for warning_data in warnings_data:
             warning = Warning.objects.filter(**warning_data).first()
             if warning:
                 work.warnings.add(warning)
-            # TODO return error if data doesn't exist
         
         for fandom_data in fandoms_data:
             fandom = Fandom.objects.filter(**fandom_data).first()
             if fandom:
                 work.fandoms.add(fandom)
-            # TODO return error if data doesn't exist
 
         return work
 
@@ -187,6 +183,9 @@ class WorkSerializer(serializers.ModelSerializer):
         warnings_data = validated_data.pop('warnings')
         fandoms_data = validated_data.pop('fandoms')
         user = self.context['request'].user
+        relationships_data = []
+        if 'relationships' in validated_data:
+            relationships_data = validated_data.pop('relationships')
 
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
@@ -195,11 +194,9 @@ class WorkSerializer(serializers.ModelSerializer):
         instance.save()
         
         instance.relationships.clear()
-        if 'relationships' in validated_data:
-            relationships_data = validated_data.pop('relationships')
-            for relationship_data in relationships_data:
-                relationship, _ = Relationship.objects.get_or_create(**relationship_data)
-                instance.relationships.add(relationship)
+        for relationship_data in relationships_data:
+            relationship, _ = Relationship.objects.get_or_create(**relationship_data)
+            instance.relationships.add(relationship)
         
         instance.characters.clear()
         for character_data in characters_data:

@@ -110,15 +110,11 @@ class EditWork extends Component {
             return {name: category.value}
         })
         
-        console.log('category editwork', category)
         this.props.editWork(workId, title, description, completed, warnings, relationships, rating, category, characters, fandoms)
     }
-
-   
-
     
     render() {
-        
+
         if (this.state.redirect === true) {
             return <Redirect to='/'/>
         } else if (Object.keys(this.props.work).length === 0) {
