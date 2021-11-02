@@ -7,6 +7,7 @@ import WorkDescription from './WorkDescription';
 import ReactMarkdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import queryString, { parseUrl } from 'query-string';
 
 class Chapter extends Component {
     constructor(props) {
@@ -16,10 +17,21 @@ class Chapter extends Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         this.props.getWork(params.workId)
-        // this.props.getChapter(params.chapterId)
         this.props.getChapters(params.workId)
         console.log('work params', params.workId)
         console.log('chaper id params', params.chapterId)
+        const titleElement = document.getElementById('chapter-title')
+        titleElement.scrollIntoView()
+    }
+
+    componentDidUpdate(prevProps) {
+         let prevChapter = prevProps.match['params'].chapterId
+         let newChapter = this.props.match['params'].chapterId
+
+         if(prevChapter !== newChapter) {
+            const titleElement = document.getElementById('chapter-title')
+            titleElement.scrollIntoView()
+        }
     }
 
     render() { 
@@ -58,6 +70,7 @@ class Chapter extends Component {
                 </button>
         }
 
+       
 
         
         return (
@@ -66,7 +79,7 @@ class Chapter extends Component {
                 
                 <div className='row work-content'> 
                     <div>
-                        <h5>{chapters.results[chapterIndex].title}</h5>
+                        <h5 id='chapter-title'>{chapters.results[chapterIndex].title}</h5>
                         <p className="chapter-text"><ReactMarkdown>{chapters.results[chapterIndex].text}</ReactMarkdown></p>
                         {editChapter}
                     </div>
