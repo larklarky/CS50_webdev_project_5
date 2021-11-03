@@ -18,12 +18,14 @@ import editChapter from './editChapter'
 import getUsersLike from './getUsersLike'
 import getUsersBookmark from './getUsersBookmark'
 import usersBookmarks from './usersBookmarks'
+import getFandom from './getFandom'
 
 
 export default combineReducers({
     works,
     fandomCategories,
     fandomsByCategory,
+    getFandom,
     worksByFandom,
     worksByUser,
     user,

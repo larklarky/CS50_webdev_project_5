@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {getListOfWorksByFandom} from '../actions';
+import {getListOfWorksByFandom, getFandom} from '../actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {WARNINGS, CATEGORIES, RATES} from '../constants';
@@ -20,6 +20,9 @@ class WorksByFandom extends Component {
         const { match: { params } } = this.props;
         const parsed = queryString.parse(this.props.location.search);
         this.props.getListOfWorksByFandom(params.fandomId, parsed.page)
+        this.props.getFandom(params.fandomId)
+        console.log('props', this.props)
+        window.scrollTo(0, 0)
     }
 
     componentDidUpdate(prevProps) {
@@ -34,13 +37,14 @@ class WorksByFandom extends Component {
 
     render() {
         const parsed = queryString.parse(this.props.location.search);
-        const {works} = this.props
+        const {works, fandom} = this.props
         if (Object.keys(works).length === 0) {
             return <Loader/>
-        } 
-
+        }
+    
         return(
             <div>
+                <h2 className='works-in-fandom-title'>Works in {fandom['name']} fandom</h2>
                 <ListOfWorks works={works.results} name='fandom'/>
                 <Pagination 
                     count={works.count}
@@ -56,8 +60,9 @@ class WorksByFandom extends Component {
 function mapStateToProps(state) {
     console.log('======= works', state)
     return {
-        works: state.worksByFandom
+        works: state.worksByFandom,
+        fandom: state.getFandom
     }
 }
 
-export default connect(mapStateToProps, {getListOfWorksByFandom}) (WorksByFandom);
+export default connect(mapStateToProps, {getListOfWorksByFandom, getFandom}) (WorksByFandom);

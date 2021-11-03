@@ -5,6 +5,7 @@ import { faMarsDouble, faVenusDouble, faVenusMars, faRandom, faGenderless, faBro
 export const RECIEVED_WORKS = 'RECIEVED_WORKS';
 export const RECIEVED_CATEGORIES = 'RECIEVED_CATEGORIES';
 export const RECIEVED_FANDOMS_BY_CATEGORY = 'RECIEVED_FANDOMS_BY_CATEGORY';
+export const GET_FANDOM = 'GET_FANDOM';
 export const RECIEVED_WORKS_BY_FANDOM = 'RECIEVED_WORKS_BY_FANDOM';
 export const RECIEVED_WORKS_BY_USER = 'RECIEVED_WORKS_BY_USER';
 export const GET_USER = 'GET_USER';
