@@ -51,7 +51,7 @@ class AllWorks extends Component {
         console.log('parsed search', parsed.search)
         return(
             <div className='all-works-main'>
-                <h3>{parsed.search === undefined ? 'All works' : `Search results for "${parsed.search}"`}</h3>
+                <h2 className='all-works-title'>{parsed.search === undefined ? 'All works' : `Search results for "${parsed.search}"`}</h2>
                 <ListOfWorks works={this.props.works.results}/>
                 <Pagination count={this.props.works.count} page={parsed.page}/>
             </div>

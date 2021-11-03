@@ -252,10 +252,14 @@ a:hover {
 
 
 // works list
-
-.works-in-fandom-title {
+.all-works-title, .works-in-fandom-title {
+  color: $secondary-color;
   margin-top: 3rem;
   margin-left: 3rem;
+}
+
+.all-works-title {
+  margin-bottom: 2rem;
 }
 
 .works-by-fandom-container {
