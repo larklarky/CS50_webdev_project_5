@@ -21,7 +21,10 @@ class Chapter extends Component {
         console.log('work params', params.workId)
         console.log('chaper id params', params.chapterId)
         const titleElement = document.getElementById('chapter-title')
-        titleElement.scrollIntoView()
+        if(titleElement){
+            titleElement.scrollIntoView()
+        }
+        
     }
 
     componentDidUpdate(prevProps) {
@@ -30,7 +33,9 @@ class Chapter extends Component {
 
          if(prevChapter !== newChapter) {
             const titleElement = document.getElementById('chapter-title')
-            titleElement.scrollIntoView()
+            if(titleElement){
+                titleElement.scrollIntoView()
+            }
         }
     }
 
