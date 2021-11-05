@@ -42,7 +42,7 @@ class UserBookmarks extends Component {
 
         return(
             <div className='bookmarks-list-container'>
-                <h3>Bookmarks by {currentUser.username} </h3>
+                <h3 className='user-bookmarks-title'>Bookmarks by {currentUser.username} </h3>
                 <ListOfWorks works={works} name='bookmarks'/>
                 <Pagination 
                     count={this.props.bookmarks.count}
