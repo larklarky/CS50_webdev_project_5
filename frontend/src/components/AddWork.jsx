@@ -197,7 +197,6 @@ class AddWork extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('=======ghghghg', state)
     return {
         newWork: state.newWork,
     }

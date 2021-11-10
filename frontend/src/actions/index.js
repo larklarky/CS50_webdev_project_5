@@ -391,7 +391,6 @@ export const editChapter = (chapterId, title, text, workId) => dispatch => {
     .then((response) => {
         return response.json().then(result => {
             if(response.status === 401 || response.status === 403) {
-                console.log('edit chapter error')
                 dispatch({type: ERROR_MESSAGE, errorMessage: result})
             } else {
                 dispatch({type: EDIT_CHAPTER, editedChapter: result})

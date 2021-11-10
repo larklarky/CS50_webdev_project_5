@@ -32,7 +32,6 @@ class Profile extends Component {
     }
 
     render() { 
-        console.log('>>>> this.props', this.props.works)
         const parsed = queryString.parse(this.props.location.search);
         const {user, works} = this.props;
         if (Object.keys(user).length === 0 || Object.keys(works).length === 0) {
@@ -69,7 +68,6 @@ class Profile extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= user', state)
     return {
         user: state.user,
         works: state.worksByUser

@@ -17,8 +17,6 @@ class Work extends Component {
         const { match: { params } } = this.props;
         this.props.getWork(params.workId)
         this.props.getChapters(params.workId)
-        // console.log('work params', params.workId)
-
     }
 
     handleDeleteWork(workId, userId) {
@@ -30,8 +28,7 @@ class Work extends Component {
         const {work, chapters} = this.props
         if (Object.keys(work).length === 0 || Object.keys(chapters).length === 0) {
             return <Loader/>
-        } 
-        // console.log('render work1111', work)
+        }
 
         const currentUser = localStorage.getItem('currentUser');
         var addNewChapter;
@@ -66,7 +63,6 @@ class Work extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= work wwwwww', state)
     return {
         work: state.work,
         chapters: state.chapters,

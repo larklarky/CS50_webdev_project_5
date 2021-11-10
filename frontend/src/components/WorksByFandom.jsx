@@ -21,7 +21,6 @@ class WorksByFandom extends Component {
         const parsed = queryString.parse(this.props.location.search);
         this.props.getListOfWorksByFandom(params.fandomId, parsed.page)
         this.props.getFandom(params.fandomId)
-        console.log('props', this.props)
         window.scrollTo(0, 0)
     }
 
@@ -58,7 +57,6 @@ class WorksByFandom extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= works', state)
     return {
         works: state.worksByFandom,
         fandom: state.getFandom

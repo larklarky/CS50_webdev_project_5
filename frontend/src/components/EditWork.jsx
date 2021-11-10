@@ -279,7 +279,6 @@ class EditWork extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('=======ghghghg', state)
     return {
         work: state.work,
         editedWork: state.editedWork,

@@ -14,25 +14,12 @@ class Home extends Component {
 
 
     componentDidMount() {
-        console.log('home props', this.props)
-        const parsed = queryString.parse(this.props.location.search);
-        console.log('parsed', parsed.page)
         this.props.getFandomCategories()
         this.props.getWorks({page_size: 10})
         
     }
 
-    // componentDidUpdate(prevProps) {
-    //     let prevPage = queryString.parse(prevProps.location.search).page
-    //     let newPage = queryString.parse(this.props.location.search).page
-    //     if(prevPage !== newPage) {
-    //         this.props.getWorks(newPage)
-    //         window.scrollTo(0, 0)
-    //     }
-    // }
-
     render() {
-        const parsed = queryString.parse(this.props.location.search);
         const {fandomCategories, works} = this.props
         if (Object.keys(works).length === 0 || Object.keys(fandomCategories).length === 0) {
             return <Loader/>
@@ -53,10 +40,6 @@ class Home extends Component {
                 <div className='recent-works-container'>
                     <h2 className='fandom-category-header'>Recent works</h2>
                     <ListOfWorks works={works.results} name='date'/>
-                    {/* <Pagination 
-                        count={works.count}
-                        page={parsed.page}
-                    /> */}
                 </div>
                 
             </div>
@@ -67,7 +50,6 @@ class Home extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('=======ghghghg', state)
     return {
         works: state.works,
         fandomCategories: state.fandomCategories,

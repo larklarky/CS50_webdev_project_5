@@ -36,7 +36,6 @@ class FandomOptions extends Component {
         let options = [];
         if (response.results) {
             options = response.results.map(fandom => {
-                console.log('fandom data', fandom)
                 return { value: fandom.id, label: fandom.name, category: fandom.category}
             })
         }

@@ -60,9 +60,7 @@ class Login extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= current user - -- - - - - -', state)
     return {
-        // token: state.token,
         errorMessage: state.errorMessage,
         currentUser: state.currentUser,
     }

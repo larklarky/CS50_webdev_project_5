@@ -83,8 +83,6 @@ class EditChapter extends Component {
             initialValue: this.state.text,
         };
 
-        // const onReady = (instance) => console.log('onReady function', instance.value());
-
         const setText = (value) => this.setState({text: value})
         
 
@@ -134,7 +132,6 @@ class EditChapter extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('=======ghghghg', state)
     return {
         chapter: state.chapter,
         work: state.work,

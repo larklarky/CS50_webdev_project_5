@@ -94,7 +94,6 @@ class Registration extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= token', state)
     return {
         error: state.errorMessage,
     }

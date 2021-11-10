@@ -54,7 +54,6 @@ class UserBookmarks extends Component {
 }
 
 function mapStateToProps(state) {
-    // console.log('======= bookmarks list', state)
     return {
         bookmarks: state.usersBookmarks,
         currentUser:state.currentUser,

@@ -6,7 +6,6 @@ import Like from './Like';
 import Bookmark from './Bookmark';
 
 const ListOfWorks = ({works, name}) => {
-    console.log('list of works', works)
         return (
             <div className={`works-by-${name}-container`}>
                 {works.map(work => {

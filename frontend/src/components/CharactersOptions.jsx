@@ -33,19 +33,16 @@ class CharactersOptions extends Component {
                 return { value: character.id, label: character.name, id: character.id, fandom: character.fandom }
             })
         }
-        console.log('make options', response.results, options);
         return options;
     }
 
     handleOnChange(characters) {
-        console.log('>>>>>>>>>>', characters);
         return this.props.onChange(characters.map(character => {
             return {id: character.id, name: character.label, fandom: character.fandom}
         }));
     }
 
     render() {
-        console.log('characters props', this.props.value )
         return(
             <AsyncSelect
                 isMulti

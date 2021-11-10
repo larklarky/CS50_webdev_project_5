@@ -33,8 +33,6 @@ class AddChapter extends Component {
     render() {
         const option = {};
 
-        // const onReady = (instance) => console.log('onReady function', instance.value());
-
         const setText = (value) => this.setState({text: value})
         
 
@@ -82,7 +80,6 @@ class AddChapter extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('=======ghghghg', state)
     return {
         newChapter: state.newChapter,
     }

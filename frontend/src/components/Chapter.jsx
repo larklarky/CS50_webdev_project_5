@@ -18,8 +18,7 @@ class Chapter extends Component {
         const { match: { params } } = this.props;
         this.props.getWork(params.workId)
         this.props.getChapters(params.workId)
-        console.log('work params', params.workId)
-        console.log('chaper id params', params.chapterId)
+
         const titleElement = document.getElementById('chapter-title')
         if(titleElement){
             titleElement.scrollIntoView()
@@ -101,7 +100,6 @@ class Chapter extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('======= chapter wwwwww', state)
     return {
         work: state.work,
         chapter: state.chapter,

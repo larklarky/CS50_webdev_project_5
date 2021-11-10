@@ -13,7 +13,6 @@ class FandomsByCategory extends Component {
         const { match: { params } } = this.props;
         this.props.getListOfFandomsByCategory(params.categoryId)
         this.props.getFandomCategories()
-        console.log('params', params.categoryId)
     }
 
     componentDidUpdate(prevProps) {
@@ -23,7 +22,6 @@ class FandomsByCategory extends Component {
     }
 
     render() {
-        console.log('fandoms', this.props.fandoms)
         const {fandoms, fandomCategories, match: { params }} = this.props
 
         if (Object.keys(fandoms).length === 0 || Object.keys(fandomCategories).length === 0) {
@@ -64,7 +62,6 @@ class FandomsByCategory extends Component {
 
 
 function mapStateToProps(state) {
-    console.log('=======', state)
     return {
         fandoms: state.fandomsByCategory,
         fandomCategories: state.fandomCategories,
