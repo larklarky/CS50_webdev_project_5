@@ -11,7 +11,7 @@ Project features
 - Users can find a list of all works on the All works page.
 - Every work/fanfic has a lot of information like title, description, age rate, list of characters, relationships, warnings, etc.
 - Any authorized user can create, edit or delete their own work.
-- The same goes for creating, editing, and deleting chapters for a work.
+- The same goes for creating, editing chapters for a work. For now user can't delete chapters.
 - Authorized users also can like or bookmark any work. The amount of likes and bookmarks for every work is displayed under the work's description.
 - On the profile page there is some information about the user, list of their works if they have ones.
 - Bookmarks page shows all the works that the user decided to add to their bookmark list.
