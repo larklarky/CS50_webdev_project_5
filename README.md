@@ -35,7 +35,7 @@ Frontend
 --------
 - React  — I chose React because it seems more suitable for bigger and more complex projects. 
 - Redux  — this library is a great helper with handling the whole state and its changes of the application.
-- Markdown  — since all this application is about writing moderately big pieces of text, using the markdown library was an obvious choice.
+- Markdown and WYSIWYG text editor  — since all this application is about writing moderately big pieces of text, using the WYSIWYG text editor was an obvious choice.
 - React-select  — since I needed to use dropdowns in some parts of the application, for example, when a user creating a new work needs to choose a character from a given list of characters, I decided to use this library. It allows to perform asynchronous requests when needed. 
 - React-popup  — this component makes creating popups much simpler.
 
